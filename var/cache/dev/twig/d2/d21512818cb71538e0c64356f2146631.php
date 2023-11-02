@@ -68,22 +68,28 @@ class __TwigTemplate_82e34723be9723ad726e25efaaab9701 extends Template
         echo "    <div class=\"container container-pad\">
         <div class=\"col-3\">
             <div class=\"row\">
-                ";
+                <h3>You are reviewing: </h3><p>";
         // line 7
-        echo         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 7, $this->source); })()), 'form_start');
+        echo twig_escape_filter($this->env, (isset($context["moviename"]) || array_key_exists("moviename", $context) ? $context["moviename"] : (function () { throw new RuntimeError('Variable "moviename" does not exist.', 7, $this->source); })()), "html", null, true);
+        echo "</p>
+            </div>
+            <div class=\"row\">
+                ";
+        // line 10
+        echo         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 10, $this->source); })()), 'form_start');
         echo "
                 ";
-        // line 8
-        echo $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock((isset($context["rating"]) || array_key_exists("rating", $context) ? $context["rating"] : (function () { throw new RuntimeError('Variable "rating" does not exist.', 8, $this->source); })()), 'row');
+        // line 11
+        echo $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(twig_get_attribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 11, $this->source); })()), "rating", [], "any", false, false, false, 11), 'row');
         echo "
                 ";
-        // line 9
-        echo $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock((isset($context["comment"]) || array_key_exists("comment", $context) ? $context["comment"] : (function () { throw new RuntimeError('Variable "comment" does not exist.', 9, $this->source); })()), 'row');
+        // line 12
+        echo $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(twig_get_attribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 12, $this->source); })()), "comment", [], "any", false, false, false, 12), 'row');
         echo "
                 <button type=\"submit\" class=\"btn btn-primary\">Submit</button>
                 ";
-        // line 11
-        echo         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 11, $this->source); })()), 'form_end');
+        // line 14
+        echo         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 14, $this->source); })()), 'form_end');
         echo "
             </div>
         </div>
@@ -109,7 +115,7 @@ class __TwigTemplate_82e34723be9723ad726e25efaaab9701 extends Template
 
     public function getDebugInfo()
     {
-        return array (  86 => 11,  81 => 9,  77 => 8,  73 => 7,  68 => 4,  58 => 3,  35 => 1,);
+        return array (  92 => 14,  87 => 12,  83 => 11,  79 => 10,  73 => 7,  68 => 4,  58 => 3,  35 => 1,);
     }
 
     public function getSourceContext()
@@ -120,9 +126,12 @@ class __TwigTemplate_82e34723be9723ad726e25efaaab9701 extends Template
     <div class=\"container container-pad\">
         <div class=\"col-3\">
             <div class=\"row\">
+                <h3>You are reviewing: </h3><p>{{ moviename }}</p>
+            </div>
+            <div class=\"row\">
                 {{ form_start(form) }}
-                {{ form_row(rating) }}
-                {{ form_row(comment) }}
+                {{ form_row(form.rating) }}
+                {{ form_row(form.comment) }}
                 <button type=\"submit\" class=\"btn btn-primary\">Submit</button>
                 {{ form_end(form) }}
             </div>

@@ -64,6 +64,7 @@ class DefaultController extends AbstractController {
 
         if($form->isSubmitted() && $form->isValid()) {
             $review->setAuthor($security->getUser());
+            $review->setMovie($movie);
 
             $entityManager->persist($review);
             $entityManager->flush();

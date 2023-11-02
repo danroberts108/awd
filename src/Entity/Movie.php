@@ -27,6 +27,9 @@ class Movie
     #[ORM\OneToMany(mappedBy: 'movie', targetEntity: Rating::class)]
     private Collection $ratings;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image_path = null;
+
     public function __construct()
     {
         $this->ratings = new ArrayCollection();
@@ -99,6 +102,18 @@ class Movie
                 $rating->setMovie(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImagePath(): ?string
+    {
+        return $this->image_path;
+    }
+
+    public function setImagePath(?string $image_path): static
+    {
+        $this->image_path = $image_path;
 
         return $this;
     }

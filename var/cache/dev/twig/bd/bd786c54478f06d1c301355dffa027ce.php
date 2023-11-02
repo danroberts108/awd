@@ -511,6 +511,6 @@ class __TwigTemplate_227ca4cc845df2bf1bc451d83ce65723 extends Template
         {% endfor %}
     </table>
 {% endmacro %}
-", "@WebProfiler/Collector/events.html.twig", "/Users/danroberts/awd/vendor/symfony/web-profiler-bundle/Resources/views/Collector/events.html.twig");
+", "@WebProfiler/Collector/events.html.twig", "/Users/danroberts/PhpstormProjects/awd/vendor/symfony/web-profiler-bundle/Resources/views/Collector/events.html.twig");
     }
 }

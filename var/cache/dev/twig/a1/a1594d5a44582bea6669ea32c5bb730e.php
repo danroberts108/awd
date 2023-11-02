@@ -184,6 +184,6 @@ class __TwigTemplate_3994b5ff96d42bc3ac661ea5acb6e2cd extends Template
         {% block body %}{% endblock %}
     </body>
 </html>
-", "base.html.twig", "/Users/danroberts/awd/templates/base.html.twig");
+", "base.html.twig", "/Users/danroberts/PhpstormProjects/awd/templates/base.html.twig");
     }
 }

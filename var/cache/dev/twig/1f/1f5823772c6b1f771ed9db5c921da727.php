@@ -283,6 +283,6 @@ class __TwigTemplate_cb0b2cdb9de2701191dd049992bd284b extends Template
         });
     </script>
 {% endblock %}
-", "@WebProfiler/Profiler/open.html.twig", "/Users/danroberts/awd/vendor/symfony/web-profiler-bundle/Resources/views/Profiler/open.html.twig");
+", "@WebProfiler/Profiler/open.html.twig", "/Users/danroberts/PhpstormProjects/awd/vendor/symfony/web-profiler-bundle/Resources/views/Profiler/open.html.twig");
     }
 }

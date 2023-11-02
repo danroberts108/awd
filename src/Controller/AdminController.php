@@ -16,6 +16,6 @@ class AdminController extends AbstractController
 
     #[Route('/admin/user_roles', name: 'user-roles')]
     public function userRoles() : Response {
-        return $this->render('/admin/user_roles.html.twig.html.twig');
+        return $this->render('/admin/user_roles.html.twig');
     }
 }

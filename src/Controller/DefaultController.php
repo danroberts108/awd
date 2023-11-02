@@ -10,4 +10,9 @@ class DefaultController extends AbstractController {
     public function index() : Response {
         return $this->render('default/index.html.twig');
     }
+
+    #[Route('/reviews', name: 'reviews')]
+    public function reviews() : Response {
+        return $this->render('default/reviews.html.twig');
+    }
 }

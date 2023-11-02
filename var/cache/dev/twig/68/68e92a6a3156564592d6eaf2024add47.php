@@ -53,21 +53,96 @@ class __TwigTemplate_8c66410f05e4c53e3fcd9d3c2166332a extends Template
         $this->displayBlock('title', $context, $blocks);
         echo "</title>
         <link rel=\"icon\" href=\"data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>\">
-        ";
-        // line 7
-        $this->displayBlock('stylesheets', $context, $blocks);
-        // line 10
-        echo "
+
+        <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN\" crossorigin=\"anonymous\">
+        <script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js\" integrity=\"sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL\" crossorigin=\"anonymous\"></script>
+
         ";
         // line 11
-        $this->displayBlock('javascripts', $context, $blocks);
+        $this->displayBlock('stylesheets', $context, $blocks);
         // line 14
+        echo "
+        ";
+        // line 15
+        $this->displayBlock('javascripts', $context, $blocks);
+        // line 18
         echo "    </head>
     <body>
         ";
-        // line 16
+        // line 20
+        if ($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_USER")) {
+            // line 21
+            echo "            <nav class=\"navbar navbar-expand-lg bg-body-tertiary\">
+                <div class=\"container-fluid\">
+                    <a class=\"navbar-brand\" href=\"";
+            // line 23
+            echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("index");
+            echo "\">Movie Review</a>
+                    <button class=\"navbar-toggler\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">
+                        <span class=\"navbar-toggler-icon\"></span>
+                    </button>
+                    <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">
+                        <ul class=\"navbar-nav me-auto mb-2 mb-lg-0\">
+                            <li class=\"nav-item\">
+                                <a class=\"nav-link active\" aria-current=\"page\" href=\"";
+            // line 30
+            echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("index");
+            echo "\">Home</a>
+                            </li>
+                            <li class=\"nav-item\">
+                                <a class=\"nav-link\" href=\"";
+            // line 33
+            echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("reviews");
+            echo "\">Reviews</a>
+                            </li>
+                            ";
+            // line 35
+            if (($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_MOD") || $this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_ADMIN"))) {
+                // line 36
+                echo "                                <li class=\"nav-item\">
+                                    <a class=\"nav-link\" href=\"";
+                // line 37
+                echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("mod_index");
+                echo "\">Mod Home</a>
+                                </li>
+                            ";
+            }
+            // line 40
+            echo "                            ";
+            if ($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_ADMIN")) {
+                // line 41
+                echo "                                <li class=\"nav-item\">
+                                    <a class=\"nav-link\" href=\"";
+                // line 42
+                echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("admin_index");
+                echo "\">Admin Home</a>
+                                </li>
+                            ";
+            }
+            // line 45
+            echo "                        </ul>
+                        <li class=\"nav-item dropdown d-flex\">
+                            <a class=\"nav-link dropdown-toggle\" href=\"#\" role=\"button\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">
+                                Account
+                            </a>
+                            <ul class=\"dropdown-menu dropdown-menu-end\">
+                                <li><a class=\"dropdown-item\" href=\"#\">My Account</a></li>
+                                <li><hr class=\"dropdown-divider\"></li>
+                                <li><a class=\"dropdown-item\" href=\"";
+            // line 53
+            echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_logout");
+            echo "\">Logout</a></li>
+                            </ul>
+                        </li>
+                    </div>
+                </div>
+            </nav>
+        ";
+        }
+        // line 60
+        echo "        ";
         $this->displayBlock('body', $context, $blocks);
-        // line 17
+        // line 61
         echo "    </body>
 </html>
 ";
@@ -98,7 +173,7 @@ class __TwigTemplate_8c66410f05e4c53e3fcd9d3c2166332a extends Template
 
     }
 
-    // line 7
+    // line 11
     public function block_stylesheets($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -108,7 +183,7 @@ class __TwigTemplate_8c66410f05e4c53e3fcd9d3c2166332a extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "stylesheets"));
 
-        // line 8
+        // line 12
         echo "            ";
         echo $this->extensions['Symfony\WebpackEncoreBundle\Twig\EntryFilesTwigExtension']->renderWebpackLinkTags("app");
         echo "
@@ -121,7 +196,7 @@ class __TwigTemplate_8c66410f05e4c53e3fcd9d3c2166332a extends Template
 
     }
 
-    // line 11
+    // line 15
     public function block_javascripts($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -131,7 +206,7 @@ class __TwigTemplate_8c66410f05e4c53e3fcd9d3c2166332a extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "javascripts"));
 
-        // line 12
+        // line 16
         echo "            ";
         echo $this->extensions['Symfony\WebpackEncoreBundle\Twig\EntryFilesTwigExtension']->renderWebpackScriptTags("app");
         echo "
@@ -144,7 +219,7 @@ class __TwigTemplate_8c66410f05e4c53e3fcd9d3c2166332a extends Template
 
     }
 
-    // line 16
+    // line 60
     public function block_body($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -167,9 +242,14 @@ class __TwigTemplate_8c66410f05e4c53e3fcd9d3c2166332a extends Template
         return "base.html.twig";
     }
 
+    public function isTraitable()
+    {
+        return false;
+    }
+
     public function getDebugInfo()
     {
-        return array (  148 => 16,  135 => 12,  125 => 11,  112 => 8,  102 => 7,  83 => 5,  71 => 17,  69 => 16,  65 => 14,  63 => 11,  60 => 10,  58 => 7,  53 => 5,  47 => 1,);
+        return array (  223 => 60,  210 => 16,  200 => 15,  187 => 12,  177 => 11,  158 => 5,  146 => 61,  143 => 60,  133 => 53,  123 => 45,  117 => 42,  114 => 41,  111 => 40,  105 => 37,  102 => 36,  100 => 35,  95 => 33,  89 => 30,  79 => 23,  75 => 21,  73 => 20,  69 => 18,  67 => 15,  64 => 14,  62 => 11,  53 => 5,  47 => 1,);
     }
 
     public function getSourceContext()
@@ -180,6 +260,10 @@ class __TwigTemplate_8c66410f05e4c53e3fcd9d3c2166332a extends Template
         <meta charset=\"UTF-8\">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel=\"icon\" href=\"data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>\">
+
+        <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN\" crossorigin=\"anonymous\">
+        <script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js\" integrity=\"sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL\" crossorigin=\"anonymous\"></script>
+
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -189,6 +273,46 @@ class __TwigTemplate_8c66410f05e4c53e3fcd9d3c2166332a extends Template
         {% endblock %}
     </head>
     <body>
+        {% if is_granted('ROLE_USER') %}
+            <nav class=\"navbar navbar-expand-lg bg-body-tertiary\">
+                <div class=\"container-fluid\">
+                    <a class=\"navbar-brand\" href=\"{{ path('index') }}\">Movie Review</a>
+                    <button class=\"navbar-toggler\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">
+                        <span class=\"navbar-toggler-icon\"></span>
+                    </button>
+                    <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">
+                        <ul class=\"navbar-nav me-auto mb-2 mb-lg-0\">
+                            <li class=\"nav-item\">
+                                <a class=\"nav-link active\" aria-current=\"page\" href=\"{{ path('index') }}\">Home</a>
+                            </li>
+                            <li class=\"nav-item\">
+                                <a class=\"nav-link\" href=\"{{ path('reviews') }}\">Reviews</a>
+                            </li>
+                            {% if is_granted('ROLE_MOD') or is_granted('ROLE_ADMIN') %}
+                                <li class=\"nav-item\">
+                                    <a class=\"nav-link\" href=\"{{ path('mod_index') }}\">Mod Home</a>
+                                </li>
+                            {% endif %}
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <li class=\"nav-item\">
+                                    <a class=\"nav-link\" href=\"{{ path('admin_index') }}\">Admin Home</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                        <li class=\"nav-item dropdown d-flex\">
+                            <a class=\"nav-link dropdown-toggle\" href=\"#\" role=\"button\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">
+                                Account
+                            </a>
+                            <ul class=\"dropdown-menu dropdown-menu-end\">
+                                <li><a class=\"dropdown-item\" href=\"#\">My Account</a></li>
+                                <li><hr class=\"dropdown-divider\"></li>
+                                <li><a class=\"dropdown-item\" href=\"{{ path('app_logout') }}\">Logout</a></li>
+                            </ul>
+                        </li>
+                    </div>
+                </div>
+            </nav>
+        {% endif %}
         {% block body %}{% endblock %}
     </body>
 </html>

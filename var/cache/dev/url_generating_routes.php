@@ -19,7 +19,9 @@ return [
     'admin_index' => [[], ['_controller' => 'App\\Controller\\AdminController::index'], [], [['text', '/admin/index']], [], [], []],
     'user-roles' => [[], ['_controller' => 'App\\Controller\\AdminController::userRoles'], [], [['text', '/admin/user_roles']], [], [], []],
     'index' => [[], ['_controller' => 'App\\Controller\\DefaultController::index'], [], [['text', '/index']], [], [], []],
+    'reviews' => [[], ['_controller' => 'App\\Controller\\DefaultController::reviews'], [], [['text', '/reviews']], [], [], []],
     'app_login' => [[], ['_controller' => 'App\\Controller\\LoginController::index'], [], [['text', '/login']], [], [], []],
+    'app_logout' => [[], ['_controller' => 'App\\Controller\\LoginController::logout'], [], [['text', '/logout']], [], [], []],
     'mod_index' => [[], ['_controller' => 'App\\Controller\\ModController::index'], [], [['text', '/mod/index']], [], [], []],
     'app_register' => [[], ['_controller' => 'App\\Controller\\RegistrationController::register'], [], [['text', '/register']], [], [], []],
 ];

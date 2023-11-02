@@ -24,10 +24,14 @@ class __TwigTemplate_f5f0bf9576c578815de1291e742c3b75 extends Template
 
         $this->source = $this->getSourceContext();
 
-        $this->parent = false;
-
         $this->blocks = [
         ];
+    }
+
+    protected function doGetParent(array $context)
+    {
+        // line 1
+        return "base.html.twig";
     }
 
     protected function doDisplay(array $context, array $blocks = [])
@@ -39,6 +43,8 @@ class __TwigTemplate_f5f0bf9576c578815de1291e742c3b75 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "template", "default/index.html.twig"));
 
+        $this->parent = $this->loadTemplate("base.html.twig", "default/index.html.twig", 1);
+        $this->parent->display($context, array_merge($this->blocks, $blocks));
         
         $__internal_5a27a8ba21ca79b61932376b2fa922d2->leave($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof);
 
@@ -52,13 +58,18 @@ class __TwigTemplate_f5f0bf9576c578815de1291e742c3b75 extends Template
         return "default/index.html.twig";
     }
 
+    public function isTraitable()
+    {
+        return false;
+    }
+
     public function getDebugInfo()
     {
-        return array ();
+        return array (  34 => 1,);
     }
 
     public function getSourceContext()
     {
-        return new Source("", "default/index.html.twig", "/Users/danroberts/PhpstormProjects/awd/templates/default/index.html.twig");
+        return new Source("{% extends 'base.html.twig' %}", "default/index.html.twig", "/Users/danroberts/PhpstormProjects/awd/templates/default/index.html.twig");
     }
 }

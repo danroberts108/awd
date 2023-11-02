@@ -27,22 +27,22 @@ class DefaultController extends AbstractController {
     }
 
     #[Route('review/create_review', name: 'create-review-review')]
-    public function createReviewReview() {
+    public function createReviewReview() : Response {
         return $this->render('/default/create_review_review.html.twig');
     }
 
     #[Route('/movie/view', name: 'view-movie')]
     public function viewMovie() : Response {
-        $this->render('/default/view_movie.html.twig');
+        return $this->render('/default/view_movie.html.twig');
     }
 
     #[Route('/review/view', name: 'view-review')]
     public function viewReview() : Response {
-        $this->render('/default/view_review.html.twig');
+        return $this->render('/default/view_review.html.twig');
     }
 
     #[Route('/review/view_review', name: 'view-review-review')]
     public function viewReviewReview() : Response {
-        $this->render('/default/view_review_review.html.twig');
+        return $this->render('/default/view_review_review.html.twig');
     }
 }

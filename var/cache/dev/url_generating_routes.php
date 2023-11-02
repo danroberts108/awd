@@ -23,7 +23,7 @@ return [
     'create-movie' => [[], ['_controller' => 'App\\Controller\\DefaultController::createMovie'], [], [['text', '/movie/create']], [], [], []],
     'create-review' => [[], ['_controller' => 'App\\Controller\\DefaultController::createReview'], [], [['text', '/movie/review/create']], [], [], []],
     'create-review-review' => [[], ['_controller' => 'App\\Controller\\DefaultController::createReviewReview'], [], [['text', '/review/create_review']], [], [], []],
-    'view-movie' => [[], ['_controller' => 'App\\Controller\\DefaultController::viewMovie'], [], [['text', '/movie/view']], [], [], []],
+    'view-movie' => [['id'], ['_controller' => 'App\\Controller\\DefaultController::viewMovie'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/movie/view']], [], [], []],
     'view-review' => [[], ['_controller' => 'App\\Controller\\DefaultController::viewReview'], [], [['text', '/review/view']], [], [], []],
     'view-review-review' => [[], ['_controller' => 'App\\Controller\\DefaultController::viewReviewReview'], [], [['text', '/review/view_review']], [], [], []],
     'app_login' => [[], ['_controller' => 'App\\Controller\\LoginController::index'], [], [['text', '/login']], [], [], []],

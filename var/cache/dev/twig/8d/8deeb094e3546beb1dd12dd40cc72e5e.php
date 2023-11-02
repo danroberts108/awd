@@ -57,25 +57,30 @@ class __TwigTemplate_f5e4d183b353f4e8f512324dd3c4ce6b extends Template
         <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN\" crossorigin=\"anonymous\">
         <script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js\" integrity=\"sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL\" crossorigin=\"anonymous\"></script>
 
-        ";
+        <link rel=\"stylesheet\" href=\"";
         // line 11
+        echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("css/style.css"), "html", null, true);
+        echo "\"
+
+        ";
+        // line 13
         $this->displayBlock('stylesheets', $context, $blocks);
-        // line 14
+        // line 16
         echo "
         ";
-        // line 15
+        // line 17
         $this->displayBlock('javascripts', $context, $blocks);
-        // line 18
+        // line 20
         echo "    </head>
     <body>
         ";
-        // line 20
+        // line 22
         if ($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_USER")) {
-            // line 21
+            // line 23
             echo "            <nav class=\"navbar navbar-expand-lg bg-body-tertiary\">
                 <div class=\"container-fluid\">
                     <a class=\"navbar-brand\" href=\"";
-            // line 23
+            // line 25
             echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("index");
             echo "\">Movie Review</a>
                     <button class=\"navbar-toggler\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">
@@ -85,41 +90,41 @@ class __TwigTemplate_f5e4d183b353f4e8f512324dd3c4ce6b extends Template
                         <ul class=\"navbar-nav me-auto mb-2 mb-lg-0\">
                             <li class=\"nav-item\">
                                 <a class=\"nav-link active\" aria-current=\"page\" href=\"";
-            // line 30
+            // line 32
             echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("index");
             echo "\">Home</a>
                             </li>
                             <li class=\"nav-item\">
                                 <a class=\"nav-link\" href=\"";
-            // line 33
+            // line 35
             echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("reviews");
             echo "\">Reviews</a>
                             </li>
                             ";
-            // line 35
+            // line 37
             if (($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_MOD") || $this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_ADMIN"))) {
-                // line 36
+                // line 38
                 echo "                                <li class=\"nav-item\">
                                     <a class=\"nav-link\" href=\"";
-                // line 37
+                // line 39
                 echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("mod_index");
                 echo "\">Mod Home</a>
                                 </li>
                             ";
             }
-            // line 40
+            // line 42
             echo "                            ";
             if ($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_ADMIN")) {
-                // line 41
+                // line 43
                 echo "                                <li class=\"nav-item\">
                                     <a class=\"nav-link\" href=\"";
-                // line 42
+                // line 44
                 echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("admin_index");
                 echo "\">Admin Home</a>
                                 </li>
                             ";
             }
-            // line 45
+            // line 47
             echo "                            <form class=\"d-flex\" role=\"search\">
                                 <input class=\"form-control me-2\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\">
                                 <button class=\"btn btn-outline-success\" type=\"submit\">Search</button>
@@ -133,7 +138,7 @@ class __TwigTemplate_f5e4d183b353f4e8f512324dd3c4ce6b extends Template
                                 <li><a class=\"dropdown-item\" href=\"#\">My Account</a></li>
                                 <li><hr class=\"dropdown-divider\"></li>
                                 <li><a class=\"dropdown-item\" href=\"";
-            // line 57
+            // line 59
             echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_logout");
             echo "\">Logout</a></li>
                             </ul>
@@ -143,10 +148,10 @@ class __TwigTemplate_f5e4d183b353f4e8f512324dd3c4ce6b extends Template
             </nav>
         ";
         }
-        // line 64
+        // line 66
         echo "        ";
         $this->displayBlock('body', $context, $blocks);
-        // line 65
+        // line 67
         echo "    </body>
 </html>
 ";
@@ -177,7 +182,7 @@ class __TwigTemplate_f5e4d183b353f4e8f512324dd3c4ce6b extends Template
 
     }
 
-    // line 11
+    // line 13
     public function block_stylesheets($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -187,7 +192,7 @@ class __TwigTemplate_f5e4d183b353f4e8f512324dd3c4ce6b extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "stylesheets"));
 
-        // line 12
+        // line 14
         echo "            ";
         echo $this->extensions['Symfony\WebpackEncoreBundle\Twig\EntryFilesTwigExtension']->renderWebpackLinkTags("app");
         echo "
@@ -200,7 +205,7 @@ class __TwigTemplate_f5e4d183b353f4e8f512324dd3c4ce6b extends Template
 
     }
 
-    // line 15
+    // line 17
     public function block_javascripts($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -210,7 +215,7 @@ class __TwigTemplate_f5e4d183b353f4e8f512324dd3c4ce6b extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "javascripts"));
 
-        // line 16
+        // line 18
         echo "            ";
         echo $this->extensions['Symfony\WebpackEncoreBundle\Twig\EntryFilesTwigExtension']->renderWebpackScriptTags("app");
         echo "
@@ -223,7 +228,7 @@ class __TwigTemplate_f5e4d183b353f4e8f512324dd3c4ce6b extends Template
 
     }
 
-    // line 64
+    // line 66
     public function block_body($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -253,7 +258,7 @@ class __TwigTemplate_f5e4d183b353f4e8f512324dd3c4ce6b extends Template
 
     public function getDebugInfo()
     {
-        return array (  227 => 64,  214 => 16,  204 => 15,  191 => 12,  181 => 11,  162 => 5,  150 => 65,  147 => 64,  137 => 57,  123 => 45,  117 => 42,  114 => 41,  111 => 40,  105 => 37,  102 => 36,  100 => 35,  95 => 33,  89 => 30,  79 => 23,  75 => 21,  73 => 20,  69 => 18,  67 => 15,  64 => 14,  62 => 11,  53 => 5,  47 => 1,);
+        return array (  232 => 66,  219 => 18,  209 => 17,  196 => 14,  186 => 13,  167 => 5,  155 => 67,  152 => 66,  142 => 59,  128 => 47,  122 => 44,  119 => 43,  116 => 42,  110 => 39,  107 => 38,  105 => 37,  100 => 35,  94 => 32,  84 => 25,  80 => 23,  78 => 22,  74 => 20,  72 => 17,  69 => 16,  67 => 13,  62 => 11,  53 => 5,  47 => 1,);
     }
 
     public function getSourceContext()
@@ -267,6 +272,8 @@ class __TwigTemplate_f5e4d183b353f4e8f512324dd3c4ce6b extends Template
 
         <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN\" crossorigin=\"anonymous\">
         <script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js\" integrity=\"sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL\" crossorigin=\"anonymous\"></script>
+
+        <link rel=\"stylesheet\" href=\"{{ asset('css/style.css') }}\"
 
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}

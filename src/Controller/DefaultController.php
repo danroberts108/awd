@@ -1,9 +1,16 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\Movie;
+use App\Form\MovieType;
+use App\Service\FileUploader;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class DefaultController extends AbstractController {
     #[Route('/index', name: 'index')]
@@ -17,8 +24,26 @@ class DefaultController extends AbstractController {
     }
 
     #[Route('/movie/create', name: 'create-movie')]
-    public function createMovie() : Response {
-        return $this->render('/default/create_movie.html.twig');
+    public function createMovie(EntityManagerInterface $entityManager, Request $request, FileUploader $fileUploader) : Response {
+
+        $movie = new Movie();
+        $form = $this->createForm(MovieType::class, $movie);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $movieImage = $form->get('image')->getData();
+
+            if ($movieImage) {
+                $movieImageFilename = $fileUploader->upload($movieImage);
+                $movie->setImagePath($movieImageFilename);
+            }
+
+            return $this->redirectToRoute('view-movie', ['id' => $movie->getId()]);
+        }
+
+        return $this->render('/default/create_movie.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
     #[Route('/movie/review/create', name: 'create-review')]
@@ -31,8 +56,8 @@ class DefaultController extends AbstractController {
         return $this->render('/default/create_review_review.html.twig');
     }
 
-    #[Route('/movie/view', name: 'view-movie')]
-    public function viewMovie() : Response {
+    #[Route('/movie/view/{id}', name: 'view-movie')]
+    public function viewMovie(int $id,EntityManagerInterface $entityManager) : Response {
         return $this->render('/default/view_movie.html.twig');
     }
 

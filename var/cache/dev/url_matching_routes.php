@@ -21,7 +21,6 @@ return [
         '/movie/create' => [[['_route' => 'create-movie', '_controller' => 'App\\Controller\\DefaultController::createMovie'], null, null, null, false, false, null]],
         '/movie/review/create' => [[['_route' => 'create-review', '_controller' => 'App\\Controller\\DefaultController::createReview'], null, null, null, false, false, null]],
         '/review/create_review' => [[['_route' => 'create-review-review', '_controller' => 'App\\Controller\\DefaultController::createReviewReview'], null, null, null, false, false, null]],
-        '/movie/view' => [[['_route' => 'view-movie', '_controller' => 'App\\Controller\\DefaultController::viewMovie'], null, null, null, false, false, null]],
         '/review/view' => [[['_route' => 'view-review', '_controller' => 'App\\Controller\\DefaultController::viewReview'], null, null, null, false, false, null]],
         '/review/view_review' => [[['_route' => 'view-review-review', '_controller' => 'App\\Controller\\DefaultController::viewReviewReview'], null, null, null, false, false, null]],
         '/login' => [[['_route' => 'app_login', '_controller' => 'App\\Controller\\LoginController::index'], null, null, null, false, false, null]],
@@ -46,6 +45,7 @@ return [
                         .'|(*:159)'
                     .')'
                 .')'
+                .'|/movie/view/([^/]++)(*:189)'
             .')/?$}sDu',
     ],
     [ // $dynamicRoutes
@@ -55,8 +55,9 @@ return [
         116 => [[['_route' => '_profiler_router', '_controller' => 'web_profiler.controller.router::panelAction'], ['token'], null, null, false, false, null]],
         136 => [[['_route' => '_profiler_exception', '_controller' => 'web_profiler.controller.exception_panel::body'], ['token'], null, null, false, false, null]],
         149 => [[['_route' => '_profiler_exception_css', '_controller' => 'web_profiler.controller.exception_panel::stylesheet'], ['token'], null, null, false, false, null]],
-        159 => [
-            [['_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'], ['token'], null, null, false, true, null],
+        159 => [[['_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'], ['token'], null, null, false, true, null]],
+        189 => [
+            [['_route' => 'view-movie', '_controller' => 'App\\Controller\\DefaultController::viewMovie'], ['id'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],
     ],

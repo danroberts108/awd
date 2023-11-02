@@ -120,7 +120,11 @@ class __TwigTemplate_8c66410f05e4c53e3fcd9d3c2166332a extends Template
                             ";
             }
             // line 45
-            echo "                        </ul>
+            echo "                            <form class=\"d-flex\" role=\"search\">
+                                <input class=\"form-control me-2\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\">
+                                <button class=\"btn btn-outline-success\" type=\"submit\">Search</button>
+                            </form>
+                        </ul>
                         <li class=\"nav-item dropdown d-flex\">
                             <a class=\"nav-link dropdown-toggle\" href=\"#\" role=\"button\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">
                                 Account
@@ -129,7 +133,7 @@ class __TwigTemplate_8c66410f05e4c53e3fcd9d3c2166332a extends Template
                                 <li><a class=\"dropdown-item\" href=\"#\">My Account</a></li>
                                 <li><hr class=\"dropdown-divider\"></li>
                                 <li><a class=\"dropdown-item\" href=\"";
-            // line 53
+            // line 57
             echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_logout");
             echo "\">Logout</a></li>
                             </ul>
@@ -139,10 +143,10 @@ class __TwigTemplate_8c66410f05e4c53e3fcd9d3c2166332a extends Template
             </nav>
         ";
         }
-        // line 60
+        // line 64
         echo "        ";
         $this->displayBlock('body', $context, $blocks);
-        // line 61
+        // line 65
         echo "    </body>
 </html>
 ";
@@ -219,7 +223,7 @@ class __TwigTemplate_8c66410f05e4c53e3fcd9d3c2166332a extends Template
 
     }
 
-    // line 60
+    // line 64
     public function block_body($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -249,7 +253,7 @@ class __TwigTemplate_8c66410f05e4c53e3fcd9d3c2166332a extends Template
 
     public function getDebugInfo()
     {
-        return array (  223 => 60,  210 => 16,  200 => 15,  187 => 12,  177 => 11,  158 => 5,  146 => 61,  143 => 60,  133 => 53,  123 => 45,  117 => 42,  114 => 41,  111 => 40,  105 => 37,  102 => 36,  100 => 35,  95 => 33,  89 => 30,  79 => 23,  75 => 21,  73 => 20,  69 => 18,  67 => 15,  64 => 14,  62 => 11,  53 => 5,  47 => 1,);
+        return array (  227 => 64,  214 => 16,  204 => 15,  191 => 12,  181 => 11,  162 => 5,  150 => 65,  147 => 64,  137 => 57,  123 => 45,  117 => 42,  114 => 41,  111 => 40,  105 => 37,  102 => 36,  100 => 35,  95 => 33,  89 => 30,  79 => 23,  75 => 21,  73 => 20,  69 => 18,  67 => 15,  64 => 14,  62 => 11,  53 => 5,  47 => 1,);
     }
 
     public function getSourceContext()
@@ -298,6 +302,10 @@ class __TwigTemplate_8c66410f05e4c53e3fcd9d3c2166332a extends Template
                                     <a class=\"nav-link\" href=\"{{ path('admin_index') }}\">Admin Home</a>
                                 </li>
                             {% endif %}
+                            <form class=\"d-flex\" role=\"search\">
+                                <input class=\"form-control me-2\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\">
+                                <button class=\"btn btn-outline-success\" type=\"submit\">Search</button>
+                            </form>
                         </ul>
                         <li class=\"nav-item dropdown d-flex\">
                             <a class=\"nav-link dropdown-toggle\" href=\"#\" role=\"button\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">

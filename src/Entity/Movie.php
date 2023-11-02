@@ -21,7 +21,7 @@ class Movie
     #[ORM\Column(length: 255)]
     private ?string $studio = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $avg_rating = null;
 
     #[ORM\OneToMany(mappedBy: 'movie', targetEntity: Rating::class)]

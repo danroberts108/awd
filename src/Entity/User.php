@@ -31,7 +31,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Rating::class)]
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Review::class)]
     private Collection $ratings;
 
     #[ORM\Column(length: 255)]
@@ -40,7 +40,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $lname = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: ReviewRating::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Rating::class)]
     private Collection $reviewRatings;
 
     public function __construct()
@@ -120,14 +120,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Rating>
+     * @return Collection<int, Review>
      */
     public function getRatings(): Collection
     {
         return $this->ratings;
     }
 
-    public function addRating(Rating $rating): static
+    public function addRating(Review $rating): static
     {
         if (!$this->ratings->contains($rating)) {
             $this->ratings->add($rating);
@@ -137,7 +137,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeRating(Rating $rating): static
+    public function removeRating(Review $rating): static
     {
         if ($this->ratings->removeElement($rating)) {
             // set the owning side to null (unless already changed)
@@ -174,14 +174,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, ReviewRating>
+     * @return Collection<int, Rating>
      */
     public function getReviewRatings(): Collection
     {
         return $this->reviewRatings;
     }
 
-    public function addReviewRating(ReviewRating $reviewRating): static
+    public function addReviewRating(Rating $reviewRating): static
     {
         if (!$this->reviewRatings->contains($reviewRating)) {
             $this->reviewRatings->add($reviewRating);
@@ -191,7 +191,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeReviewRating(ReviewRating $reviewRating): static
+    public function removeReviewRating(Rating $reviewRating): static
     {
         if ($this->reviewRatings->removeElement($reviewRating)) {
             // set the owning side to null (unless already changed)

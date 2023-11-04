@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\Rating;
+use App\Entity\Review;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Rating>
+ * @extends ServiceEntityRepository<Review>
  *
- * @method Rating|null find($id, $lockMode = null, $lockVersion = null)
- * @method Rating|null findOneBy(array $criteria, array $orderBy = null)
- * @method Rating[]    findAll()
- * @method Rating[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Review|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Review|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Review[]    findAll()
+ * @method Review[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class RatingRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Rating::class);
+        parent::__construct($registry, Review::class);
     }
 
 //    /**
-//     * @return Rating[] Returns an array of Rating objects
+//     * @return Review[] Returns an array of Review objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -36,7 +36,7 @@ class RatingRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Rating
+//    public function findOneBySomeField($value): ?Review
 //    {
 //        return $this->createQueryBuilder('r')
 //            ->andWhere('r.exampleField = :val')

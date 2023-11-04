@@ -24,7 +24,7 @@ class Movie
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $avg_rating = null;
 
-    #[ORM\OneToMany(mappedBy: 'movie', targetEntity: Rating::class)]
+    #[ORM\OneToMany(mappedBy: 'movie', targetEntity: Review::class)]
     private Collection $ratings;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -77,14 +77,14 @@ class Movie
     }
 
     /**
-     * @return Collection<int, Rating>
+     * @return Collection<int, Review>
      */
     public function getRatings(): Collection
     {
         return $this->ratings;
     }
 
-    public function addRating(Rating $rating): static
+    public function addRating(Review $rating): static
     {
         if (!$this->ratings->contains($rating)) {
             $this->ratings->add($rating);
@@ -94,7 +94,7 @@ class Movie
         return $this;
     }
 
-    public function removeRating(Rating $rating): static
+    public function removeRating(Review $rating): static
     {
         if ($this->ratings->removeElement($rating)) {
             // set the owning side to null (unless already changed)

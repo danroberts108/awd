@@ -2,8 +2,8 @@
 namespace App\Controller;
 
 use App\Entity\Movie;
+use App\Entity\Review;
 use App\Entity\Rating;
-use App\Entity\ReviewRating;
 use App\Form\MovieType;
 use App\Form\ReviewType;
 use App\Service\FileUploader;
@@ -58,7 +58,7 @@ class DefaultController extends AbstractController {
     public function createReview(int $id, EntityManagerInterface $entityManager, Request $request, Security $security) : Response {
         $movie = $entityManager->getRepository(Movie::class)->find($id);
 
-        $review = new Rating();
+        $review = new Review();
         $form = $this->createForm(ReviewType::class);
         $form->handleRequest($request);
 
@@ -108,7 +108,7 @@ class DefaultController extends AbstractController {
 
     #[Route('/review/view/{id}', name: 'view-review')]
     public function viewReview(int $id, EntityManagerInterface $entityManager) : Response {
-        $review = $entityManager->getRepository(Rating::class)->find($id);
+        $review = $entityManager->getRepository(Review::class)->find($id);
 
         if (!$review) {
             throw $this->createNotFoundException('No rating for id '.$id);
@@ -126,7 +126,7 @@ class DefaultController extends AbstractController {
 
     #[Route('/review/view_rating/{id}', name: 'view-review-review')]
     public function viewReviewReview(int $id, EntityManagerInterface $entityManager) : Response {
-        $rating = $entityManager->getRepository(ReviewRating::class)->find($id);
+        $rating = $entityManager->getRepository(Rating::class)->find($id);
 
         if (!$rating) {
             throw $this->createNotFoundException("No review rating for id ".$id);

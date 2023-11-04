@@ -2,13 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\RatingRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
+use App\Repository\ReviewRatingRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: RatingRepository::class)]
+#[ORM\Entity(repositoryClass: ReviewRatingRepository::class)]
 class Rating
 {
     #[ORM\Id]
@@ -19,24 +16,13 @@ class Rating
     #[ORM\Column]
     private ?int $rating = null;
 
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $comment = null;
-
-    #[ORM\ManyToOne(inversedBy: 'ratings')]
+    #[ORM\ManyToOne(inversedBy: 'reviewRatings')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $author = null;
+    private ?Review $review = null;
 
-    #[ORM\ManyToOne(inversedBy: 'ratings')]
+    #[ORM\ManyToOne(inversedBy: 'reviewRatings')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Movie $movie = null;
-
-    #[ORM\OneToMany(mappedBy: 'review', targetEntity: ReviewRating::class)]
-    private Collection $reviewRatings;
-
-    public function __construct()
-    {
-        $this->reviewRatings = new ArrayCollection();
-    }
+    private ?User $user = null;
 
     public function getId(): ?int
     {
@@ -55,68 +41,26 @@ class Rating
         return $this;
     }
 
-    public function getComment(): ?string
+    public function getReview(): ?Review
     {
-        return $this->comment;
+        return $this->review;
     }
 
-    public function setComment(string $comment): static
+    public function setReview(?Review $review): static
     {
-        $this->comment = $comment;
+        $this->review = $review;
 
         return $this;
     }
 
-    public function getAuthor(): ?User
+    public function getUser(): ?User
     {
-        return $this->author;
+        return $this->user;
     }
 
-    public function setAuthor(?User $author): static
+    public function setUser(?User $user): static
     {
-        $this->author = $author;
-
-        return $this;
-    }
-
-    public function getMovie(): ?Movie
-    {
-        return $this->movie;
-    }
-
-    public function setMovie(?Movie $movie): static
-    {
-        $this->movie = $movie;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, ReviewRating>
-     */
-    public function getReviewRatings(): Collection
-    {
-        return $this->reviewRatings;
-    }
-
-    public function addReviewRating(ReviewRating $reviewRating): static
-    {
-        if (!$this->reviewRatings->contains($reviewRating)) {
-            $this->reviewRatings->add($reviewRating);
-            $reviewRating->setReview($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReviewRating(ReviewRating $reviewRating): static
-    {
-        if ($this->reviewRatings->removeElement($reviewRating)) {
-            // set the owning side to null (unless already changed)
-            if ($reviewRating->getReview() === $this) {
-                $reviewRating->setReview(null);
-            }
-        }
+        $this->user = $user;
 
         return $this;
     }

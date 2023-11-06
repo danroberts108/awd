@@ -390,6 +390,10 @@
       <tag name="doctrine.repository_service"/>
       <argument type="service" id="doctrine"/>
     </service>
+    <service id="App\Repository\ReportRepository" class="App\Repository\ReportRepository" autowire="true" autoconfigure="true">
+      <tag name="doctrine.repository_service"/>
+      <argument type="service" id="doctrine"/>
+    </service>
     <service id="App\Repository\ReviewRatingRepository" class="App\Repository\ReviewRatingRepository" autowire="true" autoconfigure="true">
       <tag name="doctrine.repository_service"/>
       <argument type="service" id="doctrine"/>
@@ -429,7 +433,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.NCngM60"/>
+      <argument type="service" id=".service_locator.8LXiHje"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -3024,7 +3028,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.NCngM60"/>
+      <argument type="service" id=".service_locator.8LXiHje"/>
     </service>
     <service id="debug.log_processor" class="Symfony\Bridge\Monolog\Processor\DebugProcessor">
       <argument type="service" id="request_stack"/>
@@ -4722,7 +4726,7 @@
     <service id="doctrine.orm.configuration" class="Doctrine\ORM\Configuration" abstract="true"/>
     <service id="doctrine.orm.entity_manager.abstract" class="Doctrine\ORM\EntityManager" lazy="true" abstract="true"/>
     <service id="doctrine.orm.container_repository_factory" class="Doctrine\Bundle\DoctrineBundle\Repository\ContainerRepositoryFactory">
-      <argument type="service" id=".service_locator.yynbJc4"/>
+      <argument type="service" id=".service_locator.OM0c_7Q"/>
     </service>
     <service id="doctrine.orm.manager_configurator.abstract" class="Doctrine\Bundle\DoctrineBundle\ManagerConfigurator" abstract="true">
       <argument type="collection"/>
@@ -6824,6 +6828,8 @@
     <service id=".abstract.instanceof.App\Repository\MovieRepository" class="App\Repository\MovieRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\RatingRepository" class="App\Repository\RatingRepository" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Repository\RatingRepository" class="App\Repository\RatingRepository" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\ReportRepository" class="App\Repository\ReportRepository" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Repository\ReportRepository" class="App\Repository\ReportRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\ReviewRatingRepository" class="App\Repository\ReviewRatingRepository" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Repository\ReviewRatingRepository" class="App\Repository\ReviewRatingRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\UserRepository" class="App\Repository\UserRepository" autowire="true" abstract="true"/>
@@ -7202,6 +7208,12 @@
         <argument key="loader" type="service_closure" id=".errored..service_locator.y4_Zrx..Symfony\Component\Config\Loader\LoaderInterface"/>
       </argument>
     </service>
+    <service id=".service_locator.CsMkqUa" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+      </argument>
+    </service>
     <service id=".service_locator.fNvIwJr" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -7214,12 +7226,6 @@
       <argument type="collection">
         <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
         <argument key="security" type="service_closure" id="security.helper"/>
-      </argument>
-    </service>
-    <service id=".service_locator.CsMkqUa" class="Symfony\Component\DependencyInjection\ServiceLocator">
-      <tag name="container.service_locator"/>
-      <argument type="collection">
-        <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
       </argument>
     </service>
     <service id=".service_locator.rSTd.nA" class="Symfony\Component\DependencyInjection\ServiceLocator">
@@ -7235,26 +7241,36 @@
         <argument key="userPasswordHasher" type="service_closure" id="security.user_password_hasher"/>
       </argument>
     </service>
-    <service id=".service_locator.NCngM60" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.8LXiHje" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
+        <argument key="App\Controller\AdminController::userRoles" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\DefaultController::createMovie" type="service_closure" id=".service_locator.fNvIwJr"/>
+        <argument key="App\Controller\DefaultController::createRating" type="service_closure" id=".service_locator.e9C_9eg"/>
         <argument key="App\Controller\DefaultController::createReview" type="service_closure" id=".service_locator.e9C_9eg"/>
+        <argument key="App\Controller\DefaultController::reviews" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\DefaultController::viewMovie" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\DefaultController::viewReview" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\DefaultController::viewReviewReview" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\LoginController::index" type="service_closure" id=".service_locator.rSTd.nA"/>
+        <argument key="App\Controller\ModController::reportedReviews" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\ModController::review" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\RegistrationController::register" type="service_closure" id=".service_locator.e_4zbH4"/>
         <argument key="App\Kernel::loadRoutes" type="service_closure" id=".service_locator.y4_Zrx."/>
         <argument key="App\Kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.y4_Zrx."/>
         <argument key="kernel::loadRoutes" type="service_closure" id=".service_locator.y4_Zrx."/>
         <argument key="kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.y4_Zrx."/>
+        <argument key="App\Controller\AdminController:userRoles" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\DefaultController:createMovie" type="service_closure" id=".service_locator.fNvIwJr"/>
+        <argument key="App\Controller\DefaultController:createRating" type="service_closure" id=".service_locator.e9C_9eg"/>
         <argument key="App\Controller\DefaultController:createReview" type="service_closure" id=".service_locator.e9C_9eg"/>
+        <argument key="App\Controller\DefaultController:reviews" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\DefaultController:viewMovie" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\DefaultController:viewReview" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\DefaultController:viewReviewReview" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\LoginController:index" type="service_closure" id=".service_locator.rSTd.nA"/>
+        <argument key="App\Controller\ModController:reportedReviews" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\ModController:review" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\RegistrationController:register" type="service_closure" id=".service_locator.e_4zbH4"/>
         <argument key="kernel:loadRoutes" type="service_closure" id=".service_locator.y4_Zrx."/>
         <argument key="kernel:registerContainerConfiguration" type="service_closure" id=".service_locator.y4_Zrx."/>
@@ -7522,11 +7538,12 @@
         <argument key="doctrine.orm.messenger.doctrine_schema_listener" type="service_closure" id="doctrine.orm.messenger.doctrine_schema_listener"/>
       </argument>
     </service>
-    <service id=".service_locator.yynbJc4" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.OM0c_7Q" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Repository\MovieRepository" type="service_closure" id="App\Repository\MovieRepository"/>
         <argument key="App\Repository\RatingRepository" type="service_closure" id="App\Repository\RatingRepository"/>
+        <argument key="App\Repository\ReportRepository" type="service_closure" id="App\Repository\ReportRepository"/>
         <argument key="App\Repository\ReviewRatingRepository" type="service_closure" id="App\Repository\ReviewRatingRepository"/>
         <argument key="App\Repository\UserRepository" type="service_closure" id="App\Repository\UserRepository"/>
       </argument>
@@ -9242,7 +9259,7 @@
     <service id="Symfony\WebpackEncoreBundle\Asset\EntrypointLookupInterface" alias="webpack_encore.entrypoint_lookup[_default]"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.7nzbL4K" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.NCngM60"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.8LXiHje"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.KLVvNIq"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>
@@ -9265,7 +9282,7 @@
     <service id=".service_locator.XDGmiR3" alias=".1_ServiceLocator~Aw24oVi"/>
     <service id=".service_locator.o.uf2zi" alias=".service_locator.7nzbL4K"/>
     <service id=".service_locator.V6D1oJY" alias=".service_locator.e_4zbH4"/>
-    <service id=".service_locator.wXbJCUV" alias=".service_locator.NCngM60"/>
+    <service id=".service_locator.t5C6Gm2" alias=".service_locator.8LXiHje"/>
     <service id=".service_locator.BFrsqsn" alias=".service_locator.F9PKc.7"/>
     <service id=".service_locator.b_GPmLC" alias=".service_locator.hMerlos"/>
     <service id=".service_locator.jij13qc" alias=".service_locator.PBToVFE"/>
@@ -9288,9 +9305,9 @@
     <service id="doctrine.orm.default_metadata_driver" alias=".doctrine.orm.default_metadata_driver"/>
     <service id="security.event_dispatcher.main" alias="debug.security.event_dispatcher.main"/>
     <service id=".service_locator.gFlme_s" alias=".service_locator.y4_Zrx."/>
+    <service id=".service_locator.9e2t_lq" alias=".service_locator.CsMkqUa"/>
     <service id=".service_locator.J4v_dgx" alias=".service_locator.fNvIwJr"/>
     <service id=".service_locator.ZbiNKp0" alias=".service_locator.e9C_9eg"/>
-    <service id=".service_locator.9e2t_lq" alias=".service_locator.CsMkqUa"/>
     <service id=".service_locator.7NIAq8D" alias=".service_locator.rSTd.nA"/>
     <service id=".service_locator.qnm_CJ1" alias=".service_locator.e_4zbH4"/>
     <service id=".service_locator.Q1z.f9O" alias=".service_locator.O2p6Lk7"/>

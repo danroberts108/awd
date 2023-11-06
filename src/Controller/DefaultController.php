@@ -24,7 +24,7 @@ class DefaultController extends AbstractController {
     }
 
     #[Route('/reviews', name: 'reviews')]
-    public function reviews() : Response {
+    public function reviews(EntityManagerInterface $entityManager) : Response {
         return $this->render('default/reviews.html.twig');
     }
 
@@ -58,11 +58,11 @@ class DefaultController extends AbstractController {
     public function createReview(int $id, EntityManagerInterface $entityManager, Request $request, Security $security) : Response {
         $movie = $entityManager->getRepository(Movie::class)->find($id);
 
-        $review = new Review();
         $form = $this->createForm(ReviewType::class);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            $review = new Review();
             $review = $form->getData();
             $review->setAuthor($security->getUser());
             $review->setMovie($movie);
@@ -81,9 +81,27 @@ class DefaultController extends AbstractController {
         return $this->render('/default/create_review.html.twig', $data);
     }
 
-    #[Route('/movie/review/rate/create/{id}', name: 'create-review-review')]
-    public function createReviewReview(int $id) : Response {
-        return $this->render('/default/create_review_review.html.twig');
+    #[Route('/movie/review/rate/create/{id}', name: 'create-rating')]
+    public function createRating(int $id, EntityManagerInterface $entityManager, Security $security, Request $request) : Response {
+        $review = $entityManager->getRepository(Review::class)->find($id);
+
+        $form = $this->createForm();
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $rating = new Rating();
+            $rating = $form->getData();
+            $rating->setAuthor($security->getUser());
+            $rating->setReview($review);
+
+            $entityManager->persist($rating);
+            $entityManager->flush();
+        }
+
+        return $this->render('default/create_rating.twig', [
+            'form' => $form->createView(),
+            'review' => $review
+        ]);
     }
 
     #[Route('/movie/view/{id}', name: 'view-movie')]

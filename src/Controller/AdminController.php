@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,7 +16,7 @@ class AdminController extends AbstractController
     }
 
     #[Route('/admin/user_roles', name: 'user-roles')]
-    public function userRoles() : Response {
+    public function userRoles(EntityManagerInterface $entityManager) : Response {
         return $this->render('/admin/user_roles.html.twig');
     }
 }

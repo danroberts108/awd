@@ -22,6 +22,8 @@ return [
         '/login' => [[['_route' => 'app_login', '_controller' => 'App\\Controller\\LoginController::index'], null, null, null, false, false, null]],
         '/logout' => [[['_route' => 'app_logout', '_controller' => 'App\\Controller\\LoginController::logout'], null, ['GET' => 0], null, false, false, null]],
         '/mod/index' => [[['_route' => 'mod_index', '_controller' => 'App\\Controller\\ModController::index'], null, null, null, false, false, null]],
+        '/mod/reported' => [[['_route' => 'reported_reviews', '_controller' => 'App\\Controller\\ModController::reportedReviews'], null, null, null, false, false, null]],
+        '/mod/reported/review' => [[['_route' => 'view_reported_review', '_controller' => 'App\\Controller\\ModController::review'], null, null, null, false, false, null]],
         '/register' => [[['_route' => 'app_register', '_controller' => 'App\\Controller\\RegistrationController::register'], null, null, null, false, false, null]],
     ],
     [ // $regexpList
@@ -63,7 +65,7 @@ return [
         149 => [[['_route' => '_profiler_exception_css', '_controller' => 'web_profiler.controller.exception_panel::stylesheet'], ['token'], null, null, false, false, null]],
         159 => [[['_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'], ['token'], null, null, false, true, null]],
         204 => [[['_route' => 'create-review', '_controller' => 'App\\Controller\\DefaultController::createReview'], ['id'], null, null, false, true, null]],
-        232 => [[['_route' => 'create-review-review', '_controller' => 'App\\Controller\\DefaultController::createReviewReview'], ['id'], null, null, false, true, null]],
+        232 => [[['_route' => 'create-rating', '_controller' => 'App\\Controller\\DefaultController::createRating'], ['id'], null, null, false, true, null]],
         254 => [[['_route' => 'view-movie', '_controller' => 'App\\Controller\\DefaultController::viewMovie'], ['id'], null, null, false, true, null]],
         287 => [[['_route' => 'view-review', '_controller' => 'App\\Controller\\DefaultController::viewReview'], ['id'], null, null, false, true, null]],
         311 => [

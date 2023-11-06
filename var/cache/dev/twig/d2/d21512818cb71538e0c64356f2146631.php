@@ -86,7 +86,7 @@ class __TwigTemplate_82e34723be9723ad726e25efaaab9701 extends Template
         // line 12
         echo $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(twig_get_attribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 12, $this->source); })()), "comment", [], "any", false, false, false, 12), 'row');
         echo "
-                <button type=\"submit\" class=\"btn btn-primary\">Submit</button>
+                <!--<button type=\"submit\" class=\"btn btn-primary\">Submit</button>-->
                 ";
         // line 14
         echo         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 14, $this->source); })()), 'form_end');
@@ -132,7 +132,7 @@ class __TwigTemplate_82e34723be9723ad726e25efaaab9701 extends Template
                 {{ form_start(form) }}
                 {{ form_row(form.rating) }}
                 {{ form_row(form.comment) }}
-                <button type=\"submit\" class=\"btn btn-primary\">Submit</button>
+                <!--<button type=\"submit\" class=\"btn btn-primary\">Submit</button>-->
                 {{ form_end(form) }}
             </div>
         </div>

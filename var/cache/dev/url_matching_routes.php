@@ -16,7 +16,7 @@ return [
         '/_profiler/open' => [[['_route' => '_profiler_open_file', '_controller' => 'web_profiler.controller.profiler::openAction'], null, null, null, false, false, null]],
         '/admin/index' => [[['_route' => 'admin_index', '_controller' => 'App\\Controller\\AdminController::index'], null, null, null, false, false, null]],
         '/admin/user_roles' => [[['_route' => 'user-roles', '_controller' => 'App\\Controller\\AdminController::userRoles'], null, null, null, false, false, null]],
-        '/index' => [[['_route' => 'index', '_controller' => 'App\\Controller\\DefaultController::index'], null, null, null, false, false, null]],
+        '/' => [[['_route' => 'index', '_controller' => 'App\\Controller\\DefaultController::index'], null, null, null, false, false, null]],
         '/reviews' => [[['_route' => 'reviews', '_controller' => 'App\\Controller\\DefaultController::reviews'], null, null, null, false, false, null]],
         '/movie/create' => [[['_route' => 'create-movie', '_controller' => 'App\\Controller\\DefaultController::createMovie'], null, null, null, false, false, null]],
         '/login' => [[['_route' => 'app_login', '_controller' => 'App\\Controller\\LoginController::index'], null, null, null, false, false, null]],

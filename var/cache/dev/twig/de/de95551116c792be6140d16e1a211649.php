@@ -95,24 +95,51 @@ class __TwigTemplate_697e0066baa7718fdeb1f4c86cd5340c extends Template
         }
         // line 9
         echo "
-    <form action=\"";
-        // line 10
+    <div class=\"container px-5 my-5\">
+        <div class=\"row justify-content-md-center text-center\">
+            <h2>Movie Review</h2>
+        </div>
+        <div class=\"row justify-content-md-center\">
+            <div class=\"col col-4\">
+                <form action=\"";
+        // line 16
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_login");
         echo "\" method=\"post\">
-        <label for=\"username\">Email:</label>
-        <input type=\"text\" id=\"username\" name=\"_username\" value=\"";
-        // line 12
-        echo twig_escape_filter($this->env, (isset($context["last_username"]) || array_key_exists("last_username", $context) ? $context["last_username"] : (function () { throw new RuntimeError('Variable "last_username" does not exist.', 12, $this->source); })()), "html", null, true);
+                    <div class=\"form-floating mb-3\">
+                        <input class=\"form-control\" type=\"email\" id=\"username\" name=\"_username\" value=\"";
+        // line 18
+        echo twig_escape_filter($this->env, (isset($context["last_username"]) || array_key_exists("last_username", $context) ? $context["last_username"] : (function () { throw new RuntimeError('Variable "last_username" does not exist.', 18, $this->source); })()), "html", null, true);
+        echo "\" placeholder=\"Email Address\">
+                        <label for=\"username\">Email Address</label>
+                    </div>
+                    <div class=\"form-floating mb-3\">
+                        <input class=\"form-control\" type=\"password\" id=\"password\" name=\"_password\" placeholder=\"Password\">
+                        <label for=\"password\">Password</label>
+                    </div>
+
+                    <input type=\"hidden\" name=\"_csrf_token\" value=\"";
+        // line 26
+        echo twig_escape_filter($this->env, $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderCsrfToken("authenticate"), "html", null, true);
         echo "\">
 
-        <label for=\"password\">Password:</label>
-        <input type=\"password\" id=\"password\" name=\"_password\">
+                    <div class=\"d-grid gap-2\">
+                        <button type=\"submit\" class=\"btn btn-primary\" id=\"submitButton\" disabled>Login</button>
+                    </div>
 
-        ";
-        // line 19
-        echo "
-        <button type=\"submit\">login</button>
-    </form>
+
+                </form>
+                <div class=\"text-center justify-content-md-center my-3\">
+                    <p><a href=\"#\" class=\"link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover\">Forgot password?</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src=\"";
+        // line 41
+        echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("js/login.js"), "html", null, true);
+        echo "\"></script>
+
 ";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
@@ -134,7 +161,7 @@ class __TwigTemplate_697e0066baa7718fdeb1f4c86cd5340c extends Template
 
     public function getDebugInfo()
     {
-        return array (  113 => 19,  105 => 12,  100 => 10,  97 => 9,  91 => 7,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
+        return array (  140 => 41,  122 => 26,  111 => 18,  106 => 16,  97 => 9,  91 => 7,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -148,18 +175,39 @@ class __TwigTemplate_697e0066baa7718fdeb1f4c86cd5340c extends Template
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <form action=\"{{ path('app_login') }}\" method=\"post\">
-        <label for=\"username\">Email:</label>
-        <input type=\"text\" id=\"username\" name=\"_username\" value=\"{{ last_username }}\">
+    <div class=\"container px-5 my-5\">
+        <div class=\"row justify-content-md-center text-center\">
+            <h2>Movie Review</h2>
+        </div>
+        <div class=\"row justify-content-md-center\">
+            <div class=\"col col-4\">
+                <form action=\"{{  path('app_login') }}\" method=\"post\">
+                    <div class=\"form-floating mb-3\">
+                        <input class=\"form-control\" type=\"email\" id=\"username\" name=\"_username\" value=\"{{  last_username }}\" placeholder=\"Email Address\">
+                        <label for=\"username\">Email Address</label>
+                    </div>
+                    <div class=\"form-floating mb-3\">
+                        <input class=\"form-control\" type=\"password\" id=\"password\" name=\"_password\" placeholder=\"Password\">
+                        <label for=\"password\">Password</label>
+                    </div>
 
-        <label for=\"password\">Password:</label>
-        <input type=\"password\" id=\"password\" name=\"_password\">
+                    <input type=\"hidden\" name=\"_csrf_token\" value=\"{{ csrf_token('authenticate') }}\">
 
-        {# If you want to control the URL the user is redirected to on success
-        <input type=\"hidden\" name=\"_target_path\" value=\"/account\"> #}
+                    <div class=\"d-grid gap-2\">
+                        <button type=\"submit\" class=\"btn btn-primary\" id=\"submitButton\" disabled>Login</button>
+                    </div>
 
-        <button type=\"submit\">login</button>
-    </form>
+
+                </form>
+                <div class=\"text-center justify-content-md-center my-3\">
+                    <p><a href=\"#\" class=\"link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover\">Forgot password?</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src=\"{{ asset('js/login.js') }}\"></script>
+
 {% endblock %}
 ", "login/index.html.twig", "C:\\Users\\danie\\PhpStorm\\awd\\templates\\login\\index.html.twig");
     }

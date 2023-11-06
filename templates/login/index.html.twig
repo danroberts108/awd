@@ -7,16 +7,37 @@
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <form action="{{ path('app_login') }}" method="post">
-        <label for="username">Email:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}">
+    <div class="container px-5 my-5">
+        <div class="row justify-content-md-center text-center">
+            <h2>Movie Review</h2>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="col col-4">
+                <form action="{{  path('app_login') }}" method="post">
+                    <div class="form-floating mb-3">
+                        <input class="form-control" type="email" id="username" name="_username" value="{{  last_username }}" placeholder="Email Address">
+                        <label for="username">Email Address</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" type="password" id="password" name="_password" placeholder="Password">
+                        <label for="password">Password</label>
+                    </div>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="_password">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-        {# If you want to control the URL the user is redirected to on success
-        <input type="hidden" name="_target_path" value="/account"> #}
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary" id="submitButton" disabled>Login</button>
+                    </div>
 
-        <button type="submit">login</button>
-    </form>
+
+                </form>
+                <div class="text-center justify-content-md-center my-3">
+                    <p><a href="#" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Forgot password?</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ asset('js/login.js') }}"></script>
+
 {% endblock %}

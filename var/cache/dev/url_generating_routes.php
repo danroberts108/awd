@@ -18,7 +18,7 @@ return [
     '_profiler_exception_css' => [['token'], ['_controller' => 'web_profiler.controller.exception_panel::stylesheet'], [], [['text', '/exception.css'], ['variable', '/', '[^/]++', 'token', true], ['text', '/_profiler']], [], [], []],
     'admin_index' => [[], ['_controller' => 'App\\Controller\\AdminController::index'], [], [['text', '/admin/index']], [], [], []],
     'user-roles' => [[], ['_controller' => 'App\\Controller\\AdminController::userRoles'], [], [['text', '/admin/user_roles']], [], [], []],
-    'index' => [[], ['_controller' => 'App\\Controller\\DefaultController::index'], [], [['text', '/index']], [], [], []],
+    'index' => [[], ['_controller' => 'App\\Controller\\DefaultController::index'], [], [['text', '/']], [], [], []],
     'reviews' => [[], ['_controller' => 'App\\Controller\\DefaultController::reviews'], [], [['text', '/reviews']], [], [], []],
     'create-movie' => [[], ['_controller' => 'App\\Controller\\DefaultController::createMovie'], [], [['text', '/movie/create']], [], [], []],
     'create-review' => [['id'], ['_controller' => 'App\\Controller\\DefaultController::createReview'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/movie/review/create']], [], [], []],

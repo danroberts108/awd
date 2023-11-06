@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class DefaultController extends AbstractController {
-    #[Route('/index', name: 'index')]
+    #[Route('/', name: 'index')]
     public function index() : Response {
         return $this->render('default/index.html.twig');
     }
@@ -63,6 +63,7 @@ class DefaultController extends AbstractController {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            $review = $form->getData();
             $review->setAuthor($security->getUser());
             $review->setMovie($movie);
 

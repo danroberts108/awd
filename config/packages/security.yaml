@@ -19,6 +19,7 @@ security:
             form_login:
                 login_path: app_login
                 check_path: app_login
+                enable_csrf: true
             logout:
                 path: app_logout
 
@@ -33,6 +34,11 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/login, role: PUBLIC_ACCESS }
+        - { path: ^/register, role: PUBLIC_ACCESS }
+        - { path: ^/admin, role: ROLE_ADMIN }
+        - { path: ^/mod, role: ROLE_MOD }
+        - { path: ^/, role: ROLE_USER }
 
 when@test:
     security:

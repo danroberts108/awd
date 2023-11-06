@@ -2,9 +2,11 @@
 namespace App\Controller;
 
 use App\Entity\Movie;
+use App\Entity\Report;
 use App\Entity\Review;
 use App\Entity\Rating;
 use App\Form\MovieType;
+use App\Form\ReportType;
 use App\Form\ReviewType;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
@@ -85,7 +87,7 @@ class DefaultController extends AbstractController {
     public function createRating(int $id, EntityManagerInterface $entityManager, Security $security, Request $request) : Response {
         $review = $entityManager->getRepository(Review::class)->find($id);
 
-        $form = $this->createForm();
+        $form = $this->createForm(Rating::class);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
@@ -96,6 +98,8 @@ class DefaultController extends AbstractController {
 
             $entityManager->persist($rating);
             $entityManager->flush();
+
+            return $this->redirectToRoute('view-review', ['id' => $review->getId()]);
         }
 
         return $this->render('default/create_rating.twig', [
@@ -143,7 +147,7 @@ class DefaultController extends AbstractController {
         return $this->render('/default/view_review.html.twig', $reviewDetails);
     }
 
-    #[Route('/review/view_rating/{id}', name: 'view-review-review')]
+    #[Route('/review/view_rating/{id}', name: 'view-rating')]
     public function viewReviewReview(int $id, EntityManagerInterface $entityManager) : Response {
         $rating = $entityManager->getRepository(Rating::class)->find($id);
 
@@ -158,5 +162,32 @@ class DefaultController extends AbstractController {
         ];
 
         return $this->render('/default/view_review_review.html.twig', $reviewDetails);
+    }
+
+    #[Route('/review/report/{id}', name:'create-report')]
+    public function createReport(int $id, EntityManagerInterface $entityManager, Request $request, Security $security) : Response {
+        $review = $entityManager->getRepository(Review::class)->find($id);
+
+        $form = $this->createForm(ReportType::class);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $report = new Report();
+            $report = $form->getData();
+
+            $report->setAuthor($security->getUser());
+            $report->setReview($review);
+
+            $entityManager->persist($report);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('view-review', ['id' => $review->getId()]);
+
+        }
+
+        return $this->render('/default/create_report.html.twig', [
+            'form' => $form->createView(),
+            'review' => $review
+        ]);
     }
 }

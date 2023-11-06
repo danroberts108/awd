@@ -379,6 +379,9 @@
     <service id="App\Form\RegistrationFormType" class="App\Form\RegistrationFormType" autowire="true" autoconfigure="true">
       <tag name="form.type"/>
     </service>
+    <service id="App\Form\ReportType" class="App\Form\ReportType" autowire="true" autoconfigure="true">
+      <tag name="form.type"/>
+    </service>
     <service id="App\Form\ReviewType" class="App\Form\ReviewType" autowire="true" autoconfigure="true">
       <tag name="form.type"/>
     </service>
@@ -433,7 +436,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.8LXiHje"/>
+      <argument type="service" id=".service_locator.UU.xw.3"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -1325,6 +1328,7 @@
       <argument type="collection">
         <argument>App\Form\MovieType</argument>
         <argument>App\Form\RegistrationFormType</argument>
+        <argument>App\Form\ReportType</argument>
         <argument>App\Form\ReviewType</argument>
         <argument>Symfony\Component\Form\Extension\Core\Type\FormType</argument>
         <argument>Symfony\Component\Form\Extension\Core\Type\ChoiceType</argument>
@@ -3028,7 +3032,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.8LXiHje"/>
+      <argument type="service" id=".service_locator.UU.xw.3"/>
     </service>
     <service id="debug.log_processor" class="Symfony\Bridge\Monolog\Processor\DebugProcessor">
       <argument type="service" id="request_stack"/>
@@ -3506,7 +3510,7 @@
       <argument type="service" id="form.registry"/>
     </service>
     <service id="form.extension" class="Symfony\Component\Form\Extension\DependencyInjection\DependencyInjectionExtension">
-      <argument type="service" id=".service_locator.hMerlos"/>
+      <argument type="service" id=".service_locator.lihYfFN"/>
       <argument type="collection">
         <argument key="Symfony\Component\Form\Extension\Core\Type\FormType" type="iterator">
           <argument type="service" id="form.type_extension.form.transformation_failure_handling"/>
@@ -6822,6 +6826,8 @@
     <service id=".abstract.instanceof.App\Form\MovieType" class="App\Form\MovieType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\RegistrationFormType" class="App\Form\RegistrationFormType" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Form\RegistrationFormType" class="App\Form\RegistrationFormType" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\ReportType" class="App\Form\ReportType" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Form\ReportType" class="App\Form\ReportType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\ReviewType" class="App\Form\ReviewType" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Form\ReviewType" class="App\Form\ReviewType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\MovieRepository" class="App\Repository\MovieRepository" autowire="true" abstract="true"/>
@@ -7241,12 +7247,13 @@
         <argument key="userPasswordHasher" type="service_closure" id="security.user_password_hasher"/>
       </argument>
     </service>
-    <service id=".service_locator.8LXiHje" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.UU.xw.3" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\AdminController::userRoles" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\DefaultController::createMovie" type="service_closure" id=".service_locator.fNvIwJr"/>
         <argument key="App\Controller\DefaultController::createRating" type="service_closure" id=".service_locator.e9C_9eg"/>
+        <argument key="App\Controller\DefaultController::createReport" type="service_closure" id=".service_locator.e9C_9eg"/>
         <argument key="App\Controller\DefaultController::createReview" type="service_closure" id=".service_locator.e9C_9eg"/>
         <argument key="App\Controller\DefaultController::reviews" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\DefaultController::viewMovie" type="service_closure" id=".service_locator.CsMkqUa"/>
@@ -7263,6 +7270,7 @@
         <argument key="App\Controller\AdminController:userRoles" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\DefaultController:createMovie" type="service_closure" id=".service_locator.fNvIwJr"/>
         <argument key="App\Controller\DefaultController:createRating" type="service_closure" id=".service_locator.e9C_9eg"/>
+        <argument key="App\Controller\DefaultController:createReport" type="service_closure" id=".service_locator.e9C_9eg"/>
         <argument key="App\Controller\DefaultController:createReview" type="service_closure" id=".service_locator.e9C_9eg"/>
         <argument key="App\Controller\DefaultController:reviews" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\DefaultController:viewMovie" type="service_closure" id=".service_locator.CsMkqUa"/>
@@ -7429,11 +7437,12 @@
       <argument type="service" id="argument_resolver.query_parameter_value_resolver"/>
       <argument type="service" id="debug.stopwatch"/>
     </service>
-    <service id=".service_locator.hMerlos" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.lihYfFN" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Form\MovieType" type="service_closure" id="App\Form\MovieType"/>
         <argument key="App\Form\RegistrationFormType" type="service_closure" id="App\Form\RegistrationFormType"/>
+        <argument key="App\Form\ReportType" type="service_closure" id="App\Form\ReportType"/>
         <argument key="App\Form\ReviewType" type="service_closure" id="App\Form\ReviewType"/>
         <argument key="Symfony\Bridge\Doctrine\Form\Type\EntityType" type="service_closure" id="form.type.entity"/>
         <argument key="Symfony\Component\Form\Extension\Core\Type\ChoiceType" type="service_closure" id="form.type.choice"/>
@@ -9259,7 +9268,7 @@
     <service id="Symfony\WebpackEncoreBundle\Asset\EntrypointLookupInterface" alias="webpack_encore.entrypoint_lookup[_default]"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.7nzbL4K" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.8LXiHje"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.UU.xw.3"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.KLVvNIq"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>
@@ -9282,9 +9291,9 @@
     <service id=".service_locator.XDGmiR3" alias=".1_ServiceLocator~Aw24oVi"/>
     <service id=".service_locator.o.uf2zi" alias=".service_locator.7nzbL4K"/>
     <service id=".service_locator.V6D1oJY" alias=".service_locator.e_4zbH4"/>
-    <service id=".service_locator.t5C6Gm2" alias=".service_locator.8LXiHje"/>
+    <service id=".service_locator.k0DrgdO" alias=".service_locator.UU.xw.3"/>
     <service id=".service_locator.BFrsqsn" alias=".service_locator.F9PKc.7"/>
-    <service id=".service_locator.b_GPmLC" alias=".service_locator.hMerlos"/>
+    <service id=".service_locator.NukE2sJ" alias=".service_locator.lihYfFN"/>
     <service id=".service_locator.jij13qc" alias=".service_locator.PBToVFE"/>
     <service id=".service_locator.O24_MAy" alias=".service_locator.yY.p4P7"/>
     <service id=".service_locator.jUv.zyj" alias=".service_locator.O2p6Lk7"/>

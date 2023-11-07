@@ -13,8 +13,6 @@ class ReportType extends AbstractType
     {
         $builder
             ->add('comment')
-            ->add('user')
-            ->add('review')
         ;
     }
 

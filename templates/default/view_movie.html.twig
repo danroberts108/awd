@@ -5,20 +5,23 @@
         <div class="row">
             <div class="col-2">
                 <div class="row">
-                    <img src="{{ imagepath }}" alt="Movie Image">
+                    <img src="{{ movie.imagepath }}" alt="Movie Image">
                 </div>
             </div>
             <div class="col-4">
                 <div class="row">
-                    <h5>Name: </h5><p>{{ name }}</p>
+                    <h5>Name: </h5><p>{{ movie.name }}</p>
                 </div>
                 <div class="row">
-                    <h5>Studio: </h5><p>{{ studio }}</p>
+                    <h5>Studio: </h5><p>{{ movie.studio }}</p>
                 </div>
             </div>
             <div class="col-2">
                 <div class="row">
-                    <a href="{{ path('create-review', {'id' : id}) }}"><button class="btn btn-primary" type="button">Rate this movie</button></a>
+                    <h5>Average Rating:</h5><p>{{ moviestars | raw }}</p>
+                </div>
+                <div class="row">
+                    <a href="{{ path('create-review', {'id' : movie.id}) }}"><button class="btn btn-primary" type="button">Review this movie</button></a>
                 </div>
             </div>
         </div>
@@ -29,14 +32,24 @@
                         <th scope="col">Rating</th>
                         <th scope="col">Comment</th>
                         <th scope="col">Author</th>
+                        <th scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for rating in ratings %}
+                    {% for review in reviews %}
                         <tr>
-                            <th scope="row">{{ rating.rating }}</th>
-                            <th>{{ rating.comment }}</th>
-                            <th>{{ rating.author }}</th>
+                            <th scope="row">{{ attribute(stars, loop.index-1) | raw}}</th>
+                            <th>{{ review.comment }}</th>
+                            <th>{{ review.author.fname }}</th>
+                            <th>
+                                <div class="container">
+                                    <div class="col">
+                                        <div class="row">
+                                            <a href="{{ path('create-report', {'id' : review.id}) }}"><button class="btn btn-outline-secondary">Report</button></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </th>
                         </tr>
                     {% endfor %}
                 </tbody>

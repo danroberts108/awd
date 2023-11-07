@@ -446,7 +446,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.Nl5yNEv"/>
+      <argument type="service" id=".service_locator.ZthF74T"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -3043,7 +3043,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.Nl5yNEv"/>
+      <argument type="service" id=".service_locator.ZthF74T"/>
     </service>
     <service id="debug.log_processor" class="Symfony\Bridge\Monolog\Processor\DebugProcessor">
       <argument type="service" id="request_stack"/>
@@ -7234,6 +7234,13 @@
         <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
       </argument>
     </service>
+    <service id=".service_locator.qWVjwJm" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+        <argument key="ratingTextResponse" type="service_closure" id="App\Service\RatingTextResponse"/>
+      </argument>
+    </service>
     <service id=".service_locator.fNvIwJr" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -7254,13 +7261,6 @@
         <argument key="authenticationUtils" type="service_closure" id="security.authentication_utils"/>
       </argument>
     </service>
-    <service id=".service_locator.qWVjwJm" class="Symfony\Component\DependencyInjection\ServiceLocator">
-      <tag name="container.service_locator"/>
-      <argument type="collection">
-        <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
-        <argument key="ratingTextResponse" type="service_closure" id="App\Service\RatingTextResponse"/>
-      </argument>
-    </service>
     <service id=".service_locator.e_4zbH4" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -7268,7 +7268,7 @@
         <argument key="userPasswordHasher" type="service_closure" id="security.user_password_hasher"/>
       </argument>
     </service>
-    <service id=".service_locator.Nl5yNEv" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.ZthF74T" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\AdminController::userRoles" type="service_closure" id=".service_locator.CsMkqUa"/>
@@ -7276,9 +7276,8 @@
         <argument key="App\Controller\DefaultController::createRating" type="service_closure" id=".service_locator.e9C_9eg"/>
         <argument key="App\Controller\DefaultController::createReport" type="service_closure" id=".service_locator.e9C_9eg"/>
         <argument key="App\Controller\DefaultController::createReview" type="service_closure" id=".service_locator.e9C_9eg"/>
-        <argument key="App\Controller\DefaultController::movies" type="service_closure" id=".service_locator.CsMkqUa"/>
-        <argument key="App\Controller\DefaultController::reviews" type="service_closure" id=".service_locator.CsMkqUa"/>
-        <argument key="App\Controller\DefaultController::viewMovie" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\DefaultController::movies" type="service_closure" id=".service_locator.qWVjwJm"/>
+        <argument key="App\Controller\DefaultController::viewMovie" type="service_closure" id=".service_locator.qWVjwJm"/>
         <argument key="App\Controller\DefaultController::viewReview" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\DefaultController::viewReviewReview" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\LoginController::index" type="service_closure" id=".service_locator.rSTd.nA"/>
@@ -7294,9 +7293,8 @@
         <argument key="App\Controller\DefaultController:createRating" type="service_closure" id=".service_locator.e9C_9eg"/>
         <argument key="App\Controller\DefaultController:createReport" type="service_closure" id=".service_locator.e9C_9eg"/>
         <argument key="App\Controller\DefaultController:createReview" type="service_closure" id=".service_locator.e9C_9eg"/>
-        <argument key="App\Controller\DefaultController:movies" type="service_closure" id=".service_locator.CsMkqUa"/>
-        <argument key="App\Controller\DefaultController:reviews" type="service_closure" id=".service_locator.CsMkqUa"/>
-        <argument key="App\Controller\DefaultController:viewMovie" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\DefaultController:movies" type="service_closure" id=".service_locator.qWVjwJm"/>
+        <argument key="App\Controller\DefaultController:viewMovie" type="service_closure" id=".service_locator.qWVjwJm"/>
         <argument key="App\Controller\DefaultController:viewReview" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\DefaultController:viewReviewReview" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\LoginController:index" type="service_closure" id=".service_locator.rSTd.nA"/>
@@ -9292,7 +9290,7 @@
     <service id="Symfony\WebpackEncoreBundle\Asset\EntrypointLookupInterface" alias="webpack_encore.entrypoint_lookup[_default]"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.7nzbL4K" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.Nl5yNEv"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.ZthF74T"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.KLVvNIq"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>
@@ -9315,7 +9313,7 @@
     <service id=".service_locator.XDGmiR3" alias=".1_ServiceLocator~Aw24oVi"/>
     <service id=".service_locator.o.uf2zi" alias=".service_locator.7nzbL4K"/>
     <service id=".service_locator.V6D1oJY" alias=".service_locator.e_4zbH4"/>
-    <service id=".service_locator.WJ5Oz0i" alias=".service_locator.Nl5yNEv"/>
+    <service id=".service_locator.DW8RLPq" alias=".service_locator.ZthF74T"/>
     <service id=".service_locator.BFrsqsn" alias=".service_locator.F9PKc.7"/>
     <service id=".service_locator.ui5AKz2" alias=".service_locator.9kDgNqI"/>
     <service id=".service_locator.jij13qc" alias=".service_locator.PBToVFE"/>
@@ -9339,10 +9337,10 @@
     <service id="security.event_dispatcher.main" alias="debug.security.event_dispatcher.main"/>
     <service id=".service_locator.gFlme_s" alias=".service_locator.y4_Zrx."/>
     <service id=".service_locator.9e2t_lq" alias=".service_locator.CsMkqUa"/>
+    <service id=".service_locator.1JOAzZo" alias=".service_locator.qWVjwJm"/>
     <service id=".service_locator.J4v_dgx" alias=".service_locator.fNvIwJr"/>
     <service id=".service_locator.ZbiNKp0" alias=".service_locator.e9C_9eg"/>
     <service id=".service_locator.7NIAq8D" alias=".service_locator.rSTd.nA"/>
-    <service id=".service_locator.1JOAzZo" alias=".service_locator.qWVjwJm"/>
     <service id=".service_locator.qnm_CJ1" alias=".service_locator.e_4zbH4"/>
     <service id=".service_locator.Q1z.f9O" alias=".service_locator.O2p6Lk7"/>
     <service id=".service_locator.dGUCsbe" alias=".service_locator.oR77BOj"/>

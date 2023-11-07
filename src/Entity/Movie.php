@@ -22,7 +22,7 @@ class Movie
     private ?string $studio = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $avg_rating = null;
+    private ?float $avg_rating = null;
 
     #[ORM\OneToMany(mappedBy: 'movie', targetEntity: Review::class)]
     private Collection $ratings;
@@ -64,12 +64,12 @@ class Movie
         return $this;
     }
 
-    public function getAvgRating(): ?string
+    public function getAvgRating(): ?float
     {
         return $this->avg_rating;
     }
 
-    public function setAvgRating(string $avg_rating): static
+    public function setAvgRating(float $avg_rating): static
     {
         $this->avg_rating = $avg_rating;
 
@@ -79,12 +79,12 @@ class Movie
     /**
      * @return Collection<int, Review>
      */
-    public function getRatings(): Collection
+    public function getReviews(): Collection
     {
         return $this->ratings;
     }
 
-    public function addRating(Review $rating): static
+    public function addReview(Review $rating): static
     {
         if (!$this->ratings->contains($rating)) {
             $this->ratings->add($rating);
@@ -94,7 +94,7 @@ class Movie
         return $this;
     }
 
-    public function removeRating(Review $rating): static
+    public function removeReview(Review $rating): static
     {
         if ($this->ratings->removeElement($rating)) {
             // set the owning side to null (unless already changed)

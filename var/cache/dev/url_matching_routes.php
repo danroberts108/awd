@@ -42,25 +42,22 @@ return [
                         .'|(*:159)'
                     .')'
                 .')'
-                .'|/review(?'
-                    .'|s/([^/]++)(*:189)'
-                    .'|/(?'
-                        .'|view(?'
-                            .'|/([^/]++)(*:217)'
-                            .'|_rating/([^/]++)(*:241)'
-                        .')'
-                        .'|report/([^/]++)(*:265)'
-                    .')'
-                .')'
                 .'|/mo(?'
                     .'|vie/(?'
                         .'|review/(?'
-                            .'|create/([^/]++)(*:313)'
-                            .'|rate/create/([^/]++)(*:341)'
+                            .'|create/([^/]++)(*:207)'
+                            .'|rate/create/([^/]++)(*:235)'
                         .')'
-                        .'|view/([^/]++)(*:363)'
+                        .'|view/([^/]++)(*:257)'
                     .')'
-                    .'|d/reported/review/([^/]++)(*:398)'
+                    .'|d/reported/review/([^/]++)(*:292)'
+                .')'
+                .'|/review/(?'
+                    .'|view(?'
+                        .'|/([^/]++)(*:328)'
+                        .'|_rating/([^/]++)(*:352)'
+                    .')'
+                    .'|report/([^/]++)(*:376)'
                 .')'
             .')/?$}sDu',
     ],
@@ -72,15 +69,14 @@ return [
         136 => [[['_route' => '_profiler_exception', '_controller' => 'web_profiler.controller.exception_panel::body'], ['token'], null, null, false, false, null]],
         149 => [[['_route' => '_profiler_exception_css', '_controller' => 'web_profiler.controller.exception_panel::stylesheet'], ['token'], null, null, false, false, null]],
         159 => [[['_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'], ['token'], null, null, false, true, null]],
-        189 => [[['_route' => 'reviews', '_controller' => 'App\\Controller\\DefaultController::reviews'], ['id'], null, null, false, true, null]],
-        217 => [[['_route' => 'view-review', '_controller' => 'App\\Controller\\DefaultController::viewReview'], ['id'], null, null, false, true, null]],
-        241 => [[['_route' => 'view-rating', '_controller' => 'App\\Controller\\DefaultController::viewReviewReview'], ['id'], null, null, false, true, null]],
-        265 => [[['_route' => 'create-report', '_controller' => 'App\\Controller\\DefaultController::createReport'], ['id'], null, null, false, true, null]],
-        313 => [[['_route' => 'create-review', '_controller' => 'App\\Controller\\DefaultController::createReview'], ['id'], null, null, false, true, null]],
-        341 => [[['_route' => 'create-rating', '_controller' => 'App\\Controller\\DefaultController::createRating'], ['id'], null, null, false, true, null]],
-        363 => [[['_route' => 'view-movie', '_controller' => 'App\\Controller\\DefaultController::viewMovie'], ['id'], null, null, false, true, null]],
-        398 => [
-            [['_route' => 'view_reported_review', '_controller' => 'App\\Controller\\ModController::review'], ['id'], null, null, false, true, null],
+        207 => [[['_route' => 'create-review', '_controller' => 'App\\Controller\\DefaultController::createReview'], ['id'], null, null, false, true, null]],
+        235 => [[['_route' => 'create-rating', '_controller' => 'App\\Controller\\DefaultController::createRating'], ['id'], null, null, false, true, null]],
+        257 => [[['_route' => 'view-movie', '_controller' => 'App\\Controller\\DefaultController::viewMovie'], ['id'], null, null, false, true, null]],
+        292 => [[['_route' => 'view_reported_review', '_controller' => 'App\\Controller\\ModController::review'], ['id'], null, null, false, true, null]],
+        328 => [[['_route' => 'view-review', '_controller' => 'App\\Controller\\DefaultController::viewReview'], ['id'], null, null, false, true, null]],
+        352 => [[['_route' => 'view-rating', '_controller' => 'App\\Controller\\DefaultController::viewReviewReview'], ['id'], null, null, false, true, null]],
+        376 => [
+            [['_route' => 'create-report', '_controller' => 'App\\Controller\\DefaultController::createReport'], ['id'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],
     ],

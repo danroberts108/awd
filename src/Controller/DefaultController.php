@@ -9,6 +9,7 @@ use App\Form\MovieType;
 use App\Form\ReportType;
 use App\Form\ReviewType;
 use App\Service\FileUploader;
+use App\Service\RatingTextResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -25,23 +26,22 @@ class DefaultController extends AbstractController {
         return $this->render('default/index.html.twig');
     }
 
-    #[Route('/reviews/{id}', name: 'reviews')]
-    public function reviews(int $id, EntityManagerInterface $entityManager) : Response {
-        $movie = $entityManager->getRepository(Movie::class)->find($id);
-        $reviews = $entityManager->getRepository(Review::class)->findAll();
-
-        return $this->render('default/reviews.html.twig', [
-            'movie' => $movie,
-            'reviews' => $reviews
-        ]);
-    }
-
     #[Route('/movies', name: 'movies')]
-    public function movies(EntityManagerInterface $entityManager) : Response {
+    public function movies(EntityManagerInterface $entityManager, RatingTextResponse $ratingTextResponse) : Response {
         $movies = $entityManager->getRepository(Movie::class)->findAll();
+        $stars = [];
+
+        foreach ($movies as $movie) {
+            if ($movie->getAvgRating() == null) {
+                $stars[] = "";
+                continue;
+            }
+            $stars[] = $ratingTextResponse->getRatingDisplay($movie->getAvgRating());
+        }
 
         return $this->render('default/movies.html.twig', [
-            'movies' => $movies
+            'movies' => $movies,
+            'stars' => $stars
         ]);
     }
 
@@ -138,14 +138,14 @@ class DefaultController extends AbstractController {
             return $this->redirectToRoute('view-review', ['id' => $review->getId()]);
         }
 
-        return $this->render('default/create_rating.twig', [
+        return $this->render('create_rating.html.twig', [
             'form' => $form->createView(),
             'review' => $review
         ]);
     }
 
     #[Route('/movie/view/{id}', name: 'view-movie')]
-    public function viewMovie(int $id,EntityManagerInterface $entityManager) : Response {
+    public function viewMovie(int $id,EntityManagerInterface $entityManager, RatingTextResponse $ratingTextResponse) : Response {
 
         $movie = $entityManager->getRepository(Movie::class)->find($id);
 
@@ -153,16 +153,25 @@ class DefaultController extends AbstractController {
             throw $this->createNotFoundException('No movie for id '.$id);
         }
 
-        $movieDetails = [
-            'id' => $movie->getId(),
-            'name' => $movie->getName(),
-            'studio' => $movie->getStudio(),
-            'rating' => $movie->getAvgRating(),
-            'imagepath' => $movie->getImagePath(),
-            'ratings' => $movie->getRatings()
-        ];
+        $movieStars = $ratingTextResponse->getRatingDisplay($movie->getAvgRating());
 
-        return $this->render('/default/view_movie.html.twig', $movieDetails);
+        $reviews = $movie->getReviews();
+        $stars = [];
+
+        foreach ($reviews as $review) {
+            if ($review->getRating() == null) {
+                $stars[] = '';
+                continue;
+            }
+            $stars[] = $ratingTextResponse->getRatingDisplay($review->getRating());
+        }
+
+        return $this->render('/default/view_movie.html.twig', [
+            'movie' => $movie,
+            'reviews' => $reviews,
+            'stars' => $stars,
+            'moviestars' => $movieStars
+        ]);
     }
 
     #[Route('/review/view/{id}', name: 'view-review')]

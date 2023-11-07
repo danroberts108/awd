@@ -1,6 +1,23 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
+    <div class="container container-pad">
+        <div class="row">
+            <h3>Review you are reporting:</h3>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h5>Comment: </h5><p>{{ review.comment }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                {{ form_start(form) }}
+                {{ form_row(form.comment) }}
+                <button type="submit" class="btn btn-primary">Submit</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
 {% endblock %}
 

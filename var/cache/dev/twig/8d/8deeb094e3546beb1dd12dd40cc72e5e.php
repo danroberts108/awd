@@ -105,27 +105,33 @@ class __TwigTemplate_f5e4d183b353f4e8f512324dd3c4ce6b extends Template
             // line 38
             if (($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_MOD") || $this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_ADMIN"))) {
                 // line 39
-                echo "                                <li class=\"nav-item\">
-                                    <a class=\"nav-link\" href=\"";
-                // line 40
-                echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("mod_index");
-                echo "\">Mod Home</a>
+                echo "                                <li class=\"nav-item dropdown d-flex\">
+                                    <a class=\"nav-link dropdown-toggle\" href=\"#\" role=\"button\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">Mod</a>
+                                    <ul class=\"dropdown-menu\">
+                                        <li><a class=\"dropdown-item\" href=\"";
+                // line 42
+                echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("reported_reviews");
+                echo "\">Reports</a></li>
+                                    </ul>
                                 </li>
                             ";
             }
-            // line 43
+            // line 46
             echo "                            ";
             if ($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_ADMIN")) {
-                // line 44
-                echo "                                <li class=\"nav-item\">
-                                    <a class=\"nav-link\" href=\"";
-                // line 45
-                echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("admin_index");
-                echo "\">Admin Home</a>
+                // line 47
+                echo "                                <li class=\"nav-item dropdown d-flex\">
+                                    <a class=\"nav-link dropdown-toggle\" href=\"#\" role=\"button\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">Admin</a>
+                                    <ul class=\"dropdown-menu\">
+                                        <li><a class=\"dropdown-item\" href=\"";
+                // line 50
+                echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("user-roles");
+                echo "\">User Roles</a></li>
+                                    </ul>
                                 </li>
                             ";
             }
-            // line 48
+            // line 54
             echo "                            <form class=\"d-flex\" role=\"search\">
                                 <input class=\"form-control me-2\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\">
                                 <button class=\"btn btn-outline-success\" type=\"submit\">Search</button>
@@ -139,7 +145,7 @@ class __TwigTemplate_f5e4d183b353f4e8f512324dd3c4ce6b extends Template
                                 <li><a class=\"dropdown-item\" href=\"#\">My Account</a></li>
                                 <li><hr class=\"dropdown-divider\"></li>
                                 <li><a class=\"dropdown-item\" href=\"";
-            // line 60
+            // line 66
             echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_logout");
             echo "\">Logout</a></li>
                             </ul>
@@ -149,10 +155,10 @@ class __TwigTemplate_f5e4d183b353f4e8f512324dd3c4ce6b extends Template
             </nav>
         ";
         }
-        // line 67
+        // line 73
         echo "        ";
         $this->displayBlock('body', $context, $blocks);
-        // line 68
+        // line 74
         echo "    </body>
 </html>
 ";
@@ -229,7 +235,7 @@ class __TwigTemplate_f5e4d183b353f4e8f512324dd3c4ce6b extends Template
 
     }
 
-    // line 67
+    // line 73
     public function block_body($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -259,7 +265,7 @@ class __TwigTemplate_f5e4d183b353f4e8f512324dd3c4ce6b extends Template
 
     public function getDebugInfo()
     {
-        return array (  233 => 67,  220 => 19,  210 => 18,  197 => 15,  187 => 14,  168 => 5,  156 => 68,  153 => 67,  143 => 60,  129 => 48,  123 => 45,  120 => 44,  117 => 43,  111 => 40,  108 => 39,  106 => 38,  101 => 36,  95 => 33,  85 => 26,  81 => 24,  79 => 23,  75 => 21,  73 => 18,  70 => 17,  68 => 14,  63 => 12,  53 => 5,  47 => 1,);
+        return array (  239 => 73,  226 => 19,  216 => 18,  203 => 15,  193 => 14,  174 => 5,  162 => 74,  159 => 73,  149 => 66,  135 => 54,  128 => 50,  123 => 47,  120 => 46,  113 => 42,  108 => 39,  106 => 38,  101 => 36,  95 => 33,  85 => 26,  81 => 24,  79 => 23,  75 => 21,  73 => 18,  70 => 17,  68 => 14,  63 => 12,  53 => 5,  47 => 1,);
     }
 
     public function getSourceContext()
@@ -302,13 +308,19 @@ class __TwigTemplate_f5e4d183b353f4e8f512324dd3c4ce6b extends Template
                                 <a class=\"nav-link\" href=\"{{ path('movies') }}\">Movies</a>
                             </li>
                             {% if is_granted('ROLE_MOD') or is_granted('ROLE_ADMIN') %}
-                                <li class=\"nav-item\">
-                                    <a class=\"nav-link\" href=\"{{ path('mod_index') }}\">Mod Home</a>
+                                <li class=\"nav-item dropdown d-flex\">
+                                    <a class=\"nav-link dropdown-toggle\" href=\"#\" role=\"button\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">Mod</a>
+                                    <ul class=\"dropdown-menu\">
+                                        <li><a class=\"dropdown-item\" href=\"{{ path('reported_reviews') }}\">Reports</a></li>
+                                    </ul>
                                 </li>
                             {% endif %}
                             {% if is_granted('ROLE_ADMIN') %}
-                                <li class=\"nav-item\">
-                                    <a class=\"nav-link\" href=\"{{ path('admin_index') }}\">Admin Home</a>
+                                <li class=\"nav-item dropdown d-flex\">
+                                    <a class=\"nav-link dropdown-toggle\" href=\"#\" role=\"button\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">Admin</a>
+                                    <ul class=\"dropdown-menu\">
+                                        <li><a class=\"dropdown-item\" href=\"{{ path('user-roles') }}\">User Roles</a></li>
+                                    </ul>
                                 </li>
                             {% endif %}
                             <form class=\"d-flex\" role=\"search\">

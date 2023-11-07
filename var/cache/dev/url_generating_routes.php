@@ -19,7 +19,6 @@ return [
     'admin_index' => [[], ['_controller' => 'App\\Controller\\AdminController::index'], [], [['text', '/admin/index']], [], [], []],
     'user-roles' => [[], ['_controller' => 'App\\Controller\\AdminController::userRoles'], [], [['text', '/admin/user_roles']], [], [], []],
     'index' => [[], ['_controller' => 'App\\Controller\\DefaultController::index'], [], [['text', '/']], [], [], []],
-    'reviews' => [['id'], ['_controller' => 'App\\Controller\\DefaultController::reviews'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/reviews']], [], [], []],
     'movies' => [[], ['_controller' => 'App\\Controller\\DefaultController::movies'], [], [['text', '/movies']], [], [], []],
     'create-movie' => [[], ['_controller' => 'App\\Controller\\DefaultController::createMovie'], [], [['text', '/movie/create']], [], [], []],
     'create-review' => [['id'], ['_controller' => 'App\\Controller\\DefaultController::createReview'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/movie/review/create']], [], [], []],

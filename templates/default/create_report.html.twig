@@ -7,7 +7,8 @@
         </div>
         <div class="row">
             <div class="col">
-                <h5>Comment: </h5><p>{{ review.comment }}</p>
+                <label for="reviewText">Review text</label>
+                <input type="textbox" name="reviewText" id="reviewText" disabled value="{{ review.comment }}">
             </div>
         </div>
         <div class="row">

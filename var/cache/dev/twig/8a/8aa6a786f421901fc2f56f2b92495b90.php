@@ -67,19 +67,31 @@ class __TwigTemplate_ed25bd9580689a0f294d8e7cf4f84d6c extends Template
         // line 4
         echo "    <div class=\"container container-pad\">
         <div class=\"row\">
+            <h3>Review you are reporting:</h3>
+        </div>
+        <div class=\"row\">
+            <div class=\"col\">
+                <label for=\"reviewText\">Review text</label>
+                <input type=\"textbox\" name=\"reviewText\" id=\"reviewText\" disabled value=\"";
+        // line 11
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, (isset($context["review"]) || array_key_exists("review", $context) ? $context["review"] : (function () { throw new RuntimeError('Variable "review" does not exist.', 11, $this->source); })()), "comment", [], "any", false, false, false, 11), "html", null, true);
+        echo "\">
+            </div>
+        </div>
+        <div class=\"row\">
             <div class=\"col\">
                 ";
-        // line 7
-        echo         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 7, $this->source); })()), 'form_start');
+        // line 16
+        echo         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 16, $this->source); })()), 'form_start');
         echo "
                 ";
-        // line 8
-        echo $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(twig_get_attribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 8, $this->source); })()), "comment", [], "any", false, false, false, 8), 'row');
+        // line 17
+        echo $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(twig_get_attribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 17, $this->source); })()), "comment", [], "any", false, false, false, 17), 'row');
         echo "
                 <button type=\"submit\" class=\"btn btn-primary\">Submit</button>
                 ";
-        // line 10
-        echo         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 10, $this->source); })()), 'form_end');
+        // line 19
+        echo         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 19, $this->source); })()), 'form_end');
         echo "
             </div>
         </div>
@@ -105,7 +117,7 @@ class __TwigTemplate_ed25bd9580689a0f294d8e7cf4f84d6c extends Template
 
     public function getDebugInfo()
     {
-        return array (  82 => 10,  77 => 8,  73 => 7,  68 => 4,  58 => 3,  35 => 1,);
+        return array (  94 => 19,  89 => 17,  85 => 16,  77 => 11,  68 => 4,  58 => 3,  35 => 1,);
     }
 
     public function getSourceContext()
@@ -114,6 +126,15 @@ class __TwigTemplate_ed25bd9580689a0f294d8e7cf4f84d6c extends Template
 
 {% block body %}
     <div class=\"container container-pad\">
+        <div class=\"row\">
+            <h3>Review you are reporting:</h3>
+        </div>
+        <div class=\"row\">
+            <div class=\"col\">
+                <label for=\"reviewText\">Review text</label>
+                <input type=\"textbox\" name=\"reviewText\" id=\"reviewText\" disabled value=\"{{ review.comment }}\">
+            </div>
+        </div>
         <div class=\"row\">
             <div class=\"col\">
                 {{ form_start(form) }}

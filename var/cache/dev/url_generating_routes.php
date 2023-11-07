@@ -19,7 +19,8 @@ return [
     'admin_index' => [[], ['_controller' => 'App\\Controller\\AdminController::index'], [], [['text', '/admin/index']], [], [], []],
     'user-roles' => [[], ['_controller' => 'App\\Controller\\AdminController::userRoles'], [], [['text', '/admin/user_roles']], [], [], []],
     'index' => [[], ['_controller' => 'App\\Controller\\DefaultController::index'], [], [['text', '/']], [], [], []],
-    'reviews' => [[], ['_controller' => 'App\\Controller\\DefaultController::reviews'], [], [['text', '/reviews']], [], [], []],
+    'reviews' => [['id'], ['_controller' => 'App\\Controller\\DefaultController::reviews'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/reviews']], [], [], []],
+    'movies' => [[], ['_controller' => 'App\\Controller\\DefaultController::movies'], [], [['text', '/movies']], [], [], []],
     'create-movie' => [[], ['_controller' => 'App\\Controller\\DefaultController::createMovie'], [], [['text', '/movie/create']], [], [], []],
     'create-review' => [['id'], ['_controller' => 'App\\Controller\\DefaultController::createReview'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/movie/review/create']], [], [], []],
     'create-rating' => [['id'], ['_controller' => 'App\\Controller\\DefaultController::createRating'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/movie/review/rate/create']], [], [], []],
@@ -31,6 +32,6 @@ return [
     'app_logout' => [[], ['_controller' => 'App\\Controller\\LoginController::logout'], [], [['text', '/logout']], [], [], []],
     'mod_index' => [[], ['_controller' => 'App\\Controller\\ModController::index'], [], [['text', '/mod/index']], [], [], []],
     'reported_reviews' => [[], ['_controller' => 'App\\Controller\\ModController::reportedReviews'], [], [['text', '/mod/reported']], [], [], []],
-    'view_reported_review' => [[], ['_controller' => 'App\\Controller\\ModController::review'], [], [['text', '/mod/reported/review']], [], [], []],
+    'view_reported_review' => [['id'], ['_controller' => 'App\\Controller\\ModController::review'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/mod/reported/review']], [], [], []],
     'app_register' => [[], ['_controller' => 'App\\Controller\\RegistrationController::register'], [], [['text', '/register']], [], [], []],
 ];

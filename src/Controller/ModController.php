@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Movie;
 use App\Entity\Report;
+use App\Entity\Review;
 use App\Form\ReportDecisionType;
+use App\Service\RatingTextResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,9 +30,13 @@ class ModController extends AbstractController {
         ]);
     }
 
-    #[Route('/mod/reported/review', name: 'view_reported_review')]
-    public function review(int $id, EntityManagerInterface $entityManager, Request $request, LoggerInterface $logger) : Response {
+    #[Route('/mod/reported/review/{id}', name: 'view_reported_review')]
+    public function review(int $id, EntityManagerInterface $entityManager, Request $request, RatingTextResponse $ratingTextResponse) : Response {
         $report = $entityManager->getRepository(Report::class)->find($id);
+        $review = $entityManager->getRepository(Review::class)->find($report->getReview());
+        $movie = $entityManager->getRepository(Movie::class)->find($review->getMovie());
+
+        $stars = $ratingTextResponse->getRatingDisplay($movie->getAvgRating());
 
         $form = $this->createForm(ReportDecisionType::class);
         $form->handleRequest($request);
@@ -39,15 +46,26 @@ class ModController extends AbstractController {
 
             $data = $form->getData();
 
-            $logger->info($data);
             //if 'remove' is set to true
                 //remove review from database
+            if ($data['remove']) {
+                $entityManager->remove($review);
+            }
 
             //remove report from database
+            $entityManager->remove($report);
+
+            $entityManager->flush();
 
             return $this->redirectToRoute('reported_reviews');
         }
 
-        return $this->render('mod/reported.html.twig');
+        return $this->render('mod/reported.html.twig', [
+            'form' => $form->createView(),
+            'review' => $review,
+            'movie' => $movie,
+            'stars' => $stars,
+            'report' => $report
+        ]);
     }
 }

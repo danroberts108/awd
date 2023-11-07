@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\ReviewRatingRepository;
+use App\Repository\RatingRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ReviewRatingRepository::class)]
+#[ORM\Entity(repositoryClass: RatingRepository::class)]
 class Rating
 {
     #[ORM\Id]

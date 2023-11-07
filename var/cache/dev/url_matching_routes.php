@@ -17,13 +17,12 @@ return [
         '/admin/index' => [[['_route' => 'admin_index', '_controller' => 'App\\Controller\\AdminController::index'], null, null, null, false, false, null]],
         '/admin/user_roles' => [[['_route' => 'user-roles', '_controller' => 'App\\Controller\\AdminController::userRoles'], null, null, null, false, false, null]],
         '/' => [[['_route' => 'index', '_controller' => 'App\\Controller\\DefaultController::index'], null, null, null, false, false, null]],
-        '/reviews' => [[['_route' => 'reviews', '_controller' => 'App\\Controller\\DefaultController::reviews'], null, null, null, false, false, null]],
+        '/movies' => [[['_route' => 'movies', '_controller' => 'App\\Controller\\DefaultController::movies'], null, null, null, false, false, null]],
         '/movie/create' => [[['_route' => 'create-movie', '_controller' => 'App\\Controller\\DefaultController::createMovie'], null, null, null, false, false, null]],
         '/login' => [[['_route' => 'app_login', '_controller' => 'App\\Controller\\LoginController::index'], null, null, null, false, false, null]],
         '/logout' => [[['_route' => 'app_logout', '_controller' => 'App\\Controller\\LoginController::logout'], null, ['GET' => 0], null, false, false, null]],
         '/mod/index' => [[['_route' => 'mod_index', '_controller' => 'App\\Controller\\ModController::index'], null, null, null, false, false, null]],
         '/mod/reported' => [[['_route' => 'reported_reviews', '_controller' => 'App\\Controller\\ModController::reportedReviews'], null, null, null, false, false, null]],
-        '/mod/reported/review' => [[['_route' => 'view_reported_review', '_controller' => 'App\\Controller\\ModController::review'], null, null, null, false, false, null]],
         '/register' => [[['_route' => 'app_register', '_controller' => 'App\\Controller\\RegistrationController::register'], null, null, null, false, false, null]],
     ],
     [ // $regexpList
@@ -43,19 +42,25 @@ return [
                         .'|(*:159)'
                     .')'
                 .')'
-                .'|/movie/(?'
-                    .'|review/(?'
-                        .'|create/([^/]++)(*:204)'
-                        .'|rate/create/([^/]++)(*:232)'
+                .'|/review(?'
+                    .'|s/([^/]++)(*:189)'
+                    .'|/(?'
+                        .'|view(?'
+                            .'|/([^/]++)(*:217)'
+                            .'|_rating/([^/]++)(*:241)'
+                        .')'
+                        .'|report/([^/]++)(*:265)'
                     .')'
-                    .'|view/([^/]++)(*:254)'
                 .')'
-                .'|/review/(?'
-                    .'|view(?'
-                        .'|/([^/]++)(*:290)'
-                        .'|_rating/([^/]++)(*:314)'
+                .'|/mo(?'
+                    .'|vie/(?'
+                        .'|review/(?'
+                            .'|create/([^/]++)(*:313)'
+                            .'|rate/create/([^/]++)(*:341)'
+                        .')'
+                        .'|view/([^/]++)(*:363)'
                     .')'
-                    .'|report/([^/]++)(*:338)'
+                    .'|d/reported/review/([^/]++)(*:398)'
                 .')'
             .')/?$}sDu',
     ],
@@ -67,13 +72,15 @@ return [
         136 => [[['_route' => '_profiler_exception', '_controller' => 'web_profiler.controller.exception_panel::body'], ['token'], null, null, false, false, null]],
         149 => [[['_route' => '_profiler_exception_css', '_controller' => 'web_profiler.controller.exception_panel::stylesheet'], ['token'], null, null, false, false, null]],
         159 => [[['_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'], ['token'], null, null, false, true, null]],
-        204 => [[['_route' => 'create-review', '_controller' => 'App\\Controller\\DefaultController::createReview'], ['id'], null, null, false, true, null]],
-        232 => [[['_route' => 'create-rating', '_controller' => 'App\\Controller\\DefaultController::createRating'], ['id'], null, null, false, true, null]],
-        254 => [[['_route' => 'view-movie', '_controller' => 'App\\Controller\\DefaultController::viewMovie'], ['id'], null, null, false, true, null]],
-        290 => [[['_route' => 'view-review', '_controller' => 'App\\Controller\\DefaultController::viewReview'], ['id'], null, null, false, true, null]],
-        314 => [[['_route' => 'view-rating', '_controller' => 'App\\Controller\\DefaultController::viewReviewReview'], ['id'], null, null, false, true, null]],
-        338 => [
-            [['_route' => 'create-report', '_controller' => 'App\\Controller\\DefaultController::createReport'], ['id'], null, null, false, true, null],
+        189 => [[['_route' => 'reviews', '_controller' => 'App\\Controller\\DefaultController::reviews'], ['id'], null, null, false, true, null]],
+        217 => [[['_route' => 'view-review', '_controller' => 'App\\Controller\\DefaultController::viewReview'], ['id'], null, null, false, true, null]],
+        241 => [[['_route' => 'view-rating', '_controller' => 'App\\Controller\\DefaultController::viewReviewReview'], ['id'], null, null, false, true, null]],
+        265 => [[['_route' => 'create-report', '_controller' => 'App\\Controller\\DefaultController::createReport'], ['id'], null, null, false, true, null]],
+        313 => [[['_route' => 'create-review', '_controller' => 'App\\Controller\\DefaultController::createReview'], ['id'], null, null, false, true, null]],
+        341 => [[['_route' => 'create-rating', '_controller' => 'App\\Controller\\DefaultController::createRating'], ['id'], null, null, false, true, null]],
+        363 => [[['_route' => 'view-movie', '_controller' => 'App\\Controller\\DefaultController::viewMovie'], ['id'], null, null, false, true, null]],
+        398 => [
+            [['_route' => 'view_reported_review', '_controller' => 'App\\Controller\\ModController::review'], ['id'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],
     ],

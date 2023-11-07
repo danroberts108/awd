@@ -25,9 +25,24 @@ class DefaultController extends AbstractController {
         return $this->render('default/index.html.twig');
     }
 
-    #[Route('/reviews', name: 'reviews')]
-    public function reviews(EntityManagerInterface $entityManager) : Response {
-        return $this->render('default/reviews.html.twig');
+    #[Route('/reviews/{id}', name: 'reviews')]
+    public function reviews(int $id, EntityManagerInterface $entityManager) : Response {
+        $movie = $entityManager->getRepository(Movie::class)->find($id);
+        $reviews = $entityManager->getRepository(Review::class)->findAll();
+
+        return $this->render('default/reviews.html.twig', [
+            'movie' => $movie,
+            'reviews' => $reviews
+        ]);
+    }
+
+    #[Route('/movies', name: 'movies')]
+    public function movies(EntityManagerInterface $entityManager) : Response {
+        $movies = $entityManager->getRepository(Movie::class)->findAll();
+
+        return $this->render('default/movies.html.twig', [
+            'movies' => $movies
+        ]);
     }
 
     #[Route('/movie/create', name: 'create-movie')]
@@ -69,6 +84,27 @@ class DefaultController extends AbstractController {
             $review->setAuthor($security->getUser());
             $review->setMovie($movie);
 
+            $prevStars = $movie->getAvgRating();
+            $newStars = 0.0;
+
+            if($prevStars == null) {
+                $newStars = $review->getRating();
+            } else {
+                $ratings = $entityManager->getRepository(Review::class)->findAll();
+                $count = 0;
+                $total = 0;
+                for ($rate = 0; $rate <= count($ratings); $rate++) {
+                    $count++;
+                    $total += $ratings[$rate];
+                }
+                $count++;
+                $total += $review->getRating();
+                $newStars = $total / $count;
+            }
+
+            $movie->setAvgRating($newStars);
+
+            $entityManager->persist($movie);
             $entityManager->persist($review);
             $entityManager->flush();
 

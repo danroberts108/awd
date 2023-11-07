@@ -1,2 +1,10 @@
 {% extends 'base.html.twig' %}
 
+{% block body %}
+
+    {{ form_start(form) }}
+    {{ form_row(report) }}
+    {{ form_row(remove) }}
+    {{ form_end(form) }}
+
+{% endblock %}

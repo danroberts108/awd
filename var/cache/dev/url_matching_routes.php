@@ -50,9 +50,12 @@ return [
                     .')'
                     .'|view/([^/]++)(*:254)'
                 .')'
-                .'|/review/view(?'
-                    .'|/([^/]++)(*:287)'
-                    .'|_rating/([^/]++)(*:311)'
+                .'|/review/(?'
+                    .'|view(?'
+                        .'|/([^/]++)(*:290)'
+                        .'|_rating/([^/]++)(*:314)'
+                    .')'
+                    .'|report/([^/]++)(*:338)'
                 .')'
             .')/?$}sDu',
     ],
@@ -67,9 +70,10 @@ return [
         204 => [[['_route' => 'create-review', '_controller' => 'App\\Controller\\DefaultController::createReview'], ['id'], null, null, false, true, null]],
         232 => [[['_route' => 'create-rating', '_controller' => 'App\\Controller\\DefaultController::createRating'], ['id'], null, null, false, true, null]],
         254 => [[['_route' => 'view-movie', '_controller' => 'App\\Controller\\DefaultController::viewMovie'], ['id'], null, null, false, true, null]],
-        287 => [[['_route' => 'view-review', '_controller' => 'App\\Controller\\DefaultController::viewReview'], ['id'], null, null, false, true, null]],
-        311 => [
-            [['_route' => 'view-review-review', '_controller' => 'App\\Controller\\DefaultController::viewReviewReview'], ['id'], null, null, false, true, null],
+        290 => [[['_route' => 'view-review', '_controller' => 'App\\Controller\\DefaultController::viewReview'], ['id'], null, null, false, true, null]],
+        314 => [[['_route' => 'view-rating', '_controller' => 'App\\Controller\\DefaultController::viewReviewReview'], ['id'], null, null, false, true, null]],
+        338 => [
+            [['_route' => 'create-report', '_controller' => 'App\\Controller\\DefaultController::createReport'], ['id'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],
     ],

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Report;
 use App\Form\ReportDecisionType;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,7 +28,7 @@ class ModController extends AbstractController {
     }
 
     #[Route('/mod/reported/review', name: 'view_reported_review')]
-    public function review(int $id, EntityManagerInterface $entityManager, Request $request) : Response {
+    public function review(int $id, EntityManagerInterface $entityManager, Request $request, LoggerInterface $logger) : Response {
         $report = $entityManager->getRepository(Report::class)->find($id);
 
         $form = $this->createForm(ReportDecisionType::class);
@@ -38,6 +39,7 @@ class ModController extends AbstractController {
 
             $data = $form->getData();
 
+            $logger->info($data);
             //if 'remove' is set to true
                 //remove review from database
 

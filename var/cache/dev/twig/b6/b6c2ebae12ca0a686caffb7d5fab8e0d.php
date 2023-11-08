@@ -112,7 +112,7 @@ class __TwigTemplate_04e57a7fdf070b5bd314e20508c20a23 extends Template
                     </div>
                     <div class=\"form-floating mb-3\">
                         <input class=\"form-control\" type=\"password\" id=\"registration_form_plainPassword\" name=\"registration_form[plainPassword]\" placeholder=\"Password\" required=\"required\" autocomplete=\"new-password\">
-                        <label for=\"password\">Password</label>
+                        <label for=\"registration_form_plainPassword\">Password</label>
                     </div>
 
                     ";
@@ -121,7 +121,7 @@ class __TwigTemplate_04e57a7fdf070b5bd314e20508c20a23 extends Template
         echo "
 
                     <div class=\"d-grid gap-2\">
-                        <button type=\"submit\" class=\"btn btn-primary\" id=\"submitButton\" disabled>Login</button>
+                        <button type=\"submit\" class=\"btn btn-primary\" id=\"submitButton\" disabled>Register</button>
                     </div>
 
 
@@ -139,6 +139,11 @@ class __TwigTemplate_04e57a7fdf070b5bd314e20508c20a23 extends Template
             </div>
         </div>
     </div>
+
+    <script src=\"";
+        // line 68
+        echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("js/register.js"), "html", null, true);
+        echo "\"></script>
 
 ";
         
@@ -161,7 +166,7 @@ class __TwigTemplate_04e57a7fdf070b5bd314e20508c20a23 extends Template
 
     public function getDebugInfo()
     {
-        return array (  136 => 62,  130 => 59,  120 => 52,  99 => 34,  91 => 28,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
+        return array (  145 => 68,  136 => 62,  130 => 59,  120 => 52,  99 => 34,  91 => 28,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -214,13 +219,13 @@ class __TwigTemplate_04e57a7fdf070b5bd314e20508c20a23 extends Template
                     </div>
                     <div class=\"form-floating mb-3\">
                         <input class=\"form-control\" type=\"password\" id=\"registration_form_plainPassword\" name=\"registration_form[plainPassword]\" placeholder=\"Password\" required=\"required\" autocomplete=\"new-password\">
-                        <label for=\"password\">Password</label>
+                        <label for=\"registration_form_plainPassword\">Password</label>
                     </div>
 
                     {{ form_row(registrationForm.agreeTerms) }}
 
                     <div class=\"d-grid gap-2\">
-                        <button type=\"submit\" class=\"btn btn-primary\" id=\"submitButton\" disabled>Login</button>
+                        <button type=\"submit\" class=\"btn btn-primary\" id=\"submitButton\" disabled>Register</button>
                     </div>
 
 
@@ -232,6 +237,8 @@ class __TwigTemplate_04e57a7fdf070b5bd314e20508c20a23 extends Template
             </div>
         </div>
     </div>
+
+    <script src=\"{{ asset('js/register.js') }}\"></script>
 
 {% endblock %}
 ", "registration/register.html.twig", "C:\\Users\\danie\\PhpStorm\\awd\\templates\\registration\\register.html.twig");

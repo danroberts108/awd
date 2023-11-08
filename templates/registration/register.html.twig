@@ -3,28 +3,6 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-
-{#{{ form_errors(registrationForm) }}
-
-    <div class="container">
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.fname, {
-            label: 'First name'
-        })
-        }}
-        {{ form_row(registrationForm.lname, {
-            label: 'Last name'
-        }) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
-
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
-    </div>
-#}
     <div class="container px-5 my-5">
         <div class="row justify-content-md-center text-center">
             <h2>Register</h2>
@@ -46,7 +24,7 @@
                     </div>
                     <div class="form-floating mb-3">
                         <input class="form-control" type="password" id="registration_form_plainPassword" name="registration_form[plainPassword]" placeholder="Password" required="required" autocomplete="new-password">
-                        <label for="password">Password</label>
+                        <label for="registration_form_plainPassword">Password</label>
                     </div>
 
                     {{ form_row(registrationForm.agreeTerms) }}

@@ -131,12 +131,18 @@ class __TwigTemplate_697e0066baa7718fdeb1f4c86cd5340c extends Template
                 <div class=\"text-center justify-content-md-center my-3\">
                     <p><a href=\"#\" class=\"link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover\">Forgot password?</a></p>
                 </div>
+                <div class=\"text-center justify-content-md-center my-3\">
+                    <p><a href=\"";
+        // line 38
+        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_register");
+        echo "\" class=\"link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover\">Not got an account? Register</a></p>
+                </div>
             </div>
         </div>
     </div>
 
     <script src=\"";
-        // line 41
+        // line 44
         echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("js/login.js"), "html", null, true);
         echo "\"></script>
 
@@ -161,7 +167,7 @@ class __TwigTemplate_697e0066baa7718fdeb1f4c86cd5340c extends Template
 
     public function getDebugInfo()
     {
-        return array (  140 => 41,  122 => 26,  111 => 18,  106 => 16,  97 => 9,  91 => 7,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
+        return array (  146 => 44,  137 => 38,  122 => 26,  111 => 18,  106 => 16,  97 => 9,  91 => 7,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -201,6 +207,9 @@ class __TwigTemplate_697e0066baa7718fdeb1f4c86cd5340c extends Template
                 </form>
                 <div class=\"text-center justify-content-md-center my-3\">
                     <p><a href=\"#\" class=\"link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover\">Forgot password?</a></p>
+                </div>
+                <div class=\"text-center justify-content-md-center my-3\">
+                    <p><a href=\"{{ path('app_register') }}\" class=\"link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover\">Not got an account? Register</a></p>
                 </div>
             </div>
         </div>

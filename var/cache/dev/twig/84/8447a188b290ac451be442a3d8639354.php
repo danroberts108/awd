@@ -149,12 +149,18 @@ class __TwigTemplate_3783f73de842d6a3cf29ed1e0e222b41 extends Template
             echo "</th>
                             <th>
                                 <div class=\"container\">
-                                    <div class=\"col\">
-                                        <div class=\"row\">
+                                    <div class=\"row\">
+                                        <div class=\"col\">
                                             <a href=\"";
             // line 48
-            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("create-report", ["id" => twig_get_attribute($this->env, $this->source, $context["review"], "id", [], "any", false, false, false, 48)]), "html", null, true);
-            echo "\"><button class=\"btn btn-outline-secondary\">Report</button></a>
+            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("view-review", ["id" => twig_get_attribute($this->env, $this->source, $context["review"], "id", [], "any", false, false, false, 48)]), "html", null, true);
+            echo "\"><button class=\"btn btn-outline-secondary\">View</button></a>
+                                        </div>
+                                        <div class=\"col\">
+                                            <a href=\"";
+            // line 51
+            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("create-report", ["id" => twig_get_attribute($this->env, $this->source, $context["review"], "id", [], "any", false, false, false, 51)]), "html", null, true);
+            echo "\"><button class=\"btn btn-outline-danger\">Report</button></a>
                                         </div>
                                     </div>
                                 </div>
@@ -173,7 +179,7 @@ class __TwigTemplate_3783f73de842d6a3cf29ed1e0e222b41 extends Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['review'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 55
+        // line 58
         echo "                </tbody>
             </table>
         </div>
@@ -199,7 +205,7 @@ class __TwigTemplate_3783f73de842d6a3cf29ed1e0e222b41 extends Template
 
     public function getDebugInfo()
     {
-        return array (  177 => 55,  156 => 48,  148 => 43,  144 => 42,  140 => 41,  137 => 40,  120 => 39,  102 => 24,  96 => 21,  88 => 16,  82 => 13,  74 => 8,  68 => 4,  58 => 3,  35 => 1,);
+        return array (  183 => 58,  162 => 51,  156 => 48,  148 => 43,  144 => 42,  140 => 41,  137 => 40,  120 => 39,  102 => 24,  96 => 21,  88 => 16,  82 => 13,  74 => 8,  68 => 4,  58 => 3,  35 => 1,);
     }
 
     public function getSourceContext()
@@ -249,9 +255,12 @@ class __TwigTemplate_3783f73de842d6a3cf29ed1e0e222b41 extends Template
                             <th>{{ review.author.fname }}</th>
                             <th>
                                 <div class=\"container\">
-                                    <div class=\"col\">
-                                        <div class=\"row\">
-                                            <a href=\"{{ path('create-report', {'id' : review.id}) }}\"><button class=\"btn btn-outline-secondary\">Report</button></a>
+                                    <div class=\"row\">
+                                        <div class=\"col\">
+                                            <a href=\"{{ path('view-review', {'id' : review.id}) }}\"><button class=\"btn btn-outline-secondary\">View</button></a>
+                                        </div>
+                                        <div class=\"col\">
+                                            <a href=\"{{ path('create-report', {'id' : review.id}) }}\"><button class=\"btn btn-outline-danger\">Report</button></a>
                                         </div>
                                     </div>
                                 </div>

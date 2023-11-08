@@ -43,9 +43,12 @@
                             <th>{{ review.author.fname }}</th>
                             <th>
                                 <div class="container">
-                                    <div class="col">
-                                        <div class="row">
-                                            <a href="{{ path('create-report', {'id' : review.id}) }}"><button class="btn btn-outline-secondary">Report</button></a>
+                                    <div class="row">
+                                        <div class="col">
+                                            <a href="{{ path('view-review', {'id' : review.id}) }}"><button class="btn btn-outline-secondary">View</button></a>
+                                        </div>
+                                        <div class="col">
+                                            <a href="{{ path('create-report', {'id' : review.id}) }}"><button class="btn btn-outline-danger">Report</button></a>
                                         </div>
                                     </div>
                                 </div>

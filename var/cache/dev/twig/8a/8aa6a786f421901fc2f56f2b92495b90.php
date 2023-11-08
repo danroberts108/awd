@@ -72,7 +72,7 @@ class __TwigTemplate_ed25bd9580689a0f294d8e7cf4f84d6c extends Template
         <div class=\"row\">
             <div class=\"col\">
                 <label for=\"reviewText\">Review text</label>
-                <input type=\"textbox\" name=\"reviewText\" id=\"reviewText\" disabled value=\"";
+                <input type=\"text\" name=\"reviewText\" id=\"reviewText\" disabled value=\"";
         // line 11
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, (isset($context["review"]) || array_key_exists("review", $context) ? $context["review"] : (function () { throw new RuntimeError('Variable "review" does not exist.', 11, $this->source); })()), "comment", [], "any", false, false, false, 11), "html", null, true);
         echo "\">
@@ -132,7 +132,7 @@ class __TwigTemplate_ed25bd9580689a0f294d8e7cf4f84d6c extends Template
         <div class=\"row\">
             <div class=\"col\">
                 <label for=\"reviewText\">Review text</label>
-                <input type=\"textbox\" name=\"reviewText\" id=\"reviewText\" disabled value=\"{{ review.comment }}\">
+                <input type=\"text\" name=\"reviewText\" id=\"reviewText\" disabled value=\"{{ review.comment }}\">
             </div>
         </div>
         <div class=\"row\">

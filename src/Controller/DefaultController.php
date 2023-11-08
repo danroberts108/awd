@@ -175,18 +175,18 @@ class DefaultController extends AbstractController {
     }
 
     #[Route('/review/view/{id}', name: 'view-review')]
-    public function viewReview(int $id, EntityManagerInterface $entityManager) : Response {
+    public function viewReview(int $id, EntityManagerInterface $entityManager, RatingTextResponse $ratingTextResponse) : Response {
         $review = $entityManager->getRepository(Review::class)->find($id);
 
         if (!$review) {
             throw $this->createNotFoundException('No rating for id '.$id);
         }
 
+        $stars = $ratingTextResponse->getRatingDisplay($review->getRating());
+
         $reviewDetails = [
-            'movie' => $review->getMovie(),
-            'author' => $review->getAuthor(),
-            'rating' => $review->getRating(),
-            'comment' => $review->getComment()
+            'review' => $review,
+            'stars' => $stars
         ];
 
         return $this->render('/default/view_review.html.twig', $reviewDetails);
@@ -220,7 +220,7 @@ class DefaultController extends AbstractController {
             $report = new Report();
             $report = $form->getData();
 
-            $report->setAuthor($security->getUser());
+            $report->setUser($security->getUser());
             $report->setReview($review);
 
             $entityManager->persist($report);

@@ -66,21 +66,30 @@ class __TwigTemplate_12b9e391cb7ac15688f9911862212ff1 extends Template
 
         // line 4
         echo "    <div class=\"container container-pad\">
-    <h1>Movies</h1>
-        <table class=\"table\">
-            <thead>
-                <tr>
-                    <th scope=\"col\"></th>
-                    <th scope=\"col\">Name</th>
-                    <th scope=\"col\">Avg Rating</th>
-                    <th scope=\"col\">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                ";
-        // line 16
+        <div class=\"row\">
+            <div class=\"col\">
+                <h1>Movies</h1>
+            </div>
+            <div class=\"col\">
+                <a href=\"#\"><button class=\"btn btn-primary\">Add Movie</button></a>
+            </div>
+        </div>
+        <div class=\"row\">
+            <div class=\"col\">
+                <table class=\"table\">
+                    <thead>
+                        <tr>
+                            <th scope=\"col\"></th>
+                            <th scope=\"col\">Name</th>
+                            <th scope=\"col\">Avg Rating</th>
+                            <th scope=\"col\">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ";
+        // line 25
         $context['_parent'] = $context;
-        $context['_seq'] = twig_ensure_traversable((isset($context["movies"]) || array_key_exists("movies", $context) ? $context["movies"] : (function () { throw new RuntimeError('Variable "movies" does not exist.', 16, $this->source); })()));
+        $context['_seq'] = twig_ensure_traversable((isset($context["movies"]) || array_key_exists("movies", $context) ? $context["movies"] : (function () { throw new RuntimeError('Variable "movies" does not exist.', 25, $this->source); })()));
         $context['loop'] = [
           'parent' => $context['_parent'],
           'index0' => 0,
@@ -95,49 +104,49 @@ class __TwigTemplate_12b9e391cb7ac15688f9911862212ff1 extends Template
             $context['loop']['last'] = 1 === $length;
         }
         foreach ($context['_seq'] as $context["_key"] => $context["movie"]) {
-            // line 17
-            echo "                    <th scope=\"row\"><img src=\"";
-            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["movie"], "imagePath", [], "any", false, false, false, 17), "html", null, true);
+            // line 26
+            echo "                            <th scope=\"row\"><img src=\"";
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["movie"], "imagePath", [], "any", false, false, false, 26), "html", null, true);
             echo "\" alt=\"";
-            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["movie"], "name", [], "any", false, false, false, 17), "html", null, true);
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["movie"], "name", [], "any", false, false, false, 26), "html", null, true);
             echo " image\"></th>
-                    <th>";
-            // line 18
-            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["movie"], "name", [], "any", false, false, false, 18), "html", null, true);
-            echo "</th>
-                    <th>";
-            // line 19
-            echo twig_get_attribute($this->env, $this->source, (isset($context["stars"]) || array_key_exists("stars", $context) ? $context["stars"] : (function () { throw new RuntimeError('Variable "stars" does not exist.', 19, $this->source); })()), (twig_get_attribute($this->env, $this->source, $context["loop"], "index", [], "any", false, false, false, 19) - 1), [], "any", false, false, false, 19);
-            echo "</th>
-                    <th>
-                        <div class=\"container\">
-                            <div class=\"row\">
-                                <div class=\"col\">
-                                    <a href=\"";
-            // line 24
-            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("create-review", ["id" => twig_get_attribute($this->env, $this->source, $context["movie"], "id", [], "any", false, false, false, 24)]), "html", null, true);
-            echo "\"><button class=\"btn btn-primary\">Review This Movie</button></a>
-                                </div>
-                                <div class=\"col\">
-                                    <a href=\"";
+                            <th>";
             // line 27
-            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("view-movie", ["id" => twig_get_attribute($this->env, $this->source, $context["movie"], "id", [], "any", false, false, false, 27)]), "html", null, true);
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["movie"], "name", [], "any", false, false, false, 27), "html", null, true);
+            echo "</th>
+                            <th>";
+            // line 28
+            echo twig_get_attribute($this->env, $this->source, (isset($context["stars"]) || array_key_exists("stars", $context) ? $context["stars"] : (function () { throw new RuntimeError('Variable "stars" does not exist.', 28, $this->source); })()), (twig_get_attribute($this->env, $this->source, $context["loop"], "index", [], "any", false, false, false, 28) - 1), [], "any", false, false, false, 28);
+            echo "</th>
+                            <th>
+                                <div class=\"container\">
+                                    <div class=\"row\">
+                                        <div class=\"col\">
+                                            <a href=\"";
+            // line 33
+            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("create-review", ["id" => twig_get_attribute($this->env, $this->source, $context["movie"], "id", [], "any", false, false, false, 33)]), "html", null, true);
+            echo "\"><button class=\"btn btn-primary\">Review This Movie</button></a>
+                                        </div>
+                                        <div class=\"col\">
+                                            <a href=\"";
+            // line 36
+            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("view-movie", ["id" => twig_get_attribute($this->env, $this->source, $context["movie"], "id", [], "any", false, false, false, 36)]), "html", null, true);
             echo "\"><button class=\"btn btn-secondary\">View Reviews</button></a>
-                                </div>
-                                ";
-            // line 29
+                                        </div>
+                                        ";
+            // line 38
             if ($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_ADMIN")) {
-                // line 30
-                echo "                                    <div class=\"col\">
-                                        <a href=\"#\"><button class=\"btn btn-danger\">Delete Movie</button></a>
-                                    </div>
-                                ";
+                // line 39
+                echo "                                            <div class=\"col\">
+                                                <a href=\"#\"><button class=\"btn btn-danger\">Delete Movie</button></a>
+                                            </div>
+                                        ";
             }
-            // line 34
-            echo "                            </div>
-                        </div>
-                    </th>
-                ";
+            // line 43
+            echo "                                    </div>
+                                </div>
+                            </th>
+                        ";
             ++$context['loop']['index0'];
             ++$context['loop']['index'];
             $context['loop']['first'] = false;
@@ -150,9 +159,11 @@ class __TwigTemplate_12b9e391cb7ac15688f9911862212ff1 extends Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['movie'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 38
-        echo "            </tbody>
-        </table>
+        // line 47
+        echo "                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 ";
         
@@ -175,7 +186,7 @@ class __TwigTemplate_12b9e391cb7ac15688f9911862212ff1 extends Template
 
     public function getDebugInfo()
     {
-        return array (  154 => 38,  137 => 34,  131 => 30,  129 => 29,  124 => 27,  118 => 24,  110 => 19,  106 => 18,  99 => 17,  82 => 16,  68 => 4,  58 => 3,  35 => 1,);
+        return array (  163 => 47,  146 => 43,  140 => 39,  138 => 38,  133 => 36,  127 => 33,  119 => 28,  115 => 27,  108 => 26,  91 => 25,  68 => 4,  58 => 3,  35 => 1,);
     }
 
     public function getSourceContext()
@@ -184,41 +195,52 @@ class __TwigTemplate_12b9e391cb7ac15688f9911862212ff1 extends Template
 
 {% block body %}
     <div class=\"container container-pad\">
-    <h1>Movies</h1>
-        <table class=\"table\">
-            <thead>
-                <tr>
-                    <th scope=\"col\"></th>
-                    <th scope=\"col\">Name</th>
-                    <th scope=\"col\">Avg Rating</th>
-                    <th scope=\"col\">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for movie in movies %}
-                    <th scope=\"row\"><img src=\"{{ movie.imagePath }}\" alt=\"{{ movie.name }} image\"></th>
-                    <th>{{ movie.name }}</th>
-                    <th>{{ attribute(stars, loop.index-1) | raw}}</th>
-                    <th>
-                        <div class=\"container\">
-                            <div class=\"row\">
-                                <div class=\"col\">
-                                    <a href=\"{{ path('create-review', {'id' : movie.id}) }}\"><button class=\"btn btn-primary\">Review This Movie</button></a>
-                                </div>
-                                <div class=\"col\">
-                                    <a href=\"{{ path('view-movie', {'id' : movie.id}) }}\"><button class=\"btn btn-secondary\">View Reviews</button></a>
-                                </div>
-                                {% if is_granted('ROLE_ADMIN') %}
-                                    <div class=\"col\">
-                                        <a href=\"#\"><button class=\"btn btn-danger\">Delete Movie</button></a>
+        <div class=\"row\">
+            <div class=\"col\">
+                <h1>Movies</h1>
+            </div>
+            <div class=\"col\">
+                <a href=\"#\"><button class=\"btn btn-primary\">Add Movie</button></a>
+            </div>
+        </div>
+        <div class=\"row\">
+            <div class=\"col\">
+                <table class=\"table\">
+                    <thead>
+                        <tr>
+                            <th scope=\"col\"></th>
+                            <th scope=\"col\">Name</th>
+                            <th scope=\"col\">Avg Rating</th>
+                            <th scope=\"col\">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for movie in movies %}
+                            <th scope=\"row\"><img src=\"{{ movie.imagePath }}\" alt=\"{{ movie.name }} image\"></th>
+                            <th>{{ movie.name }}</th>
+                            <th>{{ attribute(stars, loop.index-1) | raw}}</th>
+                            <th>
+                                <div class=\"container\">
+                                    <div class=\"row\">
+                                        <div class=\"col\">
+                                            <a href=\"{{ path('create-review', {'id' : movie.id}) }}\"><button class=\"btn btn-primary\">Review This Movie</button></a>
+                                        </div>
+                                        <div class=\"col\">
+                                            <a href=\"{{ path('view-movie', {'id' : movie.id}) }}\"><button class=\"btn btn-secondary\">View Reviews</button></a>
+                                        </div>
+                                        {% if is_granted('ROLE_ADMIN') %}
+                                            <div class=\"col\">
+                                                <a href=\"#\"><button class=\"btn btn-danger\">Delete Movie</button></a>
+                                            </div>
+                                        {% endif %}
                                     </div>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </th>
-                {% endfor %}
-            </tbody>
-        </table>
+                                </div>
+                            </th>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 {% endblock %}
 

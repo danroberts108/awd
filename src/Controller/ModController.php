@@ -38,7 +38,7 @@ class ModController extends AbstractController {
 
         $stars = $ratingTextResponse->getRatingDisplay($movie->getAvgRating());
         $reviewStars = $ratingTextResponse->getRatingDisplay($review->getRating());
-        
+
         $form = $this->createForm(ReportDecisionType::class);
         $form->handleRequest($request);
 

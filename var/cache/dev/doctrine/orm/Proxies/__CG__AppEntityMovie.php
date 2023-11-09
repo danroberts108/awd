@@ -7,7 +7,7 @@ namespace Proxies\__CG__\App\Entity;
  */
 class Movie extends \App\Entity\Movie implements \Doctrine\ORM\Proxy\InternalProxy
 {
-     use \Symfony\Component\VarExporter\LazyGhostTrait {
+    use \Symfony\Component\VarExporter\LazyGhostTrait {
         initializeLazyObject as __load;
         setLazyObjectAsInitialized as public __setInitialized;
         isLazyObjectInitialized as private;
@@ -28,7 +28,7 @@ class Movie extends \App\Entity\Movie implements \Doctrine\ORM\Proxy\InternalPro
         'name' => [parent::class, 'name', null],
         'ratings' => [parent::class, 'ratings', null],
         'studio' => [parent::class, 'studio', null],
-    ];
+    ];
 
     public function __construct(?\Closure $initializer = null, ?\Closure $cloner = null)
     {

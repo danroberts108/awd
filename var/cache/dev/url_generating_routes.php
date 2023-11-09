@@ -30,7 +30,7 @@ return [
     'app_login' => [[], ['_controller' => 'App\\Controller\\LoginController::index'], [], [['text', '/login']], [], [], []],
     'app_logout' => [[], ['_controller' => 'App\\Controller\\LoginController::logout'], [], [['text', '/logout']], [], [], []],
     'mod_index' => [[], ['_controller' => 'App\\Controller\\ModController::index'], [], [['text', '/mod/index']], [], [], []],
-    'reported_reviews' => [[], ['_controller' => 'App\\Controller\\ModController::reportedReviews'], [], [['text', '/mod/reported']], [], [], []],
-    'view_reported_review' => [['id'], ['_controller' => 'App\\Controller\\ModController::review'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/mod/reported/review']], [], [], []],
+    'reported-reviews' => [[], ['_controller' => 'App\\Controller\\ModController::reportedReviews'], [], [['text', '/mod/reported']], [], [], []],
+    'view-report' => [['id'], ['_controller' => 'App\\Controller\\ModController::review'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/mod/reported/review']], [], [], []],
     'app_register' => [[], ['_controller' => 'App\\Controller\\RegistrationController::register'], [], [['text', '/register']], [], [], []],
 ];

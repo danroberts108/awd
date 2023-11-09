@@ -9,35 +9,44 @@
         </div>
         <div class="row justify-content-md-center">
             <div class="col col-4">
-                {{ form_start(registrationForm) }}
-                    <div class="form-floating mb-3">
-                        <input class="form-control" type="email" id="registration_form_email" name="registration_form[email]" placeholder="Email Address" required="required" maxlength="180">
-                        <label for="registration_form_email">Email Address</label>
+                {% if error %}
+                    <div class="row justify-content-md-center text-center">
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
                     </div>
-                    <div class="form-floating mb-3">
-                        <input class="form-control" type="text" id="registration_form_fname" name="registration_form[fname]" placeholder="First Name" required="required">
-                        <label for="registration_form_fname">First Name</label>
+                {% endif %}
+                <div class="row">
+                    {{ form_start(registrationForm) }}
+                        <div class="form-floating mb-3">
+                            <input class="form-control" type="email" id="registration_form_email" name="{{ field_name(registrationForm.email) }}" placeholder="Email Address" required="required" maxlength="180">
+                            <label for="registration_form_email">{{ field_label(registrationForm.email) }}</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input class="form-control" type="text" id="registration_form_fname" name="{{ field_name(registrationForm.fname) }}" placeholder="First Name" required="required">
+                            <label for="registration_form_fname">{{ field_label(registrationForm.fname) }}</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input class="form-control" type="text" id="registration_form_lname" name="{{ field_name(registrationForm.lname) }}" placeholder="Last Name" required="required">
+                            <label for="registration_form_lname">{{ field_label(registrationForm.lname) }}</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input class="form-control" type="password" id="registration_form_plainPassword" name="{{ field_name(registrationForm.plainPassword) }}" placeholder="Password" required="required" autocomplete="new-password">
+                            <label for="registration_form_plainPassword">{{ field_label(registrationForm.plainPassword) }}</label>
+                        </div>
+
+                        {{ form_row(registrationForm.agreeTerms) }}
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary" id="submitButton" name="{{ field_name(registrationForm.submit) }}" disabled>{{ field_label(registrationForm.submit) }}</button>
+                        </div>
+
+
+                    {{ form_end(registrationForm) }}
+
+                    <div class="text-center justify-content-md-center my-3">
+                        <p><a href="{{ path('app_login') }}" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Already got an account? Login</a></p>
                     </div>
-                    <div class="form-floating mb-3">
-                        <input class="form-control" type="text" id="registration_form_lname" name="registration_form[lname]" placeholder="Last Name" required="required">
-                        <label for="registration_form_lname">Last Name</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input class="form-control" type="password" id="registration_form_plainPassword" name="registration_form[plainPassword]" placeholder="Password" required="required" autocomplete="new-password">
-                        <label for="registration_form_plainPassword">Password</label>
-                    </div>
-
-                    {{ form_row(registrationForm.agreeTerms) }}
-
-                    <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-primary" id="submitButton" disabled>Register</button>
-                    </div>
-
-
-                {{ form_end(registrationForm, {'render_rest': false}) }}
-
-                <div class="text-center justify-content-md-center my-3">
-                    <p><a href="{{ path('app_login') }}" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Already got an account? Login</a></p>
                 </div>
             </div>
         </div>

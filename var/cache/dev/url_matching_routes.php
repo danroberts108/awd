@@ -22,7 +22,7 @@ return [
         '/login' => [[['_route' => 'app_login', '_controller' => 'App\\Controller\\LoginController::index'], null, null, null, false, false, null]],
         '/logout' => [[['_route' => 'app_logout', '_controller' => 'App\\Controller\\LoginController::logout'], null, ['GET' => 0], null, false, false, null]],
         '/mod/index' => [[['_route' => 'mod_index', '_controller' => 'App\\Controller\\ModController::index'], null, null, null, false, false, null]],
-        '/mod/reported' => [[['_route' => 'reported_reviews', '_controller' => 'App\\Controller\\ModController::reportedReviews'], null, null, null, false, false, null]],
+        '/mod/reported' => [[['_route' => 'reported-reviews', '_controller' => 'App\\Controller\\ModController::reportedReviews'], null, null, null, false, false, null]],
         '/register' => [[['_route' => 'app_register', '_controller' => 'App\\Controller\\RegistrationController::register'], null, null, null, false, false, null]],
     ],
     [ // $regexpList
@@ -72,7 +72,7 @@ return [
         207 => [[['_route' => 'create-review', '_controller' => 'App\\Controller\\DefaultController::createReview'], ['id'], null, null, false, true, null]],
         235 => [[['_route' => 'create-rating', '_controller' => 'App\\Controller\\DefaultController::createRating'], ['id'], null, null, false, true, null]],
         257 => [[['_route' => 'view-movie', '_controller' => 'App\\Controller\\DefaultController::viewMovie'], ['id'], null, null, false, true, null]],
-        292 => [[['_route' => 'view_reported_review', '_controller' => 'App\\Controller\\ModController::review'], ['id'], null, null, false, true, null]],
+        292 => [[['_route' => 'view-report', '_controller' => 'App\\Controller\\ModController::review'], ['id'], null, null, false, true, null]],
         328 => [[['_route' => 'view-review', '_controller' => 'App\\Controller\\DefaultController::viewReview'], ['id'], null, null, false, true, null]],
         352 => [[['_route' => 'view-rating', '_controller' => 'App\\Controller\\DefaultController::viewReviewReview'], ['id'], null, null, false, true, null]],
         376 => [

@@ -7,7 +7,7 @@ namespace Proxies\__CG__\App\Entity;
  */
 class Review extends \App\Entity\Review implements \Doctrine\ORM\Proxy\InternalProxy
 {
-     use \Symfony\Component\VarExporter\LazyGhostTrait {
+    use \Symfony\Component\VarExporter\LazyGhostTrait {
         initializeLazyObject as __load;
         setLazyObjectAsInitialized as public __setInitialized;
         isLazyObjectInitialized as private;
@@ -30,7 +30,7 @@ class Review extends \App\Entity\Review implements \Doctrine\ORM\Proxy\InternalP
         'rating' => [parent::class, 'rating', null],
         'reports' => [parent::class, 'reports', null],
         'reviewRatings' => [parent::class, 'reviewRatings', null],
-    ];
+    ];
 
     public function __construct(?\Closure $initializer = null, ?\Closure $cloner = null)
     {

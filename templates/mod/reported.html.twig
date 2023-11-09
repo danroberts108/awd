@@ -2,24 +2,18 @@
 
 {% block body %}
 
-    {{ form_start(form) }}
-    {{ form_row(form.report) }}
-    {{ form_row(form.remove) }}
-    <button type="submit" class="btn btn-primary">Submit</button>
-    {{ form_end(form) }}
-
     <div class="container container-pad">
         <div class="row">
             <div class="col justify-content-md-center">
-                <div class="col">
+                <div class="row">
                     <img src="{{ movie.imagePath }}">
                 </div>
-                <div class="col">
+                <div class="row">
                     <h5>{{ movie.name }}</h5>
                 </div>
-                <div class="col">
+                <div class="row">
                     <p>Avg Rating:</p>
-                    <p>{{ stars }}</p>
+                    <p>{{ stars | raw}}</p>
                 </div>
             </div>
         </div>
@@ -57,6 +51,7 @@
                 <!--report form-->
                 {{ form_start(form) }}
                 {{ form_row(form.remove) }}
+                <input hidden name="{{ field_name(form.report) }}" id="reportId" value="{{ report.review.id }}">
                 <button type="submit" name="submit" class="btn btn-primary">Submit</button>
                 {{ form_end(form) }}
             </div>

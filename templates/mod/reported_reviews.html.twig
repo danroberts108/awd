@@ -1,2 +1,39 @@
 {% extends 'base.html.twig' %}
 
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h2>Reports</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Reporter</th>
+                            <th scope="col">Comment Preview</th>
+                            <th scope="col">Review Preview</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for report in reports %}
+                            <tr>
+                                <th scope="row">{{ report.user.email }}</th>
+                                <th>{{ report.comment | u.truncate(100) }}</th>
+                                <th>{{ report.review.comment | u.truncate(100) }}</th>
+                                <th>
+                                    <div class="container">
+                                        <a href="{{ path('view-report', {'id' : report.id}) }}"><button class="btn btn-secondary">View Report</button></a>
+                                    </div>
+                                </th>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

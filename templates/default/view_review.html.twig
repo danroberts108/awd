@@ -4,6 +4,9 @@
     <div class="container container-pad">
         <div class="col">
             <div class="row">
+                <a href="{{ path('view-movie', {'id' : review.movie.id}) }}"><button class="btn btn-secondary"><i class="bi bi-arrow-left-short"></i>Back to movie</button></a>
+            </div>
+            <div class="row">
                 <div class="col">
                     <h5>Movie: </h5><p>{{ review.movie.name }}</p>
                 </div>

@@ -21,7 +21,7 @@ class ModController extends AbstractController {
         return $this->render('mod/index.html.twig');
     }
 
-    #[Route('/mod/reported', name: 'reported_reviews')]
+    #[Route('/mod/reported', name: 'reported-reviews')]
     public function reportedReviews(EntityManagerInterface $entityManager) : Response {
         $reports = $entityManager->getRepository(Report::class)->findAll();
 
@@ -30,7 +30,7 @@ class ModController extends AbstractController {
         ]);
     }
 
-    #[Route('/mod/reported/review/{id}', name: 'view_reported_review')]
+    #[Route('/mod/reported/review/{id}', name: 'view-report')]
     public function review(int $id, EntityManagerInterface $entityManager, Request $request, RatingTextResponse $ratingTextResponse) : Response {
         $report = $entityManager->getRepository(Report::class)->find($id);
         $review = $entityManager->getRepository(Review::class)->find($report->getReview());

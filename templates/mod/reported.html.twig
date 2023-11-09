@@ -6,48 +6,63 @@
         <div class="row">
             <div class="col justify-content-md-center">
                 <div class="row">
-                    <img src="{{ movie.imagePath }}">
+                    <h4>Movie Details:</h4>
+                    <div class="col">
+                        <img src="{{ movie.imagePath }}">
+                    </div>
+                    <div class="col">
+                        <h5>{{ movie.name }}</h5>
+                    </div>
+                    <div class="col">
+                        <p>Avg Rating:</p>
+                        <p>{{ stars | raw}}</p>
+                    </div>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col justify-content-md-center container-pad">
                 <div class="row">
-                    <h5>{{ movie.name }}</h5>
+                    <!--review details-->
+                    <h4>Review Details:</h4>
+                    <div class="col">
+                        <p>Rating</p>
+                        {{ reviewstars | raw }}
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <label for="reviewComment">Comment:</label>
+                        </div>
+                        <div class="row">
+                            <p>{{ review.comment }}</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label for="reviewUser">Username </label>
+                        <input name="reviewUser" id="reviewUser" type="text" disabled value="{{ review.author.email }}">
+                    </div>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col justify-content-md-center container-pad">
                 <div class="row">
-                    <p>Avg Rating:</p>
-                    <p>{{ stars | raw}}</p>
+                    <!--report-->
+                    <h4>Report details:</h4>
+                    <div class="col col-3">
+                        <label for="reportUser">Reporter </label>
+                        <input id="reportUser" name="reportUser" type="text" disabled value="{{ report.user.email }}">
+                    </div>
+                    <div class="col">
+                        <label for="reportComment">Report text:</label>
+                        <p>{{ report.comment }}</p>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col justify-content-md-center">
-                <!--review details-->
-                <div class="col">
-                    {{ review.rating }}
-                </div>
-                <div class="col">
-                    <label for="reviewComment">Comment </label>
-                    <input name="reviewComment" id="reviewComment" type="text" disabled value="{{ review.comment }}">
-                </div>
-                <div class="col">
-                    <label for="reviewUser">Username </label>
-                    <input name="reviewUser" id="reviewUser" type="text" disabled value="{{ review.author.email }}">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col justify-content-md-center">
-                <!--report-->
-                <div class="col">
-                    <label for="reportComment">Report text </label>
-                    <input id="reportComment" name="reportComment" type="text" disabled value="{{ report.comment }}">
-                </div>
-                <div class="col">
-                    <label for="reportUser">Reporter </label>
-                    <input id="reportUser" name="reportUser" type="text" disabled value="{{ report.user.email }}">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
+            <div class="col justify-content-md-center container-pad">
+                <h4>Decision:</h4>
                 <!--report form-->
                 {{ form_start(form) }}
                 {{ form_row(form.remove) }}

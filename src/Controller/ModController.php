@@ -37,6 +37,7 @@ class ModController extends AbstractController {
         $movie = $entityManager->getRepository(Movie::class)->find($review->getMovie());
 
         $stars = $ratingTextResponse->getRatingDisplay($movie->getAvgRating());
+        $reviewStars = $ratingTextResponse->getRatingDisplay($review->getRating());
 
         $form = $this->createForm(ReportDecisionType::class);
         $form->handleRequest($request);
@@ -48,16 +49,22 @@ class ModController extends AbstractController {
 
             //if 'remove' is set to true
                 //remove review from database
+            //else remove just
             if ($data['remove']) {
-                $entityManager->remove($review);
-            }
+                $reports = $review->getReports();
 
-            //remove report from database
-            $entityManager->remove($report);
+                foreach ($reports as $rep) {
+                    $entityManager->remove($rep);
+                }
+
+                $entityManager->remove($review);
+            } else {
+                $entityManager->remove($report);
+            }
 
             $entityManager->flush();
 
-            return $this->redirectToRoute('reported_reviews');
+            return $this->redirectToRoute('reported-reviews');
         }
 
         return $this->render('mod/reported.html.twig', [
@@ -65,7 +72,8 @@ class ModController extends AbstractController {
             'review' => $review,
             'movie' => $movie,
             'stars' => $stars,
-            'report' => $report
+            'report' => $report,
+            'reviewstars' => $reviewStars
         ]);
     }
 }

@@ -23,7 +23,7 @@
                     </thead>
                     <tbody>
                         {% for movie in movies %}
-                            <th scope="row"><img src="{{ movie.imagePath }}" alt="{{ movie.name }} image"></th>
+                            <th scope="row"><img src="{{ movie.imagePath }}" alt="{{ movie.name }} image" height="=128" width="128"></th>
                             <th>{{ movie.name }}</th>
                             <th>{{ attribute(stars, loop.index-1) | raw}}</th>
                             <th>

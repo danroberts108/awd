@@ -18,11 +18,15 @@ class ModController extends AbstractController {
 
     #[Route('/mod/index', name: 'mod_index')]
     public function index() : Response {
+        $this->denyAccessUnlessGranted('ROLE_MOD');
+
         return $this->render('mod/index.html.twig');
     }
 
     #[Route('/mod/reported', name: 'reported-reviews')]
     public function reportedReviews(EntityManagerInterface $entityManager) : Response {
+        $this->denyAccessUnlessGranted('ROLE_MOD');
+
         $reports = $entityManager->getRepository(Report::class)->findAll();
 
         return $this->render('mod/reported_reviews.html.twig', [
@@ -32,6 +36,8 @@ class ModController extends AbstractController {
 
     #[Route('/mod/reported/review/{id}', name: 'view-report')]
     public function review(int $id, EntityManagerInterface $entityManager, Request $request, RatingTextResponse $ratingTextResponse) : Response {
+        $this->denyAccessUnlessGranted('ROLE_MOD');
+
         $report = $entityManager->getRepository(Report::class)->find($id);
         $review = $entityManager->getRepository(Review::class)->find($report->getReview());
         $movie = $entityManager->getRepository(Movie::class)->find($review->getMovie());

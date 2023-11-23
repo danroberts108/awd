@@ -13,11 +13,15 @@ class AdminController extends AbstractController
 
     #[Route('/admin/index', name: 'admin_index')]
     public function index() : Response {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         return $this->render('/admin/index.html.twig');
     }
 
     #[Route('/admin/user_roles', name: 'user-roles')]
     public function userRoles(EntityManagerInterface $entityManager) : Response {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $users = $entityManager->getRepository(User::class)->findAll();
 
         return $this->render('/admin/user_roles.html.twig');

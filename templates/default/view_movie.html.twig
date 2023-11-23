@@ -57,6 +57,15 @@
                     {% endfor %}
                 </tbody>
             </table>
+            {% if reviews == [] %}
+                <div class="container">
+                    <div class="row justify-content-md-center text-center">
+                        <div class="alert alert-secondary col-md-3 justify-content-md-center">
+                            No reviews yet!
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

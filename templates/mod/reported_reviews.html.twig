@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container">
+    <div class="container container-pad">
         <div class="row">
             <div class="col">
                 <h2>Reports</h2>
@@ -33,6 +33,15 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                {% if reports == [] %}
+                    <div class="container">
+                        <div class="row justify-content-md-center text-center">
+                            <div class="alert alert-secondary col-md-3 justify-content-md-center">
+                                No reports to review.
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>

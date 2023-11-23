@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container">
+    <div class="container container-pad">
         <div class="row">
             <div class="col">
                 <table class="table">
@@ -22,19 +22,15 @@
                             </th>
                             <th>{{ user.fname }}</th>
                             <th>{{ user.email }}</th>
-                            <th>{{ user.roles }}</th>
+                            <th>
+                                {% for role in user.roles %}
+                                    <p>{{ role }}</p>
+                                {% endfor %}
+                            </th>
                             <th>
                                 <div class="container">
                                     <div class="row">
-                                        <div class="col">
-                                            <a href="#"><button class="btn btn-primary">Set User</button></a>
-                                        </div>
-                                        <div class="col">
-                                            <a href="#"><button class="btn btn-primary">Set Mod</button></a>
-                                        </div>
-                                        <div class="col">
-                                            <a href="#"><button class="btn btn-primary">Set Admin</button></a>
-                                        </div>
+                                        <a href="{{ path('edit-user', {'id' : user.id}) }}"><button class="btn btn-primary">Edit User</button></a>
                                     </div>
                                 </div>
                             </th>

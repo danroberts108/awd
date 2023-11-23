@@ -1,6 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <div class="container container-pad">
+        <div class="row">
+            <div class="col col-md-3">
+                {{ form_start(form) }}
+                {{ form_row(form.new_role) }}
+                {{ form_row(form.submit) }}
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
 

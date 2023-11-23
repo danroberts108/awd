@@ -1,2 +1,48 @@
 {% extends 'base.html.twig' %}
 
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Roles</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <th scope="row">
+                                {{ user.id }}
+                            </th>
+                            <th>{{ user.fname }}</th>
+                            <th>{{ user.email }}</th>
+                            <th>{{ user.roles }}</th>
+                            <th>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col">
+                                            <a href="#"><button class="btn btn-primary">Set User</button></a>
+                                        </div>
+                                        <div class="col">
+                                            <a href="#"><button class="btn btn-primary">Set Mod</button></a>
+                                        </div>
+                                        <div class="col">
+                                            <a href="#"><button class="btn btn-primary">Set Admin</button></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -24,6 +24,17 @@ class AdminController extends AbstractController
 
         $users = $entityManager->getRepository(User::class)->findAll();
 
-        return $this->render('/admin/user_roles.html.twig');
+        return $this->render('/admin/user_roles.html.twig', [
+            'users' => $users
+        ]);
+    }
+
+    #[Route('/admin/edit_user', name:'edit-user')]
+    public function editUser(EntityManagerInterface $entityManager, int $id) : Response {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $user = $entityManager->getRepository(User::class)->find($id);
+
+        return $this->render('/admin/edit_user.html.twig');
     }
 }

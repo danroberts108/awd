@@ -23,7 +23,15 @@
                     </thead>
                     <tbody>
                         {% for movie in movies %}
-                            <th scope="row"><img src="{{ movie.imagePath }}" alt="{{ movie.name }} image" height="=128" width="128"></th>
+                            <tr>
+                            <th scope="row">
+
+                                {% if movie.imagePath == "" %}
+                                <h2><i class="bi bi-file-earmark-image"></i></h2>
+                                {% else %}
+                                    <img src="/uploads/movieimages/{{ movie.imagePath }}" alt="{{ movie.name }} image" width="64">
+                                {% endif %}
+                            </th>
                             <th>{{ movie.name }}</th>
                             <th>{{ attribute(stars, loop.index-1) | raw}}</th>
                             <th>
@@ -43,6 +51,7 @@
                                     </div>
                                 </div>
                             </th>
+                            </tr>
                         {% endfor %}
                     </tbody>
                 </table>

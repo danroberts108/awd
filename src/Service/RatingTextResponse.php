@@ -2,15 +2,19 @@
 
 namespace App\Service;
 
-use Doctrine\ORM\EntityManagerInterface;
 
 class RatingTextResponse
 {
-    public function __construct(private EntityManagerInterface $entityManager) {
+    public function __construct() {
 
     }
 
-    public function getRatingDisplay(float $rating) : string {
+    public function getRatingDisplay(?float $rating) : string {
+
+        if ($rating == null) {
+            return '<i>No ratings yet.</i>';
+        }
+
         $roundedRating = round($rating);
 
         $filled = $roundedRating;

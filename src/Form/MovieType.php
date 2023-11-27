@@ -24,7 +24,7 @@ class MovieType extends AbstractType
                         'maxSize' => '1024k',
                         'mimeTypes' => [
                             'image/png',
-                            'image/jpg'
+                            'image/jpeg'
                         ],
                         'mimeTypesMessage' => 'Please upload a valid png or jpg file.'
                     ])

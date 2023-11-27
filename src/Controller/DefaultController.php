@@ -91,16 +91,16 @@ class DefaultController extends AbstractController {
             if($prevStars == null) {
                 $newStars = $review->getRating();
             } else {
-                $ratings = $entityManager->getRepository(Review::class)->findAll();
-                $count = 0;
-                $total = 0;
-                for ($rate = 0; $rate <= count($ratings); $rate++) {
-                    $count++;
-                    $total += $ratings[$rate];
+                $ratings = $movie->getReviews();
+                $ratingsum = $review->getRating();
+                $ratingnum = 1;
+
+                foreach ($ratings as $rate) {
+                    $ratingsum += $rate->getRating();
+                    $ratingnum += 1;
                 }
-                $count++;
-                $total += $review->getRating();
-                $newStars = $total / $count;
+
+                $newStars = $ratingsum / $ratingnum;
             }
 
             $movie->setAvgRating($newStars);

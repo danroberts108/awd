@@ -8,6 +8,7 @@ use App\Entity\Rating;
 use App\Form\MovieType;
 use App\Form\ReportType;
 use App\Form\ReviewType;
+use App\Form\SearchType;
 use App\Service\FileUploader;
 use App\Service\RatingTextResponse;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,21 +29,36 @@ class DefaultController extends AbstractController {
     }
 
     #[Route('/movies', name: 'movies')]
-    public function movies(EntityManagerInterface $entityManager, RatingTextResponse $ratingTextResponse) : Response {
-        $movies = $entityManager->getRepository(Movie::class)->findAll();
+    public function movies(EntityManagerInterface $entityManager, RatingTextResponse $ratingTextResponse, Request $request) : Response {
         $stars = [];
+        $search = null;
 
-        foreach ($movies as $movie) {
-            if ($movie->getAvgRating() == null) {
-                $stars[] = "";
-                continue;
-            }
-            $stars[] = $ratingTextResponse->getRatingDisplay($movie->getAvgRating());
+        $form = $this->createForm(SearchType::class);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid() && ($form->get('search')->getData() != null)) {
+            $movies = $entityManager->getRepository(Movie::class)->search($form->get('search')->getData());
+            $search = $form->get('search')->getData();
+        } else {
+            $movies = $entityManager->getRepository(Movie::class)->findAll();
         }
+
+        if ($movies != null) {
+            foreach ($movies as $movie) {
+                if ($movie->getAvgRating() == null) {
+                    $stars[] = "";
+                    continue;
+                }
+                $stars[] = $ratingTextResponse->getRatingDisplay($movie->getAvgRating());
+            }
+        }
+
 
         return $this->render('default/movies.html.twig', [
             'movies' => $movies,
-            'stars' => $stars
+            'stars' => $stars,
+            'search' => $search,
+            'form' => $form
         ]);
     }
 

@@ -12,49 +12,67 @@
         </div>
         <div class="row">
             <div class="col">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col"></th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Avg Rating</th>
-                            <th scope="col">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for movie in movies %}
+                {{ form_start(form) }}
+                {{ form_row(form.search) }}
+                {{ form_row(form.submit) }}
+                {{ form_end(form) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                {% if movies != null %}
+                    <table class="table">
+                        <thead>
                             <tr>
-                            <th scope="row">
-
-                                {% if movie.imagePath == "" %}
-                                <h2><i class="bi bi-file-earmark-image"></i></h2>
-                                {% else %}
-                                    <img src="/uploads/movieimages/{{ movie.imagePath }}" alt="{{ movie.name }} image" width="64">
-                                {% endif %}
-                            </th>
-                            <th>{{ movie.name }}</th>
-                            <th>{{ attribute(stars, loop.index-1) | raw}}</th>
-                            <th>
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col">
-                                            <a href="{{ path('create-review', {'id' : movie.id}) }}"><button class="btn btn-primary">Review This Movie</button></a>
-                                        </div>
-                                        <div class="col">
-                                            <a href="{{ path('view-movie', {'id' : movie.id}) }}"><button class="btn btn-secondary">View Reviews</button></a>
-                                        </div>
-                                        {% if is_granted('ROLE_ADMIN') %}
-                                            <div class="col">
-                                                <a href="#"><button class="btn btn-danger">Delete Movie</button></a>
-                                            </div>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </th>
+                                <th scope="col"></th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Avg Rating</th>
+                                <th scope="col">Actions</th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {% for movie in movies %}
+                                <tr>
+                                <th scope="row">
+
+                                    {% if movie.imagePath == "" %}
+                                    <h2><i class="bi bi-file-earmark-image"></i></h2>
+                                    {% else %}
+                                        <img src="/uploads/movieimages/{{ movie.imagePath }}" alt="{{ movie.name }} image" width="64">
+                                    {% endif %}
+                                </th>
+                                <th>{{ movie.name }}</th>
+                                <th>{{ attribute(stars, loop.index-1) | raw}}</th>
+                                <th>
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col">
+                                                <a href="{{ path('create-review', {'id' : movie.id}) }}"><button class="btn btn-primary">Review This Movie</button></a>
+                                            </div>
+                                            <div class="col">
+                                                <a href="{{ path('view-movie', {'id' : movie.id}) }}"><button class="btn btn-secondary">View Reviews</button></a>
+                                            </div>
+                                            {% if is_granted('ROLE_ADMIN') %}
+                                                <div class="col">
+                                                    <a href="#"><button class="btn btn-danger">Delete Movie</button></a>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </th>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="container">
+                        <div class="row justify-content-md-center text-center">
+                            <div class="alert alert-secondary col-md-3 justify-content-md-center">
+                                No movies found.
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>

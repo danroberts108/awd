@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container container-pad">
+        <div class="col-3">
+            <div class="row">
+                <h3>You are editing this review for: </h3><p>{{ moviename }}</p>
+            </div>
+            <div class="row">
+                {{ form_start(form) }}
+                {{ form_row(form.rating) }}
+                {{ form_row(form.comment) }}
+                <!--<button type="submit" class="btn btn-primary">Submit</button>-->
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

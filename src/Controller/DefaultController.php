@@ -209,6 +209,53 @@ class DefaultController extends AbstractController {
         return $this->render('/default/view_review.html.twig', $reviewDetails);
     }
 
+    #[Route('/review/edit/{id}', name: 'edit-review')]
+    public function editReview(int $id, EntityManagerInterface $entityManager, Request $request, Security $security) : Response {
+        $review = $entityManager->getRepository(Review::class)->find($id);
+
+        if (!$review) {
+            throw $this->createNotFoundException('No review for id '.$id);
+        }
+
+        if ($review->getAuthor() !== $security->getUser()) {
+            throw $this->createAccessDeniedException('You did not create this review.');
+        }
+
+        $form = $this->createForm(Review::class);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($review);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('view-review', ['id' => $review->getId()]);
+        }
+
+        $form->setData($review);
+
+        $reviewDetails = [
+            'review' => $review,
+            'form' => $form
+        ];
+
+        return $this->render('default/edit_review.html.twig', $reviewDetails);
+    }
+
+    #[Route('/review/delete/{id}', name: 'delete-review')]
+    public function deleteReview(int $id, EntityManagerInterface $entityManager, Security $security, Request $request) : Response {
+        $review = $entityManager->getRepository(Review::Class)->find($id);
+
+        if (!$review) {
+            $this->createNotFoundException('No review for id '.$id);
+        }
+
+        if ($review->getAuthor() !== $security->getUser()) {
+            $this->createAccessDeniedException('Not your review.');
+        }
+
+        return $this->render('default/delete_review.html.twig');
+    }
+
     #[Route('/review/view_rating/{id}', name: 'view-rating')]
     public function viewReviewReview(int $id, EntityManagerInterface $entityManager) : Response {
         $rating = $entityManager->getRepository(Rating::class)->find($id);

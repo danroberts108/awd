@@ -50,6 +50,14 @@
                                         <div class="col">
                                             <a href="{{ path('create-report', {'id' : review.id}) }}"><button class="btn btn-outline-danger">Report</button></a>
                                         </div>
+                                        {% if review.author.id == app.user.id %}
+                                        <div class="col">
+                                            <a href="{{ path('edit-review', {'id' : review.id}) }}"><button class="btn btn-outline-primary">Edit</button></a>
+                                        </div>
+                                        <div class="col">
+                                            <a href="{{ path('delete-review', {'id' : review.id}) }}"><button class="btn btn-outline-danger">Delete</button></a>
+                                        </div>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </th>

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\MovieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
@@ -29,6 +30,15 @@ class Movie
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image_path = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $director = null;
+
+    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    private ?array $actors = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $runningtime = null;
 
     public function __construct()
     {
@@ -114,6 +124,42 @@ class Movie
     public function setImagePath(?string $image_path): static
     {
         $this->image_path = $image_path;
+
+        return $this;
+    }
+
+    public function getDirector(): ?string
+    {
+        return $this->director;
+    }
+
+    public function setDirector(?string $director): static
+    {
+        $this->director = $director;
+
+        return $this;
+    }
+
+    public function getActors(): ?array
+    {
+        return $this->actors;
+    }
+
+    public function setActors(?array $actors): static
+    {
+        $this->actors = $actors;
+
+        return $this;
+    }
+
+    public function getRunningtime(): ?float
+    {
+        return $this->runningtime;
+    }
+
+    public function setRunningtime(?float $runningtime): static
+    {
+        $this->runningtime = $runningtime;
 
         return $this;
     }

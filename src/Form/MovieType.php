@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Movie;
+use Doctrine\DBAL\Types\FloatType;
+use Doctrine\DBAL\Types\JsonType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -29,7 +31,9 @@ class MovieType extends AbstractType
                         'mimeTypesMessage' => 'Please upload a valid png or jpg file.'
                     ])
                 ]
-            ])
+            ])->add('director')
+            ->add('actors')
+            ->add('runningtime', FloatType::class)
         ;
     }
 

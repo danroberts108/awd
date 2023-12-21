@@ -217,7 +217,7 @@ class DefaultController extends AbstractController {
             throw $this->createNotFoundException('No review for id '.$id);
         }
 
-        if ($review->getAuthor() !== $security->getUser()) {
+        if ($review->getAuthor() !== $security->getUser() && !$security->isGranted('ROLE_MOD')) {
             throw $this->createAccessDeniedException('You did not create this review.');
         }
 
@@ -249,7 +249,7 @@ class DefaultController extends AbstractController {
             $this->createNotFoundException('No review for id '.$id);
         }
 
-        if ($review->getAuthor() !== $security->getUser()) {
+        if ($review->getAuthor() !== $security->getUser() && !$security->isGranted('ROLE_MOD')) {
             $this->createAccessDeniedException('Not your review.');
         }
 

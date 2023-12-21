@@ -15,6 +15,9 @@
                 <div class="row">
                     <h5>Studio: </h5><p>{{ movie.studio }}</p>
                 </div>
+                <div class="row">
+                    <h5>Director: </h5><p>{{ movie.director }}</p>
+                </div>
             </div>
             <div class="col-2">
                 <div class="row">
@@ -50,7 +53,7 @@
                                         <div class="col">
                                             <a href="{{ path('create-report', {'id' : review.id}) }}"><button class="btn btn-outline-danger">Report</button></a>
                                         </div>
-                                        {% if review.author.id == app.user.id %}
+                                        {% if review.author.id == app.user.id or is_granted('ROLE_MOD') %}
                                         <div class="col">
                                             <a href="{{ path('edit-review', {'id' : review.id}) }}"><button class="btn btn-outline-primary">Edit</button></a>
                                         </div>

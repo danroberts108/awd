@@ -90,6 +90,7 @@ return array(
     'Psr\\Clock\\' => array($vendorDir . '/psr/clock/src'),
     'Psr\\Cache\\' => array($vendorDir . '/psr/cache/src'),
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
+    'Pagerfanta\\Twig\\' => array($vendorDir . '/pagerfanta/twig'),
     'Pagerfanta\\Doctrine\\ORM\\' => array($vendorDir . '/pagerfanta/doctrine-orm-adapter'),
     'Pagerfanta\\' => array($vendorDir . '/pagerfanta/core'),
     'PHPStan\\PhpDocParser\\' => array($vendorDir . '/phpstan/phpdoc-parser/src'),

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Movie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -29,6 +30,23 @@ class MovieRepository extends ServiceEntityRepository
         $query = $qb->getQuery();
 
         return $query->execute();
+    }
+
+    public function createMovieQueryBuilder(string $search = null) : QueryBuilder {
+        $queryBuilder = $this->addMovieQueryBuilder();
+
+        if ($search) {
+            $queryBuilder->andWhere('movie.name LIKE :search')
+                ->setParameter('search', $search);
+        }
+
+        return $queryBuilder;
+    }
+
+    public function addMovieQueryBuilder(QueryBuilder $queryBuilder = null) {
+        $queryBuilder = $queryBuilder ?? $this->createQueryBuilder('movie');
+
+        return $queryBuilder->orderBy('movie.name', 'ASC');
     }
 
 //    /**

@@ -9,9 +9,12 @@ use App\Form\MovieType;
 use App\Form\ReportType;
 use App\Form\ReviewType;
 use App\Form\SearchType;
+use App\Repository\MovieRepository;
 use App\Service\FileUploader;
 use App\Service\RatingTextResponse;
 use Doctrine\ORM\EntityManagerInterface;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -29,7 +32,7 @@ class DefaultController extends AbstractController {
     }
 
     #[Route('/movies', name: 'movies')]
-    public function movies(EntityManagerInterface $entityManager, RatingTextResponse $ratingTextResponse, Request $request) : Response {
+    public function movies(EntityManagerInterface $entityManager, RatingTextResponse $ratingTextResponse, Request $request, MovieRepository $movieRepository) : Response {
         $stars = [];
         $search = null;
 
@@ -41,6 +44,15 @@ class DefaultController extends AbstractController {
             $search = $form->get('search')->getData();
         } else {
             $movies = $entityManager->getRepository(Movie::class)->findAll();
+        }
+
+        $queryBuilder = $movieRepository->createMovieQueryBuilder();
+        $pagerFanta = new Pagerfanta(
+            new QueryAdapter($queryBuilder)
+        );
+
+        if (isset($_GET["page"])) {
+            $pagerFanta->setCurrentPage($_GET["page"]);
         }
 
         if ($movies != null) {
@@ -58,7 +70,8 @@ class DefaultController extends AbstractController {
             'movies' => $movies,
             'stars' => $stars,
             'search' => $search,
-            'form' => $form
+            'form' => $form,
+            'pager' => $pagerFanta
         ]);
     }
 

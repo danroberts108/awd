@@ -124,6 +124,7 @@ class ComposerStaticInit3d7aaf1866df64911154060e3a32f321
             'Psr\\Clock\\' => 10,
             'Psr\\Cache\\' => 10,
             'PhpParser\\' => 10,
+            'Pagerfanta\\Twig\\' => 16,
             'Pagerfanta\\Doctrine\\ORM\\' => 24,
             'Pagerfanta\\' => 11,
             'PHPStan\\PhpDocParser\\' => 21,
@@ -505,6 +506,10 @@ class ComposerStaticInit3d7aaf1866df64911154060e3a32f321
         'PhpParser\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
+        ),
+        'Pagerfanta\\Twig\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/pagerfanta/twig',
         ),
         'Pagerfanta\\Doctrine\\ORM\\' => 
         array (

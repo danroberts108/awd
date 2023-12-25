@@ -1,5 +1,4 @@
 {% extends 'base.html.twig' %}
-
 {% block body %}
     <div class="container container-pad">
         <div class="row">
@@ -31,7 +30,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for movie in movies %}
+                            {% for movie in pager %}
                                 <tr>
                                 <th scope="row">
 
@@ -64,6 +63,7 @@
                             {% endfor %}
                         </tbody>
                     </table>
+                    {{ pagerfanta(pager, 'twitter_bootstrap5', {'omit-first-page': true}) }}
                 {% else %}
                     <div class="container">
                         <div class="row justify-content-md-center text-center">

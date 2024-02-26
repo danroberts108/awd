@@ -129,6 +129,10 @@ class ComposerStaticInit3d7aaf1866df64911154060e3a32f321
             'Pagerfanta\\' => 11,
             'PHPStan\\PhpDocParser\\' => 21,
         ),
+        'N' => 
+        array (
+            'Negotiation\\' => 12,
+        ),
         'M' => 
         array (
             'Monolog\\' => 8,
@@ -139,6 +143,10 @@ class ComposerStaticInit3d7aaf1866df64911154060e3a32f321
         array (
             'JMS\\Serializer\\' => 15,
             'JMS\\SerializerBundle\\' => 21,
+        ),
+        'F' => 
+        array (
+            'FOS\\RestBundle\\' => 15,
         ),
         'E' => 
         array (
@@ -529,6 +537,10 @@ class ComposerStaticInit3d7aaf1866df64911154060e3a32f321
         array (
             0 => __DIR__ . '/..' . '/phpstan/phpdoc-parser/src',
         ),
+        'Negotiation\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/willdurand/negotiation/src/Negotiation',
+        ),
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
@@ -548,6 +560,10 @@ class ComposerStaticInit3d7aaf1866df64911154060e3a32f321
         'JMS\\SerializerBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/jms/serializer-bundle',
+        ),
+        'FOS\\RestBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/friendsofsymfony/rest-bundle',
         ),
         'Egulias\\EmailValidator\\' => 
         array (
@@ -629,6 +645,16 @@ class ComposerStaticInit3d7aaf1866df64911154060e3a32f321
         'App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
+        ),
+    );
+
+    public static $prefixesPsr0 = array (
+        'J' => 
+        array (
+            'JsonpCallbackValidator' => 
+            array (
+                0 => __DIR__ . '/..' . '/willdurand/jsonp-callback-validator/src',
+            ),
         ),
     );
 
@@ -1286,6 +1312,7 @@ class ComposerStaticInit3d7aaf1866df64911154060e3a32f321
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit3d7aaf1866df64911154060e3a32f321::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit3d7aaf1866df64911154060e3a32f321::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit3d7aaf1866df64911154060e3a32f321::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit3d7aaf1866df64911154060e3a32f321::$classMap;
 
         }, null, ClassLoader::class);

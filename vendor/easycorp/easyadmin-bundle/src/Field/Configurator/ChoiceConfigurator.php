@@ -55,7 +55,7 @@ final class ChoiceConfigurator implements FieldConfiguratorInterface
                 $allChoicesAreEnums = true;
             }
 
-            if ($allChoicesAreEnums) {
+            if ($allChoicesAreEnums && array_is_list($choices)) {
                 $processedEnumChoices = [];
                 foreach ($choices as $choice) {
                     $processedEnumChoices[$choice->name] = $choice;
@@ -162,7 +162,7 @@ final class ChoiceConfigurator implements FieldConfiguratorInterface
             }
         }
 
-        $badgeTypeCssClass = (null === $badgeType || '' === $badgeType) ? '' : u($badgeType)->ensureStart('badge-')->toString();
+        $badgeTypeCssClass = '' === $badgeType ? '' : u($badgeType)->ensureStart('badge-')->toString();
 
         return $commonBadgeCssClass.' '.$badgeTypeCssClass;
     }

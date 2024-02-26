@@ -17,8 +17,6 @@ use Symfony\Component\DependencyInjection\Reference;
  * Class for Symfony bundles to configure mappings for model classes not in the
  * auto-mapped folder.
  *
- * NOTE: alias is only supported by Symfony 2.6+ and will be ignored with older versions.
- *
  * @final since 2.9
  */
 class DoctrineOrmMappingsPass extends RegisterMappingsPass
@@ -41,6 +39,7 @@ class DoctrineOrmMappingsPass extends RegisterMappingsPass
     public function __construct($driver, array $namespaces, array $managerParameters, $enabledParameter = false, array $aliasMap = [])
     {
         $managerParameters[] = 'doctrine.default_entity_manager';
+
         parent::__construct(
             $driver,
             $namespaces,
@@ -49,7 +48,7 @@ class DoctrineOrmMappingsPass extends RegisterMappingsPass
             $enabledParameter,
             'doctrine.orm.%s_configuration',
             'addEntityNamespace',
-            $aliasMap
+            $aliasMap,
         );
     }
 
@@ -69,7 +68,7 @@ class DoctrineOrmMappingsPass extends RegisterMappingsPass
     public static function createXmlMappingDriver(array $namespaces, array $managerParameters = [], $enabledParameter = false, array $aliasMap = [], bool $enableXsdValidation = false)
     {
         $locator = new Definition(SymfonyFileLocator::class, [$namespaces, '.orm.xml']);
-        $driver  = new Definition(XmlDriver::class, [$locator, null, $enableXsdValidation]);
+        $driver  = new Definition(XmlDriver::class, [$locator, XmlDriver::DEFAULT_FILE_EXTENSION, $enableXsdValidation]);
 
         return new DoctrineOrmMappingsPass($driver, $namespaces, $managerParameters, $enabledParameter, $aliasMap);
     }
@@ -140,8 +139,8 @@ class DoctrineOrmMappingsPass extends RegisterMappingsPass
     }
 
     /**
-     * @param string[]     $namespaces                List of namespaces that are handled with annotation mapping
-     * @param string[]     $directories               List of directories to look for annotated classes
+     * @param string[]     $namespaces                List of namespaces that are handled with attribute mapping
+     * @param string[]     $directories               List of directories to look for classes with attributes
      * @param string[]     $managerParameters         List of parameters that could which object manager name
      *                                                your bundle uses. This compiler pass will automatically
      *                                                append the parameter name for the default entity manager

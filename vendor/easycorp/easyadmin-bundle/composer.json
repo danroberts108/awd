@@ -15,7 +15,7 @@
         "php": ">=8.0.2",
         "ext-json": "*",
         "doctrine/doctrine-bundle": "^2.5",
-        "doctrine/orm": "^2.10",
+        "doctrine/orm": "^2.10|^3.0",
         "symfony/asset": "^5.4|^6.0|^7.0",
         "symfony/cache": "^5.4|^6.0|^7.0",
         "symfony/config": "^5.4|^6.0|^7.0",
@@ -49,6 +49,7 @@
         "symfony/css-selector": "^5.4|^6.0|^7.0",
         "symfony/debug-bundle": "^5.4|^6.0|^7.0",
         "symfony/dom-crawler": "^5.4|^6.0|^7.0",
+        "symfony/expression-language": "^5.4|^6.0|^7.0",
         "symfony/phpunit-bridge": "^5.4|^6.0|^7.0"
     },
     "config": {

@@ -53,7 +53,7 @@ class ConsumeMessagesCommand extends Command implements SignalableCommandInterfa
     private ?array $signals;
     private ?Worker $worker = null;
 
-    public function __construct(RoutableMessageBus $routableBus, ContainerInterface $receiverLocator, EventDispatcherInterface $eventDispatcher, LoggerInterface $logger = null, array $receiverNames = [], ResetServicesListener $resetServicesListener = null, array $busIds = [], ContainerInterface $rateLimiterLocator = null, array $signals = null)
+    public function __construct(RoutableMessageBus $routableBus, ContainerInterface $receiverLocator, EventDispatcherInterface $eventDispatcher, ?LoggerInterface $logger = null, array $receiverNames = [], ?ResetServicesListener $resetServicesListener = null, array $busIds = [], ?ContainerInterface $rateLimiterLocator = null, ?array $signals = null)
     {
         $this->routableBus = $routableBus;
         $this->receiverLocator = $receiverLocator;
@@ -258,7 +258,7 @@ EOF
 
     public function getSubscribedSignals(): array
     {
-        return $this->signals ?? (\defined('SIGTERM') ? [\SIGTERM, \SIGINT] : []);
+        return $this->signals ?? (\extension_loaded('pcntl') ? [\SIGTERM, \SIGINT] : []);
     }
 
     public function handleSignal(int $signal, int|false $previousExitCode = 0): int|false

@@ -549,7 +549,7 @@ class ComposerStaticInit3d7aaf1866df64911154060e3a32f321
         ),
         'Doctrine\\ORM\\' => 
         array (
-            0 => __DIR__ . '/..' . '/doctrine/orm/lib/Doctrine/ORM',
+            0 => __DIR__ . '/..' . '/doctrine/orm/src',
         ),
         'Doctrine\\Migrations\\' => 
         array (
@@ -1051,6 +1051,7 @@ class ComposerStaticInit3d7aaf1866df64911154060e3a32f321
         'PharIo\\Version\\VersionConstraintParser' => __DIR__ . '/..' . '/phar-io/version/src/VersionConstraintParser.php',
         'PharIo\\Version\\VersionConstraintValue' => __DIR__ . '/..' . '/phar-io/version/src/VersionConstraintValue.php',
         'PharIo\\Version\\VersionNumber' => __DIR__ . '/..' . '/phar-io/version/src/VersionNumber.php',
+        'SQLite3Exception' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/SQLite3Exception.php',
         'SebastianBergmann\\CliParser\\AmbiguousOptionException' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/AmbiguousOptionException.php',
         'SebastianBergmann\\CliParser\\Exception' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/Exception.php',
         'SebastianBergmann\\CliParser\\OptionDoesNotAllowArgumentException' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/OptionDoesNotAllowArgumentException.php',

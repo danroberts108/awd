@@ -25,14 +25,13 @@ class Generator
 {
     private GeneratorTwigHelper $twigHelper;
     private array $pendingOperations = [];
-    private ?TemplateComponentGenerator $templateComponentGenerator;
     private array $generatedFiles = [];
 
     public function __construct(
         private FileManager $fileManager,
         private string $namespacePrefix,
-        PhpCompatUtil $phpCompatUtil = null,
-        TemplateComponentGenerator $templateComponentGenerator = null,
+        ?PhpCompatUtil $phpCompatUtil = null,
+        private ?TemplateComponentGenerator $templateComponentGenerator = null,
     ) {
         $this->twigHelper = new GeneratorTwigHelper($fileManager);
         $this->namespacePrefix = trim($namespacePrefix, '\\');
@@ -40,8 +39,6 @@ class Generator
         if (null !== $phpCompatUtil) {
             trigger_deprecation('symfony/maker-bundle', 'v1.44.0', 'Initializing Generator while providing an instance of PhpCompatUtil is deprecated.');
         }
-
-        $this->templateComponentGenerator = $templateComponentGenerator;
     }
 
     /**
@@ -147,7 +144,13 @@ class Generator
             // class is already "absolute" - leave it alone (but strip opening \)
             $className = substr($name, 1);
         } else {
-            $className = rtrim($fullNamespacePrefix, '\\').'\\'.Str::asClassName($name, $suffix);
+            $className = Str::asClassName($name, $suffix);
+
+            try {
+                Validator::classDoesNotExist($className);
+                $className = rtrim($fullNamespacePrefix, '\\').'\\'.$className;
+            } catch (RuntimeCommandException) {
+            }
         }
 
         Validator::validateClassName($className, $validationErrorMessage);

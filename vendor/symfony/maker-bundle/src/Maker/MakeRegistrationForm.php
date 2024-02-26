@@ -46,7 +46,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
@@ -158,13 +158,13 @@ final class MakeRegistrationForm extends AbstractMaker
             $this->fromEmailAddress = $io->ask(
                 'What email address will be used to send registration confirmations? (e.g. <fg=yellow>mailer@your-domain.com</>)',
                 null,
-                [Validator::class, 'validateEmailAddress']
+                Validator::validateEmailAddress(...)
             );
 
             $this->fromEmailName = $io->ask(
                 'What "name" should be associated with that email address? (e.g. <fg=yellow>Acme Mail Bot</>)',
                 null,
-                [Validator::class, 'notBlank']
+                Validator::notBlank(...)
             );
         }
 

@@ -38,7 +38,7 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -157,7 +157,7 @@ final class MakeAuthenticator extends AbstractMaker
                 $io->ask(
                     'Choose a name for the controller class (e.g. <fg=yellow>SecurityController</>)',
                     'SecurityController',
-                    [Validator::class, 'validateClassName']
+                    Validator::validateClassName(...)
                 )
             );
 
@@ -446,7 +446,7 @@ final class MakeAuthenticator extends AbstractMaker
         return $userNeedsEncoder;
     }
 
-    public function configureDependencies(DependencyBuilder $dependencies, InputInterface $input = null): void
+    public function configureDependencies(DependencyBuilder $dependencies, ?InputInterface $input = null): void
     {
         $dependencies->addClassDependency(
             SecurityBundle::class,

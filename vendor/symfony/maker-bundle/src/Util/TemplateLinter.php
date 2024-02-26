@@ -25,6 +25,9 @@ use Symfony\Component\Process\Process;
  */
 final class TemplateLinter
 {
+    // Version must match bundled version file name. e.g. php-cs-fixer-v3.49.9.phar
+    public const BUNDLED_PHP_CS_FIXER_VERSION = '3.49.0';
+
     private bool $usingBundledPhpCsFixer = true;
     private bool $usingBundledPhpCsFixerConfig = true;
     private bool $needsPhpCmdPrefix = true;
@@ -56,12 +59,21 @@ final class TemplateLinter
             $templateFilePath = [$templateFilePath];
         }
 
+        $ignoreEnv = str_contains(strtolower(\PHP_OS), 'win') ? 'set PHP_CS_FIXER_IGNORE_ENV=1&' : 'PHP_CS_FIXER_IGNORE_ENV=1 ';
+
+        $cmdPrefix = $this->needsPhpCmdPrefix ? 'php ' : '';
+
         foreach ($templateFilePath as $filePath) {
-            $cmdPrefix = $this->needsPhpCmdPrefix ? 'php ' : '';
-
-            $process = Process::fromShellCommandline(sprintf('PHP_CS_FIXER_IGNORE_ENV=1 %s%s --config=%s --using-cache=no fix %s', $cmdPrefix, $this->phpCsFixerBinaryPath, $this->phpCsFixerConfigPath, $filePath));
-
-            $process->run();
+            Process::fromShellCommandline(sprintf(
+                '%s%s%s --config=%s --using-cache=no fix %s',
+                $ignoreEnv,
+                $cmdPrefix,
+                $this->phpCsFixerBinaryPath,
+                $this->phpCsFixerConfigPath,
+                $filePath
+            ))
+                ->run()
+            ;
         }
     }
 
@@ -87,7 +99,7 @@ final class TemplateLinter
     {
         // Use Bundled PHP-CS-Fixer
         if (null === $this->phpCsFixerBinaryPath) {
-            $this->phpCsFixerBinaryPath = \dirname(__DIR__).'/Resources/bin/php-cs-fixer-v3.13.0.phar';
+            $this->phpCsFixerBinaryPath = sprintf('%s/Resources/bin/php-cs-fixer-v%s.phar', \dirname(__DIR__), self::BUNDLED_PHP_CS_FIXER_VERSION);
 
             return;
         }

@@ -12,12 +12,15 @@
 namespace Symfony\Component\Messenger\EventListener;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Command\SignalableCommandInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\Event\WorkerStartedEvent;
 
 /**
  * @author Tobias Schultze <http://tobion.de>
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
+ *
+ * @deprecated since Symfony 6.4, use the {@see SignalableCommandInterface} instead
  */
 class StopWorkerOnSignalsListener implements EventSubscriberInterface
 {
@@ -27,7 +30,7 @@ class StopWorkerOnSignalsListener implements EventSubscriberInterface
     public function __construct(?array $signals = null, ?LoggerInterface $logger = null)
     {
         if (null === $signals && \extension_loaded('pcntl')) {
-            $signals = [SIGTERM, SIGINT];
+            $signals = [\SIGTERM, \SIGINT];
         }
         $this->signals = $signals ?? [];
         $this->logger = $logger;

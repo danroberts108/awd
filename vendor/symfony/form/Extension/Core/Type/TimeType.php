@@ -18,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeImmutableToDat
 use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToArrayTransformer;
 use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToStringTransformer;
 use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToTimestampTransformer;
+use Symfony\Component\Form\Event\PreSubmitEvent;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -62,6 +63,7 @@ class TimeType extends AbstractType
 
         if ('single_text' === $options['widget']) {
             $builder->addEventListener(FormEvents::PRE_SUBMIT, static function (FormEvent $e) use ($options) {
+                /** @var PreSubmitEvent $event */
                 $data = $e->getData();
                 if ($data && preg_match('/^(?P<hours>\d{2}):(?P<minutes>\d{2})(?::(?P<seconds>\d{2})(?:\.\d+)?)?$/', $data, $matches)) {
                     if ($options['with_seconds']) {
@@ -207,6 +209,21 @@ class TimeType extends AbstractType
             $builder->addModelTransformer(new ReversedTransformer(
                 new DateTimeToArrayTransformer($options['model_timezone'], $options['model_timezone'], $parts, 'text' === $options['widget'], $options['reference_date'])
             ));
+        }
+
+        if (\in_array($options['input'], ['datetime', 'datetime_immutable'], true) && null !== $options['model_timezone']) {
+            $builder->addEventListener(FormEvents::POST_SET_DATA, static function (FormEvent $event) use ($options): void {
+                $date = $event->getData();
+
+                if (!$date instanceof \DateTimeInterface) {
+                    return;
+                }
+
+                if ($date->getTimezone()->getName() !== $options['model_timezone']) {
+                    trigger_deprecation('symfony/form', '6.4', sprintf('Using a "%s" instance with a timezone ("%s") not matching the configured model timezone "%s" is deprecated.', $date::class, $date->getTimezone()->getName(), $options['model_timezone']));
+                    // throw new LogicException(sprintf('Using a "%s" instance with a timezone ("%s") not matching the configured model timezone "%s" is not supported.', $date::class, $date->getTimezone()->getName(), $options['model_timezone']));
+                }
+            });
         }
     }
 

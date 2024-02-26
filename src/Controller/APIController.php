@@ -16,8 +16,6 @@ class APIController extends AbstractFOSRestController {
     public function apimovies(EntityManagerInterface $entityManager, Request $request) {
         $movies = $entityManager->getRepository(Movie::class)->findAll();
 
-        $data = json_encode($movies);
-
-        return $this->handleView($this->view($data));
+        return $this->handleView($this->view($movies));
     }
 }

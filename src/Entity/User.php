@@ -46,6 +46,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Report::class)]
     private Collection $reports;
 
+    /**
+     * @var string|null Hashed API Key
+     */
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $apikey = null;
+
     public function __construct()
     {
         $this->ratings = new ArrayCollection();
@@ -242,6 +248,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $report->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getApikey(): ?string
+    {
+        return $this->apikey;
+    }
+
+    public function setApikey(?string $apikey): static
+    {
+        $this->apikey = $apikey;
 
         return $this;
     }

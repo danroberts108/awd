@@ -28,6 +28,7 @@ security:
                 lifetime: 604800
                 path: /
                 always_remember_me: true
+            custom_authenticator: App\Security\APIKeyAuthenticator
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall

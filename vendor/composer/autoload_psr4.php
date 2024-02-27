@@ -98,6 +98,7 @@ return array(
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Metadata\\' => array($vendorDir . '/jms/metadata/src'),
     'Masterminds\\' => array($vendorDir . '/masterminds/html5/src'),
+    'Keygen\\' => array($vendorDir . '/gladcodes/keygen/src/Keygen'),
     'JMS\\Serializer\\' => array($vendorDir . '/jms/serializer/src'),
     'JMS\\SerializerBundle\\' => array($vendorDir . '/jms/serializer-bundle'),
     'FOS\\RestBundle\\' => array($vendorDir . '/friendsofsymfony/rest-bundle'),

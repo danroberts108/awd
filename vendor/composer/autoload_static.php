@@ -139,6 +139,10 @@ class ComposerStaticInit3d7aaf1866df64911154060e3a32f321
             'Metadata\\' => 9,
             'Masterminds\\' => 12,
         ),
+        'K' => 
+        array (
+            'Keygen\\' => 7,
+        ),
         'J' => 
         array (
             'JMS\\Serializer\\' => 15,
@@ -552,6 +556,10 @@ class ComposerStaticInit3d7aaf1866df64911154060e3a32f321
         'Masterminds\\' => 
         array (
             0 => __DIR__ . '/..' . '/masterminds/html5/src',
+        ),
+        'Keygen\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/gladcodes/keygen/src/Keygen',
         ),
         'JMS\\Serializer\\' => 
         array (

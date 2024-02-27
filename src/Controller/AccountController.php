@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Service\APIKeyGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
@@ -22,22 +23,39 @@ class AccountController extends AbstractController
         return $this->render('account/home.html.twig');
     }
 
-    #[Route()]
-    public function createapikey(APIKeyGenerator $keyGen) : Response {
+    #[Route('/account/home/create', name:'account_createapi')]
+    public function createApiKey(APIKeyGenerator $keyGen, Request $request, EntityManagerInterface $entityManager) : Response {
 
         // TODO: Inform user they will not be able to view API key after creating
-        // TODO: Create downloadable txt file with key in
 
-        return $this->render();
+        $keys = $keyGen->genkey();
+
+        $user = $entityManager->getRepository(User::class)->find($this->getUser());
+        $user->setApikey($keys['hash']);
+        $user->setKeyprefix($keys['prefix']);
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        return $this->render('account/home.html.twig', [
+            'modal' => 'create',
+            'key' => $keys['key']
+        ]);
     }
 
 
-    #[Route()]
-    public function deleteapikey(UserPasswordHasherInterface $userPasswordHasher) : Response {
+    #[Route('/account/home/delete', name:'account_deleteapi')]
+    public function deleteApiKey(EntityManagerInterface $entityManager) : Response {
 
         // TODO: Implement user reauthentication before deleting key
 
-        return $this->render();
+        $user = $entityManager->getRepository(User::class)->find($this->getUser());
+        $user->clearApiKey();
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        return $this->render('account/home.html.twig', [
+            'modal' => 'delete',
+        ]);
     }
 
 }

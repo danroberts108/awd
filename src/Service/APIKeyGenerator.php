@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use Keygen\Keygen;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 
 class APIKeyGenerator
@@ -10,9 +11,14 @@ class APIKeyGenerator
 
     }
 
-    public function genkey() : string {
-        // TODO: implement key gen logic
+    public function genkey() : array {
+        $keys = [];
 
-        return "";
+        $keys['prefix'] = Keygen::token(8)->generate();
+        $keys['suffix'] = Keygen::token(24)->generate();
+        $keys['key'] = $keys['prefix'].'.'.$keys['suffix'];
+        $keys['hash'] = $this->passwordHasher->hash($keys['key']);
+
+        return $keys;
     }
 }

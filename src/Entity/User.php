@@ -52,6 +52,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $apikey = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $keyprefix = null;
+
     public function __construct()
     {
         $this->ratings = new ArrayCollection();
@@ -260,6 +263,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setApikey(?string $apikey): static
     {
         $this->apikey = $apikey;
+
+        return $this;
+    }
+
+    public function getKeyprefix(): ?string
+    {
+        return $this->keyprefix;
+    }
+
+    public function setKeyprefix(?string $keyprefix): static
+    {
+        $this->keyprefix = $keyprefix;
+
+        return $this;
+    }
+
+    public function clearApiKey(): static {
+        $this->setApikey("");
+        $this->setKeyprefix("");
 
         return $this;
     }

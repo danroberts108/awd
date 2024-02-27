@@ -2,14 +2,17 @@
 
 namespace App\Security;
 
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
@@ -17,7 +20,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPasspor
 
 class APIKeyAuthenticator extends AbstractAuthenticator
 {
-    public function __construct(private EntityManagerInterface $entityManager, private AuthenticationUtils $authenticationUtils)
+    public function __construct(private EntityManagerInterface $entityManager)
     {
     }
 
@@ -33,9 +36,16 @@ class APIKeyAuthenticator extends AbstractAuthenticator
             throw new CustomUserMessageAuthenticationException('No API Token provided.');
         }
 
-        // TODO: Implement user finding by api key
+        $factory = new PasswordHasherFactory([
+            ['common' => 'bcrypt'],
+            ['sodium' => 'sodium']
+        ]);
 
-        $userid = null;
+        $hasher = $factory->getPasswordHasher('common');
+
+        $apihash = $hasher->hash($apiToken);
+
+        $userid = $this->entityManager->getRepository(User::class)->find($apihash)->getId();
 
         return new SelfValidatingPassport(new UserBadge($userid));
     }

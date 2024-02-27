@@ -7,8 +7,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 #[ORM\Entity(repositoryClass: ReviewRepository::class)]
+#[Serializer\ExclusionPolicy('none')]
 class Review
 {
     #[ORM\Id]
@@ -34,6 +36,7 @@ class Review
     private Collection $reviewRatings;
 
     #[ORM\OneToMany(mappedBy: 'review', targetEntity: Report::class)]
+    #[Serializer\Exclude()]
     private Collection $reports;
 
     public function __construct()

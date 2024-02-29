@@ -18,6 +18,14 @@
                 <h6>Comment: </h6><p>{{ review.comment }}</p>
             </div>
             <div class="row">
+                {% if review.author.id == app.user.id or is_granted('ROLE_MOD') %}
+                    <div class="col">
+                        <a href="{{ path('edit-review', {'id' : review.id}) }}"><button class="btn btn-outline-primary">Edit</button></a>
+                    </div>
+                    <div class="col">
+                        <a href="{{ path('delete-review', {'id' : review.id}) }}"><button class="btn btn-outline-danger">Delete</button></a>
+                    </div>
+                {% endif %}
                 <div class="col">
                     <a href="{{ path('create-report', {'id' : review.id }) }}"><button class="btn btn-danger">Report</button></a>
                 </div>

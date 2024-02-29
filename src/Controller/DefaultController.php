@@ -183,6 +183,11 @@ class DefaultController extends AbstractController {
             throw $this->createNotFoundException('No movie for id '.$id);
         }
 
+        if (str_starts_with('download', $movie->getImagePath())) {
+            $tmp = $movie->getImagePath();
+            $movie->setImagePath('/uploads/movieimages/'.$tmp);
+        }
+
         $movieStars = $ratingTextResponse->getRatingDisplay($movie->getAvgRating());
 
         $reviews = $movie->getReviews();

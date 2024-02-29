@@ -21,7 +21,7 @@ class Movie
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $studio = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -31,16 +31,20 @@ class Movie
     private Collection $ratings;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Serializer\Exclude()]
     private ?string $image_path = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $director = null;
 
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
-    private ?array $actors = null;
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $actors = null;
 
     #[ORM\Column(nullable: true)]
-    private ?float $runningtime = null;
+    private ?string $runningtime = null;
+
+    #[ORM\Column]
+    private ?string $omdbid = null;
 
     public function __construct()
     {
@@ -142,26 +146,38 @@ class Movie
         return $this;
     }
 
-    public function getActors(): ?array
+    public function getActors(): ?string
     {
         return $this->actors;
     }
 
-    public function setActors(?array $actors): static
+    public function setActors(?string $actors): static
     {
         $this->actors = $actors;
 
         return $this;
     }
 
-    public function getRunningtime(): ?float
+    public function getRunningtime(): ?string
     {
         return $this->runningtime;
     }
 
-    public function setRunningtime(?float $runningtime): static
+    public function setRunningtime(?string $runningtime): static
     {
         $this->runningtime = $runningtime;
+
+        return $this;
+    }
+
+    public function getOmdbid(): ?string
+    {
+        return $this->omdbid;
+    }
+
+    public function setOmdbid(string $omdbid): static
+    {
+        $this->omdbid = $omdbid;
 
         return $this;
     }

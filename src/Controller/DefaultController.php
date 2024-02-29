@@ -234,7 +234,7 @@ class DefaultController extends AbstractController {
             throw $this->createAccessDeniedException('You did not create this review.');
         }
 
-        $form = $this->createForm(Review::class);
+        $form = $this->createForm(ReviewType::class);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
@@ -248,7 +248,8 @@ class DefaultController extends AbstractController {
 
         $reviewDetails = [
             'review' => $review,
-            'form' => $form
+            'form' => $form,
+            'moviename' => $review->getMovie()->getName()
         ];
 
         return $this->render('default/edit_review.html.twig', $reviewDetails);

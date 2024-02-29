@@ -28,17 +28,4 @@ class APIController extends AbstractFOSRestController {
 
         return $this->handleView($this->view($movies));
     }
-
-    #[Rest\Get('/api/v1/testkey', name:'app_api_genkey')]
-    public function genkey(EntityManagerInterface $entityManager, APIKeyGenerator $keyGen) {
-        $keys = $keyGen->genkey();
-
-        $user = $entityManager->getRepository(User::class)->find(1);
-        $user->setApikey($keys['hash']);
-        $user->setKeyprefix($keys['prefix']);
-        $entityManager->persist($user);
-        $entityManager->flush();
-
-        return $this->handleView($this->view($keys));
-    }
 }

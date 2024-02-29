@@ -23,39 +23,38 @@ class AccountController extends AbstractController
         return $this->render('account/home.html.twig');
     }
 
-    #[Route('/account/home/create', name:'account_createapi')]
-    public function createApiKey(APIKeyGenerator $keyGen, Request $request, EntityManagerInterface $entityManager) : Response {
-
-        // TODO: Inform user they will not be able to view API key after creating
-
-        $keys = $keyGen->genkey();
+    public function enableApiAccess(EntityManagerInterface $entityManager) : Response {
+        // TODO: Add API Role
 
         $user = $entityManager->getRepository(User::class)->find($this->getUser());
-        $user->setApikey($keys['hash']);
-        $user->setKeyprefix($keys['prefix']);
+
+        $roles = $user->getRoles();
+
+        $roles[] = 'ROLE_API';
+
+        $user->setRoles($roles);
         $entityManager->persist($user);
         $entityManager->flush();
 
-        return $this->render('account/home.html.twig', [
-            'modal' => 'create',
-            'key' => $keys['key']
-        ]);
+        return $this->render();
     }
 
-
-    #[Route('/account/home/delete', name:'account_deleteapi')]
-    public function deleteApiKey(EntityManagerInterface $entityManager) : Response {
-
-        // TODO: Implement user reauthentication before deleting key
+    public function disableApiAccess(EntityManagerInterface $entityManager) : Response {
+        // TODO: Remove API Role
 
         $user = $entityManager->getRepository(User::class)->find($this->getUser());
-        $user->clearApiKey();
+
+        $roles = $user->getRoles();
+
+        $pos = array_search('ROLE_API', $roles);
+
+        unset($roles[$pos]);
+
+        $user->setRoles($roles);
         $entityManager->persist($user);
         $entityManager->flush();
 
-        return $this->render('account/home.html.twig', [
-            'modal' => 'delete',
-        ]);
+        return $this->render();
     }
 
 }

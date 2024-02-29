@@ -18,7 +18,7 @@ class APIController extends AbstractFOSRestController {
     #[Rest\Get('/api/v1/movies/', name:'app_api_apimovies')]
     #[Serializer\MaxDepth(1)]
     public function apimovies(EntityManagerInterface $entityManager, Request $request, LoggerInterface $logger, SerializerInterface $serializer) {
-
+        $this->denyAccessUnlessGranted('ROLE_API');
 
         $data = json_decode($request->getContent());
 

@@ -21,6 +21,8 @@ security:
                 check_path: app_login
             logout:
                 path: app_logout
+            access_token:
+              token_handler: App\Security\AccessTokenHandler
 
 
             remember_me:
@@ -28,7 +30,6 @@ security:
                 lifetime: 604800
                 path: /
                 always_remember_me: true
-            custom_authenticator: App\Security\APIKeyAuthenticator
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall

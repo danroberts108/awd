@@ -20,7 +20,9 @@ class AccountController extends AbstractController
 
         // TODO: Get and set fields for user data
 
-        return $this->render('account/home.html.twig');
+        return $this->render('account/home.html.twig', [
+            'user' => $user
+        ]);
     }
 
     public function enableApiAccess(EntityManagerInterface $entityManager) : Response {

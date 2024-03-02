@@ -63,6 +63,12 @@ class APIController extends AbstractFOSRestController {
         return $this->handleView($this->view($movie));
     }
 
+    #[Rest\Get('/api/v1/movies/get/id/{id}/image', name:'app_api_apigetmovieimagebyid')]
+    public function apiGetMovieImageById(int $id, EntityManagerInterface $entityManager) {
+        $movie = $entityManager->getRepository(Movie::class)->find($id);
+        return $this->handleView($this->view($movie->getImagePath()));
+    }
+
     #[Rest\Post('/api/v1/movies/create', name:'app_api_apiaddbyomdbid')]
     public function apiAddByOmdbId(EntityManagerInterface $entityManager, OmdbService $omdb, Request $request) {
         $form = $this->createForm(OmdbType::class);

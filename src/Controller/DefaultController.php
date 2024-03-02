@@ -11,10 +11,12 @@ use App\Form\ReviewType;
 use App\Form\SearchType;
 use App\Repository\MovieRepository;
 use App\Service\FileUploader;
+use App\Service\OmdbService;
 use App\Service\RatingTextResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -32,7 +34,7 @@ class DefaultController extends AbstractController {
     }
 
     #[Route('/movies', name: 'movies')]
-    public function movies(EntityManagerInterface $entityManager, RatingTextResponse $ratingTextResponse, Request $request, MovieRepository $movieRepository) : Response {
+    public function movies(EntityManagerInterface $entityManager, RatingTextResponse $ratingTextResponse, Request $request, MovieRepository $movieRepository, OmdbService $omdb, LoggerInterface $logger) : Response {
         $stars = [];
         $search = null;
 
@@ -50,23 +52,33 @@ class DefaultController extends AbstractController {
         $pagerFanta = new Pagerfanta(
             new QueryAdapter($queryBuilder)
         );
+        $pagerFanta->setMaxPerPage(12);
 
-        if (isset($_GET["page"])) {
-            $pagerFanta->setCurrentPage($_GET["page"]);
-        }
+        $iterator = $pagerFanta->autoPagingIterator();
 
-        if ($movies != null) {
-            foreach ($movies as $movie) {
-                if ($movie->getAvgRating() == null) {
-                    $stars[] = "";
-                    continue;
-                }
-                $stars[] = $ratingTextResponse->getRatingDisplay($movie->getAvgRating());
+        foreach ($iterator as $movie) {
+            if ($movie->getAvgRating() == null) {
+                $stars[] = "";
+            }
+            $stars[] = $ratingTextResponse->getRatingDisplay($movie->getAvgRating());
+            $logger->critical($movie->getId());
+            if ($movie->getImagePath() == "" && $movie->getOmdbid() != "0") {
+                $moviestring = $omdb->findById($movie->getOmdbid());
+                $moviejson = json_decode($moviestring, true);
+                $movie->setImagePath($moviejson['Poster']);
+                $entityManager->persist($movie);
+                $entityManager->flush();
             }
         }
 
+        if (isset($_GET["page"])) {
+            $pagerFanta->setCurrentPage($_GET["page"]);
+        } else {
+            $pagerFanta->setCurrentPage(1);
+        }
 
-        return $this->render('default/movies.html.twig', [
+
+        return $this->render('default/movies_new.html.twig', [
             'movies' => $movies,
             'stars' => $stars,
             'search' => $search,

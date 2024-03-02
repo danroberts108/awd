@@ -54,24 +54,26 @@ class DefaultController extends AbstractController {
         );
         $pagerFanta->setMaxPerPage(12);
 
-        if (isset($_GET["page"])) {
-            $pagerFanta->setCurrentPage($_GET["page"]);
+        $iterator = $pagerFanta->autoPagingIterator();
+
+        foreach ($iterator as $movie) {
+            if ($movie->getAvgRating() == null) {
+                $stars[] = "";
+                continue;
+            }
+            $stars[] = $ratingTextResponse->getRatingDisplay($movie->getAvgRating());
+            $logger->critical($movie->getId());
+            if ($movie->getImagePath() == "" && $movie->getOmdbid() != "0") {
+                $moviestring = $omdb->findById($movie->getOmdbid());
+                $moviejson = json_decode($moviestring, true);
+                $movie->setImagePath($moviejson['Poster']);
+            }
         }
 
-        if ($movies != null) {
-            foreach ($movies as $movie) {
-                if ($movie->getAvgRating() == null) {
-                    $stars[] = "";
-                    continue;
-                }
-                $stars[] = $ratingTextResponse->getRatingDisplay($movie->getAvgRating());
-                $logger->critical($movie->getId());
-                if ($movie->getImagePath() == "" && $movie->getOmdbid() != "0") {
-                    $moviestring = $omdb->findById($movie->getOmdbid());
-                    $moviejson = json_decode($moviestring, true);
-                    $movie->setImagePath($moviejson['Poster']);
-                }
-            }
+        if (isset($_GET["page"])) {
+            $pagerFanta->setCurrentPage($_GET["page"]);
+        } else {
+            $pagerFanta->setCurrentPage(1);
         }
 
 

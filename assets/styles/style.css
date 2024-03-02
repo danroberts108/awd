@@ -5,3 +5,7 @@
 .row-pad {
     padding-top: 1rem;
 }
+
+body {
+    background-color: white;
+}

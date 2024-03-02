@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container container-pad">
+        <div class="row">
+            <div class="col">
+                <h1>Movies</h1>
+            </div>
+        </div>
+        <div class="row row-cols-4 row-cols-md-4 g-4">
+            {% for movie in pager %}
+                <div class="col">
+                    <div class="card h-100">
+                        {% if movie.imagePath == "" %}
+                            <div class="container">
+                                <div class="col d-flex justify-content-center">
+                                    <div class="row d-flex justify-content-center">
+                                        <h2><i class="bi bi-file-earmark-image"></i></h2>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <img src="{{ movie.imagePath }}" class="card-img-top" alt="{{ movie.name }} image">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ movie.name }}</h5>
+                            <p class="card-text">{{ attribute(stars, loop.index-1) | raw }}</p>
+                            <p class="card-text"></p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col d-flex justify-content-center">
+                                        <a href="{{ path('create-review', {'id' : movie.id}) }}"><button class="btn btn-primary">Review</button></a>
+                                    </div>
+                                    <div class="col d-flex justify-content-center">
+                                        <a href="{{ path('view-movie', {'id' : movie.id}) }}"><button class="btn btn-secondary">View</button></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="col">
+            <div class="row" style="padding-top: 1rem;">
+                <div class="d-flex justify-content-center">
+                    {{ pagerfanta(pager, 'twitter_bootstrap5', {'omit-first-page': true}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

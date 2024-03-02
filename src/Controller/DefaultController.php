@@ -11,10 +11,12 @@ use App\Form\ReviewType;
 use App\Form\SearchType;
 use App\Repository\MovieRepository;
 use App\Service\FileUploader;
+use App\Service\OmdbService;
 use App\Service\RatingTextResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -32,7 +34,7 @@ class DefaultController extends AbstractController {
     }
 
     #[Route('/movies', name: 'movies')]
-    public function movies(EntityManagerInterface $entityManager, RatingTextResponse $ratingTextResponse, Request $request, MovieRepository $movieRepository) : Response {
+    public function movies(EntityManagerInterface $entityManager, RatingTextResponse $ratingTextResponse, Request $request, MovieRepository $movieRepository, OmdbService $omdb, LoggerInterface $logger) : Response {
         $stars = [];
         $search = null;
 
@@ -50,6 +52,7 @@ class DefaultController extends AbstractController {
         $pagerFanta = new Pagerfanta(
             new QueryAdapter($queryBuilder)
         );
+        $pagerFanta->setMaxPerPage(12);
 
         if (isset($_GET["page"])) {
             $pagerFanta->setCurrentPage($_GET["page"]);
@@ -62,11 +65,20 @@ class DefaultController extends AbstractController {
                     continue;
                 }
                 $stars[] = $ratingTextResponse->getRatingDisplay($movie->getAvgRating());
+
+                if ($movie->getImagePath() == "" && $movie->getOmdbid() != 0) {
+                    $moviestring = $omdb->findById($movie->getOmdbid());
+                    $moviejson = json_decode($moviestring, true);
+                    $logger->error($moviestring);
+                    $movie->setImagePath($moviejson['Poster']);
+                } elseif ($movie->getImagePath() != "") {
+                    $movie->setImagePath('/uploads/movieimages/'.$movie->getImagePath());
+                }
             }
         }
 
 
-        return $this->render('default/movies.html.twig', [
+        return $this->render('default/movies_new.html.twig', [
             'movies' => $movies,
             'stars' => $stars,
             'search' => $search,

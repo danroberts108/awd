@@ -59,7 +59,6 @@ class DefaultController extends AbstractController {
         foreach ($iterator as $movie) {
             if ($movie->getAvgRating() == null) {
                 $stars[] = "";
-                continue;
             }
             $stars[] = $ratingTextResponse->getRatingDisplay($movie->getAvgRating());
             $logger->critical($movie->getId());
@@ -67,6 +66,8 @@ class DefaultController extends AbstractController {
                 $moviestring = $omdb->findById($movie->getOmdbid());
                 $moviejson = json_decode($moviestring, true);
                 $movie->setImagePath($moviejson['Poster']);
+                $entityManager->persist($movie);
+                $entityManager->flush();
             }
         }
 

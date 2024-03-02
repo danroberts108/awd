@@ -32,10 +32,7 @@
                             <div class="container">
                                 <div class="row">
                                     <div class="col d-flex justify-content-center">
-                                        <a href="{{ path('create-review', {'id' : movie.id}) }}"><button class="btn btn-primary">Review</button></a>
-                                    </div>
-                                    <div class="col d-flex justify-content-center">
-                                        <a href="{{ path('view-movie', {'id' : movie.id}) }}"><button class="btn btn-secondary">View</button></a>
+                                        <a class="stretched-link" href="{{ path('view-movie', {'id' : movie.id}) }}"><button class="btn btn-secondary">View</button></a>
                                     </div>
                                 </div>
                             </div>

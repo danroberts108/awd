@@ -65,14 +65,12 @@ class DefaultController extends AbstractController {
                     continue;
                 }
                 $stars[] = $ratingTextResponse->getRatingDisplay($movie->getAvgRating());
-
                 if ($movie->getImagePath() == "" && $movie->getOmdbid() != 0) {
+
                     $moviestring = $omdb->findById($movie->getOmdbid());
                     $moviejson = json_decode($moviestring, true);
                     $logger->error($moviestring);
                     $movie->setImagePath($moviejson['Poster']);
-                } elseif ($movie->getImagePath() != "") {
-                    $movie->setImagePath('/uploads/movieimages/'.$movie->getImagePath());
                 }
             }
         }

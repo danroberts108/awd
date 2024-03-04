@@ -112,8 +112,9 @@ class APIController extends AbstractFOSRestController {
                 $view = $this->view('No results for search term.', Response::HTTP_NOT_FOUND);
                 return $this->handleView($view);
             }
-            //$omdbdata = json_decode($response, true);
-            $results = (array) $response['Search'];
+            $response = stripcslashes($response);
+            $omdbdata = json_decode($response, true);
+            $results = (array) json_decode($omdbdata['Search'], true);
             if (sizeof($results) > 1) {
                 $view = $this->view('Too many results. Try to narrow down your search term or add a year of release.', Response::HTTP_NOT_FOUND);
                 return $this->handleView($view);

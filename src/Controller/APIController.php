@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Movie;
 use App\Entity\User;
+use App\Form\ApiMovieSearchType;
 use App\Form\ApiSearchType;
 use App\Form\OmdbType;
 use App\Service\APIKeyGenerator;
+use App\Service\MovieService;
 use App\Service\OmdbService;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -69,8 +71,8 @@ class APIController extends AbstractFOSRestController {
         return $this->handleView($this->view($movie->getImagePath()));
     }
 
-    #[Rest\Post('/api/v1/movies/create', name:'app_api_apiaddbyomdbid')]
-    public function apiAddByOmdbId(EntityManagerInterface $entityManager, OmdbService $omdb, Request $request) {
+    #[Rest\Post('/api/v1/movies/createbyid', name:'app_api_apiaddbyomdbid')]
+    public function apiAddByOmdbId(OmdbService $omdb, Request $request, MovieService $movieService) {
         $form = $this->createForm(OmdbType::class);
         $data = json_decode($request->getContent(), true);
         $form->submit($data);
@@ -83,22 +85,49 @@ class APIController extends AbstractFOSRestController {
             }
             $omdbdata = json_decode($response, true);
 
-            $movie = new Movie();
-            $movie->setName($omdbdata['Title']);
-            $movie->setRunningtime($omdbdata['Runtime']);
-            $movie->setActors($omdbdata['Actors']);
-            $movie->setDirector($omdbdata['Director']);
-            $movie->setOmdbid($omdbdata['imdbID']);
-            $movie->setImagePath($omdbdata['Poster']);
+            $movie = $movieService->createMovie($omdbdata);
 
-            $entityManager->persist($movie);
-            $entityManager->flush();
-
-            $view = $this->view($this->generateUrl('app_api_apigetmoviebyimdbid', array('imdbid' => $movie->getOmdbid())), Response::HTTP_CREATED);
+            $view = $this->view($this->generateUrl('app_api_getmoviebyimdbid', array('imdbid' => $movie->getOmdbid())), Response::HTTP_CREATED);
             return $this->handleView($view);
         }
 
         $view = $this->view('Invalid format', Response::HTTP_NOT_FOUND);
+        return $this->handleView($view);
+    }
+
+    #[Rest\Post('/api/v1/movies/createbysearch', name: 'app_api_addbyomdbsearch')]
+    public function addByOmdbSearch(OmdbService $omdb, Request $request, MovieService $movieService, LoggerInterface $logger) {
+        $form = $this->createForm(ApiMovieSearchType::class);
+        $data = json_decode($request->getContent(), true);
+        $form->submit($data);
+
+        if ($form->isValid() && $form->isSubmitted()) {
+            if ($data['year'] != null) {
+                $response = $omdb->search($data['title'], $data['year']);
+            } else {
+                $response = $omdb->search($data['title']);
+            }
+
+            if ($response == null) {
+                $view = $this->view('No results for search term.', Response::HTTP_NOT_FOUND);
+                return $this->handleView($view);
+            }
+            $omdbdata = json_decode($response, true);
+            $results = (array) json_decode($omdbdata['Search']);
+            if (sizeof($results) > 1) {
+                $view = $this->view('Too many results. Try to narrow down your search term or add a year of release.', Response::HTTP_NOT_FOUND);
+                return $this->handleView($view);
+            }
+            $movie = $movieService->createMovie($omdbdata);
+
+            $responsearray[] = ['location' => $this->generateUrl('app_api_getmoviebyid', array('id' => $movie->getId())), 'title' => $movie->getName()];
+            $responsejson = json_encode($responsearray);
+
+            $view = $this->view($responsejson, Response::HTTP_CREATED);
+            $this->handleView($view);
+        }
+
+        $view = $this->view('Invalid Format', Response::HTTP_NOT_FOUND);
         return $this->handleView($view);
     }
 }

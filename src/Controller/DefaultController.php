@@ -12,6 +12,7 @@ use App\Form\SearchType;
 use App\Repository\MovieRepository;
 use App\Service\FileUploader;
 use App\Service\OmdbService;
+use App\Service\OmdbUpdateService;
 use App\Service\RatingTextResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
@@ -34,7 +35,7 @@ class DefaultController extends AbstractController {
     }
 
     #[Route('/movies', name: 'movies')]
-    public function movies(EntityManagerInterface $entityManager, RatingTextResponse $ratingTextResponse, Request $request, MovieRepository $movieRepository, OmdbService $omdb, LoggerInterface $logger) : Response {
+    public function movies(EntityManagerInterface $entityManager, RatingTextResponse $ratingTextResponse, Request $request, MovieRepository $movieRepository, OmdbUpdateService $omdbUpdate) : Response {
         $stars = [];
         $search = null;
 
@@ -61,13 +62,8 @@ class DefaultController extends AbstractController {
                 $stars[] = "";
             }
             $stars[] = $ratingTextResponse->getRatingDisplay($movie->getAvgRating());
-            $logger->critical($movie->getId());
             if ($movie->getImagePath() == "" && $movie->getOmdbid() != "0") {
-                $moviestring = $omdb->findById($movie->getOmdbid());
-                $moviejson = json_decode($moviestring, true);
-                $movie->setImagePath($moviejson['Poster']);
-                $entityManager->persist($movie);
-                $entityManager->flush();
+                $iterator[$movie] = $omdbUpdate->updateImage($movie);
             }
         }
 

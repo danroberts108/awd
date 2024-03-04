@@ -18,7 +18,7 @@ class OmdbService
         $safeterm = str_replace(' ', '+', $term);
 
         if ($year != null) {
-            $response = $client->request('GET, ?apikey='.$this->apiKey.'&t='.$safeterm.'&y='.$year);
+            $response = $client->request('GET', '?apikey='.$this->apiKey.'&t='.$safeterm.'&y='.$year);
         } else {
             $response = $client->request('GET', '?apikey='.$this->apiKey.'&t='.$safeterm);
         }

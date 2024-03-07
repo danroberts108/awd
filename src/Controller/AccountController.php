@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\AccountPageType;
 use App\Service\APIKeyGenerator;
+use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,13 +17,41 @@ class AccountController extends AbstractController
 {
 
     #[Route('/account/home', name:'account_home')]
-    public function accounthome(EntityManagerInterface $entityManager) : Response {
+    public function accounthome(EntityManagerInterface $entityManager, Request $request, UserService $userService) : Response {
         $user = $entityManager->getRepository(User::class)->find($this->getUser());
 
         // TODO: Get and set fields for user data
 
+        $form = $this->createForm(AccountPageType::class);
+        $form->handleRequest($request);
+
+
+        $ferror = $form['fname']->getErrors();
+        $lerror = $form['lname']->getErrors();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user->setFname($form->get('fname')->getData());
+            $user->setLname($form->get('lname')->getData());
+            $entityManager->persist($user);
+            $entityManager->flush();
+            $userService->setApiAccess($user, $form->get('api')->getData());
+        } else {
+            $form->get('fname')->setData($user->getFname());
+            $form->get('lname')->setData($user->getLname());
+            if ($this->isGranted('ROLE_API')) {
+                $form->get('api')->setData(true);
+            } else {
+                $form->get('api')->setData(false);
+            }
+        }
+
+
+
         return $this->render('account/home.html.twig', [
-            'user' => $user
+            'user' => $user,
+            'form' => $form,
+            'ferror' => $ferror,
+            'lerror' => $lerror
         ]);
     }
 

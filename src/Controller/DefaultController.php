@@ -14,6 +14,7 @@ use App\Service\FileUploader;
 use App\Service\OmdbService;
 use App\Service\OmdbUpdateService;
 use App\Service\RatingTextResponse;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
@@ -35,7 +36,7 @@ class DefaultController extends AbstractController {
     }
 
     #[Route('/movies', name: 'movies')]
-    public function movies(EntityManagerInterface $entityManager, RatingTextResponse $ratingTextResponse, Request $request, MovieRepository $movieRepository, OmdbUpdateService $omdbUpdate) : Response {
+    public function movies(EntityManagerInterface $entityManager, RatingTextResponse $ratingTextResponse, Request $request, MovieRepository $movieRepository, OmdbUpdateService $omdbUpdate, LoggerInterface $logger) : Response {
         $stars = [];
         $search = null;
 
@@ -43,13 +44,16 @@ class DefaultController extends AbstractController {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid() && ($form->get('search')->getData() != null)) {
-            $movies = $entityManager->getRepository(Movie::class)->search($form->get('search')->getData());
             $search = $form->get('search')->getData();
+            $expressionBuilder = Criteria::expr();
+            $criteria = new Criteria();
+            $criteria->where($expressionBuilder->contains('name', $search));
+            $queryBuilder = $movieRepository->createMovieQueryBuilder()->addCriteria($criteria);
         } else {
-            $movies = $entityManager->getRepository(Movie::class)->findAll();
+            $queryBuilder = $movieRepository->createMovieQueryBuilder();
         }
 
-        $queryBuilder = $movieRepository->createMovieQueryBuilder();
+        //$queryBuilder = $movieRepository->createMovieQueryBuilder();
         $pagerFanta = new Pagerfanta(
             new QueryAdapter($queryBuilder)
         );
@@ -75,7 +79,6 @@ class DefaultController extends AbstractController {
 
 
         return $this->render('default/movies_new.html.twig', [
-            'movies' => $movies,
             'stars' => $stars,
             'search' => $search,
             'form' => $form,

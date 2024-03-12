@@ -32,21 +32,14 @@ class MovieRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
-    public function createMovieQueryBuilder(string $search = null) : QueryBuilder {
+    public function createMovieQueryBuilder() : QueryBuilder {
         $queryBuilder = $this->addMovieQueryBuilder();
 
-        if ($search) {
-            $queryBuilder->andWhere('movie.name LIKE :search')
-                ->setParameter('search', $search);
-        }
-
-        return $queryBuilder;
+        return $queryBuilder->orderBy('movie.name', 'ASC');
     }
 
     public function addMovieQueryBuilder(QueryBuilder $queryBuilder = null) {
-        $queryBuilder = $queryBuilder ?? $this->createQueryBuilder('movie');
-
-        return $queryBuilder->orderBy('movie.name', 'ASC');
+        return $queryBuilder ?? $this->createQueryBuilder('movie');
     }
 
 //    /**

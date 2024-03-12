@@ -12,8 +12,8 @@
             <div class="col col-8">
                 {{ form_start(form) }}
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Search..." name="{{ field_name(form.search) }}">
-                    <button class="btn btn-primary" type="button" id="button" name="{{ field_name(form.submit) }}">{{ field_label(form.search) }}</button>
+                    <input type="text" class="form-control" placeholder="Search..." value="{{ search }}" name="{{ field_name(form.search) }}">
+                    <button class="btn btn-primary" type="submit" id="button" name="{{ field_name(form.submit) }}">{{ field_label(form.search) }}</button>
                 </div>
                 {{ form_rest(form) }}
                 {{ form_end(form) }}

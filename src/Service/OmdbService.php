@@ -10,7 +10,7 @@ class OmdbService
 {
     private string $apiKey = '2772186';
 
-    public function search(string $term, ?int $year = null) {
+    public function searchByTitle(string $term, ?int $year = null) {
         $client = new Client([
             'base_uri' => 'http://omdbapi.com/'
         ]);
@@ -29,6 +29,22 @@ class OmdbService
             return null;
         }
 
+    }
+
+    public function searchByTerm(string $term) {
+        $client = new Client([
+            'base_uri' => 'http://omdbapi.com/'
+        ]);
+
+        $safeterm = str_replace(' ', '+', $term);
+
+        $response = $client->request('GET', '?apikey='.$this->apiKey.'&s='.$safeterm);
+
+        if($response->getStatusCode() == 200 && $response->hasHeader('Content-Length')) {
+            return $response->getBody()->getContents();
+        } else {
+            return null;
+        }
     }
 
     public function findById(string $id) : ?string {

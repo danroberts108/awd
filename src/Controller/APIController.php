@@ -103,9 +103,9 @@ class APIController extends AbstractFOSRestController {
 
         if ($form->isValid() && $form->isSubmitted()) {
             if ($data['year'] != null) {
-                $response = $omdb->search($data['title'], $data['year']);
+                $response = $omdb->searchByTitle($data['title'], $data['year']);
             } else {
-                $response = $omdb->search($data['title']);
+                $response = $omdb->searchByTitle($data['title']);
             }
 
             if ($response == null) {

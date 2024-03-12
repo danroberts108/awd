@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container container-pad">
+        <div class="row">
+            <div class="col d-flex justify-content-center">
+                <h2>Search for Movie</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col d-flex justify-content-center">
+                <p>Movie could not be found from name or Imdb number - please search for it here.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="row d-flex justify-content-center">
+                    <div class="col col-8">
+                        {{ form_start(form) }}
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Search..." value="{{ search }}" name="{{ field_name(form.search) }}">
+                            <button class="btn btn-primary" type="submit" id="button" name="{{ field_name(form.submit) }}">{{ field_label(form.search) }}</button>
+                        </div>
+                        {{ form_rest(form) }}
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

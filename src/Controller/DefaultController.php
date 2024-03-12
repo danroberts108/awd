@@ -53,7 +53,6 @@ class DefaultController extends AbstractController {
             $queryBuilder = $movieRepository->createMovieQueryBuilder();
         }
 
-        //$queryBuilder = $movieRepository->createMovieQueryBuilder();
         $pagerFanta = new Pagerfanta(
             new QueryAdapter($queryBuilder)
         );
@@ -327,6 +326,56 @@ class DefaultController extends AbstractController {
         return $this->render('/default/create_report.html.twig', [
             'form' => $form->createView(),
             'review' => $review
+        ]);
+    }
+
+    #[Route('/movie/view/{id}/updatefromomdb', name: 'app_default_updatemoviefromomdb')]
+    public function updateMovieFromOmdb(int $id, OmdbUpdateService $omdbUpdate, EntityManagerInterface $entityManager) : Response {
+        $movie = $entityManager->getRepository(Movie::class)->find($id);
+        if ($movie->getOmdbid() != null && $movie->getOmdbid() != '0' && $movie->getOmdbid() != 0) {
+            if ($omdbUpdate->updateMovieFromOmdb($movie, $movie->getOmdbid()) == null) {
+                return $this->redirectToRoute('app_default_searchformovieomdb');
+            }
+        } else {
+            if ($omdbUpdate->updateMovieFromOmdb($movie) == null) {
+                return $this->redirectToRoute('app_default_searchformovieomdb');
+            }
+        }
+
+        return $this->redirectToRoute('view-movie', array('id' => $id));
+    }
+
+    #[Route('/movie/omdb/search/{id}', name: 'app_default_searchformovieomdb')]
+    public function searchForMovieOmdb(Request $request, OmdbService $omdb, int $id) : Response {
+        $form = $this->createForm(SearchType::class);
+        $form->handleRequest($request);
+        $search = "";
+        $results = [];
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $search = $form->get('term')->getData();
+
+            $responsestring = $omdb->searchByTerm($search);
+
+            if ($responsestring == null) {
+                return $this->render('/default/search_omdb.html.twig', [
+                    'form' => $form,
+                    'search' => $search,
+                    'results' => null
+                ]);
+            }
+
+            $responseobj = json_decode($responsestring, true);
+
+
+
+            return $this->redirectToRoute('app_default_updatemoviefromomdb', array('id' => $id));
+        }
+
+        return $this->render('/default/search_omdb.html.twig', [
+            'form' => $form,
+            'search' => $search,
+            'results' => $results
         ]);
     }
 }

@@ -9,6 +9,7 @@ use App\Form\MovieType;
 use App\Form\ReportType;
 use App\Form\ReviewType;
 use App\Form\SearchType;
+use App\Form\SubmitOmdbType;
 use App\Repository\MovieRepository;
 use App\Service\FileUploader;
 use App\Service\OmdbService;
@@ -353,7 +354,7 @@ class DefaultController extends AbstractController {
         $results = [];
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $search = $form->get('term')->getData();
+            $search = $form->get('search')->getData();
 
             $responsestring = $omdb->searchByTerm($search);
 
@@ -367,9 +368,14 @@ class DefaultController extends AbstractController {
 
             $responseobj = json_decode($responsestring, true);
 
+            $results = $responseobj['Search'];
 
-
-            return $this->redirectToRoute('app_default_updatemoviefromomdb', array('id' => $id));
+            //return $this->redirectToRoute('app_default_updatemoviefromomdb', array('id' => $id));
+            return $this->render('/default/search_omdb.html.twig', [
+                'form' => $form,
+                'search' => $search,
+                'results' => $results
+            ]);
         }
 
         return $this->render('/default/search_omdb.html.twig', [
@@ -378,4 +384,10 @@ class DefaultController extends AbstractController {
             'results' => $results
         ]);
     }
+
+    #[Route('/movie/edit/update', name: 'app_default_updateomdbdatafromsearch', methods: ['POST'])]
+    public function updateOmdbDataFromSearch(Request $request) {
+        
+    }
+
 }

@@ -5,6 +5,7 @@ use App\Entity\Movie;
 use App\Entity\Report;
 use App\Entity\Review;
 use App\Entity\Rating;
+use App\Form\AssignImdbType;
 use App\Form\MovieType;
 use App\Form\ReportType;
 use App\Form\ReviewType;
@@ -335,11 +336,11 @@ class DefaultController extends AbstractController {
         $movie = $entityManager->getRepository(Movie::class)->find($id);
         if ($movie->getOmdbid() != null && $movie->getOmdbid() != '0' && $movie->getOmdbid() != 0) {
             if ($omdbUpdate->updateMovieFromOmdb($movie, $movie->getOmdbid()) == null) {
-                return $this->redirectToRoute('app_default_searchformovieomdb');
+                return $this->redirectToRoute('app_default_searchformovieomdb', array('id' => $id));
             }
         } else {
             if ($omdbUpdate->updateMovieFromOmdb($movie) == null) {
-                return $this->redirectToRoute('app_default_searchformovieomdb');
+                return $this->redirectToRoute('app_default_searchformovieomdb', array('id' => $id));
             }
         }
 
@@ -347,7 +348,8 @@ class DefaultController extends AbstractController {
     }
 
     #[Route('/movie/omdb/search/{id}', name: 'app_default_searchformovieomdb')]
-    public function searchForMovieOmdb(Request $request, OmdbService $omdb, int $id) : Response {
+    public function searchForMovieOmdb(Request $request, OmdbService $omdb, int $id, OmdbUpdateService $omdbUpdate, EntityManagerInterface $entityManager) : Response {
+        $movie = $entityManager->getRepository(Movie::class)->find($id);
         $form = $this->createForm(SearchType::class);
         $form->handleRequest($request);
         $search = "";
@@ -355,6 +357,12 @@ class DefaultController extends AbstractController {
 
         if ($form->isSubmitted() && $form->isValid()) {
             $search = $form->get('search')->getData();
+
+            if (preg_match('/tt\\d\\d\\d\\d\\d\\d\\d/i', $search)) {
+                if ($omdbUpdate->updateMovieFromOmdb($movie, $search) != null){
+                    return $this->redirectToRoute('view-movie', array('id' => $id));
+                }
+            }
 
             $responsestring = $omdb->searchByTerm($search);
 
@@ -383,11 +391,6 @@ class DefaultController extends AbstractController {
             'search' => $search,
             'results' => $results
         ]);
-    }
-
-    #[Route('/movie/edit/update', name: 'app_default_updateomdbdatafromsearch', methods: ['POST'])]
-    public function updateOmdbDataFromSearch(Request $request) {
-        
     }
 
 }

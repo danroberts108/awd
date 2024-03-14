@@ -24,22 +24,22 @@ class OmdbUpdateService
         if ($imdb != null) {
             $moviestring = $this->omdb->findById($imdb);
             $moviejson = json_decode($moviestring, true);
-            if (!$moviejson['Response']) {
+            if ($moviejson['Response'] == 'False') {
                 return null;
             }
             $movie = $this->movieService->updateMovie($movie, $moviejson);
             $this->entityManager->persist($movie);
-            $this->entityManager->flush();
         } else {
             $search = $this->omdb->searchByTitle($movie->getName());
             $moviejson = json_decode($search, true);
-            if (!$moviejson['Response']) {
+            if ($moviejson['Response'] == 'False') {
                 return null;
             }
             $movie = $this->movieService->updateMovie($movie, $moviejson);
             $this->entityManager->persist($movie);
-            $this->entityManager->flush();
         }
+
+        $this->entityManager->flush();
 
         return $movie;
     }

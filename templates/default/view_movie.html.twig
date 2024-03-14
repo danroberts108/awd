@@ -26,7 +26,9 @@
                 <div class="row">
                     <a href="{{ path('create-review', {'id' : movie.id}) }}"><button class="btn btn-primary" type="button">Review this movie</button></a>
                     {% if is_granted('ROLE_MOD') %}
-                        <a href="{{ path('app_default_updatemoviefromomdb', {'id' : movie.id}) }}"><button class="btn btn-secondary" type="button">Update from OMDB</button></a>
+                        {% if movie.omdbid == "0" %}
+                            <a href="{{ path('app_default_updatemoviefromomdb', {'id' : movie.id}) }}"><button class="btn btn-secondary" type="button">Update from OMDB</button></a>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>

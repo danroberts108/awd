@@ -97,6 +97,8 @@ return array(
     'Pagerfanta\\Doctrine\\ORM\\' => array($vendorDir . '/pagerfanta/doctrine-orm-adapter'),
     'Pagerfanta\\' => array($vendorDir . '/pagerfanta/core'),
     'PHPStan\\PhpDocParser\\' => array($vendorDir . '/phpstan/phpdoc-parser/src'),
+    'OpenApi\\' => array($vendorDir . '/zircote/swagger-php/src'),
+    'Nelmio\\ApiDocBundle\\' => array($vendorDir . '/nelmio/api-doc-bundle/src'),
     'Negotiation\\' => array($vendorDir . '/willdurand/negotiation/src/Negotiation'),
     'Namshi\\JOSE\\' => array($vendorDir . '/namshi/jose/src/Namshi/JOSE'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),

@@ -147,8 +147,13 @@ class ComposerStaticInit3d7aaf1866df64911154060e3a32f321
             'Pagerfanta\\' => 11,
             'PHPStan\\PhpDocParser\\' => 21,
         ),
+        'O' => 
+        array (
+            'OpenApi\\' => 8,
+        ),
         'N' => 
         array (
+            'Nelmio\\ApiDocBundle\\' => 20,
             'Negotiation\\' => 12,
             'Namshi\\JOSE\\' => 12,
         ),
@@ -603,6 +608,14 @@ class ComposerStaticInit3d7aaf1866df64911154060e3a32f321
         'PHPStan\\PhpDocParser\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpstan/phpdoc-parser/src',
+        ),
+        'OpenApi\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zircote/swagger-php/src',
+        ),
+        'Nelmio\\ApiDocBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nelmio/api-doc-bundle/src',
         ),
         'Negotiation\\' => 
         array (

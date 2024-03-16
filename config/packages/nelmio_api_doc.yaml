@@ -8,13 +8,13 @@ nelmio_api_doc:
             - url: https://127.0.0.1:8000/
               description: API over HTTPS
         components:
-            securitySchemas:
+            securitySchemes:
                 Bearer:
-                    type: https
+                    type: http
                     scheme: bearer
                     bearerFormat: JWT
         security:
             - Bearer: []
     areas: # to filter documented areas
         path_patterns:
-            - ^/api(?!/doc$) # Accepts routes under /api except /api/doc
+            - ^/api(?!/docs$) # Accepts routes under /api except /api/doc

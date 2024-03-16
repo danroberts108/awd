@@ -30,7 +30,10 @@ class APIController extends AbstractFOSRestController {
     #[Serializer\MaxDepth(1)]
     #[OA\Response(
         response: 200,
-        description: 'Returns an array of movie objects'
+        description: 'Returns an array of movie objects',
+        content: new OA\JsonContent(
+            ref: new \Nelmio\ApiDocBundle\Annotation\Model(type: Movie::class)
+        )
     )]
     #[Security(name: 'Bearer')]
     public function apimovies(EntityManagerInterface $entityManager, Request $request, LoggerInterface $logger) {

@@ -6,6 +6,7 @@ use App\Entity\Movie;
 use App\Entity\User;
 use App\Form\ApiMovieSearchType;
 use App\Form\ApiSearchType;
+use App\Form\MovieType;
 use App\Form\OmdbType;
 use App\Service\APIKeyGenerator;
 use App\Service\MovieService;
@@ -16,15 +17,25 @@ use FOS\RestBundle\Controller\AbstractFOSRestController;
 use JMS\Serializer\Annotation as Serializer;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
+use Nelmio\ApiDocBundle\Model\Model;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use OpenApi\Attributes as OA;
 
 class APIController extends AbstractFOSRestController {
 
     #[Rest\Get('/api/v1/movies', name:'app_api_apimovies')]
     #[Serializer\MaxDepth(1)]
-    public function apimovies(EntityManagerInterface $entityManager, Request $request, LoggerInterface $logger, SerializerInterface $serializer) {
+    #[OA\Response(
+        response: 200,
+        description: 'Returns an array of movie objects',
+        content: new OA\JsonContent(
+            type: 'array',
+            items: new OA\Items(ref: new Model(type: Movie::class))
+        )
+    )]
+    public function apimovies(EntityManagerInterface $entityManager, Request $request, LoggerInterface $logger) {
 
         $data = json_decode($request->getContent());
 

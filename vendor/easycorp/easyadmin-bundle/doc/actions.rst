@@ -149,6 +149,12 @@ to users::
             ->add(Crud::PAGE_INDEX, $viewInvoice);
     }
 
+.. note::
+
+    The ``displayIf()`` method also works for :ref:`global actions <global-actions>`.
+    However, your closure won't receive the object that represents the current
+    entity because global actions are not associated to any specific entity.
+
 Disabling Actions
 -----------------
 
@@ -362,6 +368,8 @@ The following example shows all kinds of actions in practice::
             // add your logic here...
         }
     }
+
+.. _global-actions:
 
 Global Actions
 --------------

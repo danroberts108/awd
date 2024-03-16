@@ -28,16 +28,15 @@ use Symfony\Component\Filesystem\Path;
 final class JavaScriptImportPathCompiler implements AssetCompilerInterface
 {
     /**
-     * @see https://regex101.com/r/1iBAIb/1
+     * @see https://regex101.com/r/1iBAIb/2
      */
     private const IMPORT_PATTERN = '/
-        ^
-            (?:\/\/.*)                     # Lines that start with comments
+            ^(?:\/\/.*)                     # Lines that start with comments
         |
             (?:
-                \'(?:[^\'\\\\\n]|\\\\.)*\'   # Strings enclosed in single quotes
+                \'(?:[^\'\\\\\n]|\\\\.)*+\'   # Strings enclosed in single quotes
             |
-                "(?:[^"\\\\\n]|\\\\.)*"      # Strings enclosed in double quotes
+                "(?:[^"\\\\\n]|\\\\.)*+"      # Strings enclosed in double quotes
             )
         |
             (?:                            # Import statements (script captured)
@@ -49,7 +48,7 @@ final class JavaScriptImportPathCompiler implements AssetCompilerInterface
             |
                 \bimport\(
             )
-            \s*[\'"`](\.\/[^\'"`\n]+|(\.\.\/)*[^\'"`\n]+)[\'"`]\s*[;\)]
+            \s*[\'"`](\.\/[^\'"`\n]++|(\.\.\/)*+[^\'"`\n]++)[\'"`]\s*[;\)]
         ?
     /mx';
 
@@ -116,7 +115,7 @@ final class JavaScriptImportPathCompiler implements AssetCompilerInterface
             $relativeImportPath = $this->makeRelativeForJavaScript($relativeImportPath);
 
             return str_replace($importedModule, $relativeImportPath, $fullImportString);
-        }, $content, -1, $count, \PREG_OFFSET_CAPTURE);
+        }, $content, -1, $count, \PREG_OFFSET_CAPTURE) ?? throw new RuntimeException(sprintf('Failed to compile JavaScript import paths in "%s". Error: "%s".', $asset->sourcePath, preg_last_error_msg()));
     }
 
     public function supports(MappedAsset $asset): bool

@@ -18,7 +18,7 @@ use JMS\Serializer\Annotation as Serializer;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use Nelmio\ApiDocBundle\Annotation\Security;
-use Nelmio\ApiDocBundle\Model\Model;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,7 +32,8 @@ class APIController extends AbstractFOSRestController {
         response: 200,
         description: 'Returns an array of movie objects',
         content: new OA\JsonContent(
-            ref: new \Nelmio\ApiDocBundle\Annotation\Model(type: Movie::class)
+            type: 'array',
+            items: new OA\Items(ref: new Model(type: Movie::class))
         )
     )]
     #[Security(name: 'Bearer')]
@@ -51,7 +52,11 @@ class APIController extends AbstractFOSRestController {
     #[Serializer\MaxDepth(1)]
     #[OA\Response(
         response: 200,
-        description: 'Searches for a movie on OMDB from ther API'
+        description: 'Searches for a movie on OMDB from ther API',
+        content: new OA\JsonContent(
+            type: 'array',
+            items: new OA\Items(ref: new Model(type: Movie::class))
+        )
     )]
     #[OA\Response(
         response: 404,

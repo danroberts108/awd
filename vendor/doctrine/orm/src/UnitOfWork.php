@@ -3166,9 +3166,9 @@ EXCEPTION
 
                     if ($hints['fetchMode'][$class->name][$field] === ClassMetadata::FETCH_EAGER) {
                         $isIteration = isset($hints[Query::HINT_INTERNAL_ITERATION]) && $hints[Query::HINT_INTERNAL_ITERATION];
-                        if (! $isIteration && $assoc['type'] === ClassMetadata::ONE_TO_MANY) {
+                        if ($assoc['type'] === ClassMetadata::ONE_TO_MANY && ! $isIteration && ! $targetClass->isIdentifierComposite) {
                             $this->scheduleCollectionForBatchLoading($pColl, $class);
-                        } elseif (($isIteration && $assoc['type'] === ClassMetadata::ONE_TO_MANY) || $assoc['type'] === ClassMetadata::MANY_TO_MANY) {
+                        } else {
                             $this->loadCollection($pColl);
                             $pColl->takeSnapshot();
                         }
@@ -3249,7 +3249,19 @@ EXCEPTION
             foreach ($found as $targetValue) {
                 $sourceEntity = $targetProperty->getValue($targetValue);
 
-                $id     = $this->identifierFlattener->flattenIdentifier($class, $class->getIdentifierValues($sourceEntity));
+                if ($sourceEntity === null && isset($targetClass->associationMappings[$mappedBy]['joinColumns'])) {
+                    // case where the hydration $targetValue itself has not yet fully completed, for example
+                    // in case a bi-directional association is being hydrated and deferring eager loading is
+                    // not possible due to subclassing.
+                    $data = $this->getOriginalEntityData($targetValue);
+                    $id   = [];
+                    foreach ($targetClass->associationMappings[$mappedBy]['joinColumns'] as $joinColumn) {
+                        $id[] = $data[$joinColumn['name']];
+                    }
+                } else {
+                    $id = $this->identifierFlattener->flattenIdentifier($class, $class->getIdentifierValues($sourceEntity));
+                }
+
                 $idHash = implode(' ', $id);
 
                 if (isset($mapping['indexBy'])) {

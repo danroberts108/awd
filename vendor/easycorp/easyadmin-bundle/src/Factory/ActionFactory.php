@@ -50,7 +50,7 @@ final class ActionFactory
                 continue;
             }
 
-            if (false === $actionDto->shouldBeDisplayedFor($entityDto)) {
+            if (false === $actionDto->isDisplayed($entityDto)) {
                 continue;
             }
 
@@ -90,6 +90,10 @@ final class ActionFactory
             }
 
             if (false === $this->authChecker->isGranted(Permission::EA_EXECUTE_ACTION, ['action' => $actionDto, 'entity' => null])) {
+                continue;
+            }
+
+            if (false === $actionDto->isDisplayed()) {
                 continue;
             }
 

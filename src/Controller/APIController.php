@@ -6,6 +6,7 @@ use App\Entity\Movie;
 use App\Entity\User;
 use App\Form\ApiMovieSearchType;
 use App\Form\ApiSearchType;
+use App\Form\MovieType;
 use App\Form\OmdbType;
 use App\Service\APIKeyGenerator;
 use App\Service\MovieService;
@@ -16,15 +17,27 @@ use FOS\RestBundle\Controller\AbstractFOSRestController;
 use JMS\Serializer\Annotation as Serializer;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
+use Nelmio\ApiDocBundle\Annotation\Security;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use OpenApi\Attributes as OA;
 
 class APIController extends AbstractFOSRestController {
 
     #[Rest\Get('/api/v1/movies', name:'app_api_apimovies')]
     #[Serializer\MaxDepth(1)]
-    public function apimovies(EntityManagerInterface $entityManager, Request $request, LoggerInterface $logger, SerializerInterface $serializer) {
+    #[OA\Response(
+        response: 200,
+        description: 'Returns an array of movie objects',
+        content: new OA\JsonContent(
+            type: 'array',
+            items: new OA\Items(ref: new Model(type: Movie::class))
+        )
+    )]
+    #[Security(name: 'Bearer')]
+    public function apimovies(EntityManagerInterface $entityManager, Request $request, LoggerInterface $logger) {
 
         $data = json_decode($request->getContent());
 
@@ -37,6 +50,24 @@ class APIController extends AbstractFOSRestController {
 
     #[Rest\Post('/api/v1/movies/search', name:'app_api_apisearchmovie')]
     #[Serializer\MaxDepth(1)]
+    #[OA\Response(
+        response: 200,
+        description: 'Searches for a movie on OMDB from ther API',
+        content: new OA\JsonContent(
+            type: 'array',
+            items: new OA\Items(ref: new Model(type: Movie::class))
+        )
+    )]
+    #[OA\Response(
+        response: 404,
+        description: 'Could not find any movies'
+    )]
+    #[OA\Parameter(
+        name: 'term',
+        description: 'The search term',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[Security(name: 'Bearer')]
     public function apiSearchMovie(EntityManagerInterface $entityManager, Request $request) {
 
         $form = $this->createForm(ApiSearchType::class);
@@ -54,18 +85,54 @@ class APIController extends AbstractFOSRestController {
     }
 
     #[Rest\Get('/api/v1/movies/get/imdb/{imdbid}', name: 'app_api_apigetmoviebyimdbid')]
+    #[OA\Response(
+        response: 200,
+        description: 'Searches for a movie on OMDB from ther API by IMDB ID'
+    )]
+    #[OA\Response(
+        response: 404,
+        description: 'Could not find the specified movie'
+    )]
+    #[OA\Parameter(
+        name: 'term',
+        description: 'The IMDB ID',
+        schema: new OA\Schema(type: 'string')
+    )]
     public function apiGetMovieByImdbId(string $imdbid, EntityManagerInterface $entityManager) {
         $movie = $entityManager->getRepository(Movie::class)->findOneBy(array('omdbid' => $imdbid));
         return $this->handleView($this->view($movie));
     }
 
     #[Rest\Get('/api/v1/movies/get/id/{id}', name: 'app_api_apigetmoviebyid')]
+    #[OA\Response(
+        response: 200,
+        description: 'Responds with the movie searched from ID'
+    )]
+    #[OA\Response(
+        response: 404,
+        description: 'Could not find the specified movie'
+    )]
     public function apiGetMovieById(int $id, EntityManagerInterface $entityManager) {
         $movie = $entityManager->getRepository(Movie::class)->find($id);
         return $this->handleView($this->view($movie));
     }
 
     #[Rest\Get('/api/v1/movies/get/id/{id}/image', name:'app_api_apigetmovieimagebyid')]
+    #[OA\Response(
+        response: 200,
+        description: 'Web address of movie location',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(property: 'poster', type: 'string')
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Parameter(
+        name: 'id',
+        description: 'Movie ID',
+        schema: new OA\Schema(type: 'int')
+    )]
     public function apiGetMovieImageById(int $id, EntityManagerInterface $entityManager) {
         $movie = $entityManager->getRepository(Movie::class)->find($id);
         return $this->handleView($this->view($movie->getImagePath()));
@@ -131,4 +198,5 @@ class APIController extends AbstractFOSRestController {
         $view = $this->view('Invalid Format', Response::HTTP_NOT_FOUND);
         return $this->handleView($view);
     }
+
 }

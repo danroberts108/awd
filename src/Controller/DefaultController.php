@@ -284,7 +284,9 @@ class DefaultController extends AbstractController {
             $this->createAccessDeniedException('Not your review.');
         }
 
-        return $this->render('default/delete_review.html.twig');
+        return $this->render('default/delete_review.html.twig', [
+            'review' => $review
+        ]);
     }
 
     #[Route('/review/view_rating/{id}', name: 'view-rating')]

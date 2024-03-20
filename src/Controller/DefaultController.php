@@ -73,7 +73,7 @@ class DefaultController extends AbstractController {
             }
         }
 
-        if (isset($_GET["page"])) {
+        if (isset($_GET["page"]) && $pagerFanta->getNbPages() >= $_GET['page']) {
             $pagerFanta->setCurrentPage($_GET["page"]);
         } else {
             $pagerFanta->setCurrentPage(1);

@@ -27,7 +27,7 @@ class Movie
     #[ORM\Column(length: 255, nullable: true)]
     private ?float $avg_rating = null;
 
-    #[ORM\OneToMany(mappedBy: 'movie', targetEntity: Review::class)]
+    #[ORM\OneToMany(mappedBy: 'movie', targetEntity: Review::class, cascade: ['remove'])]
     private Collection $ratings;
 
     #[ORM\Column(length: 255, nullable: true)]

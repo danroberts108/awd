@@ -6,6 +6,7 @@ use App\Entity\Report;
 use App\Entity\Review;
 use App\Entity\Rating;
 use App\Form\AssignImdbType;
+use App\Form\ConfirmType;
 use App\Form\MovieType;
 use App\Form\ReportType;
 use App\Form\ReviewType;
@@ -222,6 +223,31 @@ class DefaultController extends AbstractController {
         ]);
     }
 
+    #[Route('/movie/delete/{id}', name: 'app_default_deletemovie')]
+    public function deleteMovie(int $id, EntityManagerInterface $entityManager, Request $request) : Response {
+        $this->denyAccessUnlessGranted('ROLE_MOD');
+
+        $movie = $entityManager->getRepository(Movie::class)->find($id);
+
+        $form = $this->createForm(ConfirmType::class);
+        $form->handleRequest($request);
+
+        if (!$movie) {
+            throw $this->createNotFoundException('No movie for id '.$id);
+        }
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->remove($movie);
+            $entityManager->flush();
+            return $this->redirectToRoute('movies');
+        }
+
+        return $this->render('/default/delete_movie.html.twig', array(
+            'movie' => $movie,
+            'form' => $form
+        ));
+    }
+
     #[Route('/review/view/{id}', name: 'view-review')]
     public function viewReview(int $id, EntityManagerInterface $entityManager, RatingTextResponse $ratingTextResponse) : Response {
         $review = $entityManager->getRepository(Review::class)->find($id);
@@ -277,6 +303,9 @@ class DefaultController extends AbstractController {
     public function deleteReview(int $id, EntityManagerInterface $entityManager, Security $security, Request $request) : Response {
         $review = $entityManager->getRepository(Review::Class)->find($id);
 
+        $form = $this->createForm(ConfirmType::class);
+        $form->handleRequest($request);
+
         if (!$review) {
             $this->createNotFoundException('No review for id '.$id);
         }
@@ -285,8 +314,15 @@ class DefaultController extends AbstractController {
             $this->createAccessDeniedException('Not your review.');
         }
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->remove($review);
+            $entityManager->flush();
+            return $this->redirectToRoute('view-movie', array('id' => $review->getMovie()->getId()));
+        }
+
         return $this->render('default/delete_review.html.twig', [
-            'review' => $review
+            'review' => $review,
+            'form' => $form
         ]);
     }
 

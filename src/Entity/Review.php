@@ -32,10 +32,10 @@ class Review
     #[ORM\JoinColumn(nullable: false)]
     private ?Movie $movie = null;
 
-    #[ORM\OneToMany(mappedBy: 'review', targetEntity: Rating::class)]
+    #[ORM\OneToMany(mappedBy: 'review', targetEntity: Rating::class, cascade: ['remove'])]
     private Collection $reviewRatings;
 
-    #[ORM\OneToMany(mappedBy: 'review', targetEntity: Report::class)]
+    #[ORM\OneToMany(mappedBy: 'review', targetEntity: Report::class, cascade: ['remove'])]
     #[Serializer\Exclude()]
     private Collection $reports;
 

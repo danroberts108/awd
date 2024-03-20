@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container container-pad">
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <div class="row d-flex justify-content-center">
+                        <h1 class="text-center">Delete the movie:</h1>
+                    </div>
+                    <div class="row d-flex justify-content-center">
+                        <h3 class="text-center">{{ movie.name }}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <div class="col d-flex justify-content-center">
+                    {{ form_start(form) }}
+                    <button type="submit" class="btn btn-danger btn-lg" name="{{ field_name(form.confirm) }}">Delete</button>
+                    {{ form_end(form) }}
+                    <a href="{{ path('view-movie', {'id': movie.id }) }}"><button type="button" class="btn btn-secondary btn-lg">Back</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

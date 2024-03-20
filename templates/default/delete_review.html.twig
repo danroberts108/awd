@@ -15,9 +15,9 @@
             </div>
             <div class="row d-flex justify-content-center">
                 <div class="col d-flex justify-content-center">
-                    <form>
-                        <button type="submit" class="btn btn-danger btn-lg">Delete</button>
-                    </form>
+                    {{ form_start(form) }}
+                        <button type="submit" class="btn btn-danger btn-lg" name="{{ field_name(form.confirm) }}">Delete</button>
+                    {{ form_end(form) }}
                     <a href="{{ path('view-movie', {'id': review.movie.id }) }}"><button type="button" class="btn btn-secondary btn-lg">Back</button></a>
                 </div>
             </div>

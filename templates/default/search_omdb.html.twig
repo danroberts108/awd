@@ -7,11 +7,13 @@
                 <h2>Search for Movie</h2>
             </div>
         </div>
+        {% if id != 0 %}
         <div class="row">
             <div class="col d-flex justify-content-center">
                 <p>Movie could not be found from name or Imdb number - please search for it here.</p>
             </div>
         </div>
+        {% endif %}
         <div class="row">
             <div class="col">
                 <div class="row d-flex justify-content-center">
@@ -53,7 +55,13 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col d-flex justify-content-center">
-                                            <a class="stretched-link" href=""><button class="btn btn-primary">Select</button></a>
+                                            <a class="stretched-link" href="
+                                                {% if id == 0 %}
+                                                    {{ path('app_default_createmoviefromomdbsearch', { imdbid : movie.imdbID }) }}
+                                                {% else %}
+                                                    {{ path('app_default_updatemoviefromomdbsearch', { 'id' : id, 'imdbid' : movie.imdbID }) }}
+                                                {% endif %}
+                                                "><button class="btn btn-primary">Select</button></a>
                                         </div>
                                     </div>
                                 </div>

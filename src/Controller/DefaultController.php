@@ -13,6 +13,7 @@ use App\Form\SearchType;
 use App\Form\SubmitOmdbType;
 use App\Repository\MovieRepository;
 use App\Service\FileUploader;
+use App\Service\MovieService;
 use App\Service\OmdbService;
 use App\Service\OmdbUpdateService;
 use App\Service\RatingTextResponse;
@@ -350,49 +351,89 @@ class DefaultController extends AbstractController {
     }
 
     #[Route('/movie/omdb/search/{id}', name: 'app_default_searchformovieomdb')]
-    public function searchForMovieOmdb(Request $request, OmdbService $omdb, int $id, OmdbUpdateService $omdbUpdate, EntityManagerInterface $entityManager) : Response {
+    public function searchForMovieOmdb(Request $request, OmdbService $omdb, OmdbUpdateService $omdbUpdate, EntityManagerInterface $entityManager, MovieService $movieService, int $id = 0) : Response {
         $movie = $entityManager->getRepository(Movie::class)->find($id);
         $form = $this->createForm(SearchType::class);
         $form->handleRequest($request);
         $search = "";
         $results = [];
 
+        //Checks if search has been submitted
         if ($form->isSubmitted() && $form->isValid()) {
             $search = $form->get('search')->getData();
 
+            //Checks if search term is an IMDB ID, and updates/creates the movie if this is true
             if (preg_match('/tt\\d\\d\\d\\d\\d\\d\\d/i', $search)) {
-                if ($omdbUpdate->updateMovieFromOmdb($movie, $search) != null){
-                    return $this->redirectToRoute('view-movie', array('id' => $id));
+                if($id != 0) {
+                    if ($omdbUpdate->updateMovieFromOmdb($movie, $search) != null){
+                        return $this->redirectToRoute('view-movie', array('id' => $id));
+                    }
+                } else {
+                    $movieobj = json_decode($omdb->findById($search));
+                    $movie = $movieService->createMovie($movieobj);
+                    return $this->redirectToRoute('view-movie', array('id' => $movie->getId()));
                 }
             }
 
+            //Gets the response string from the omdb search call
             $responsestring = $omdb->searchByTerm($search);
 
+            //Checks if the response is null meaning there were no results
             if ($responsestring == null) {
                 return $this->render('/default/search_omdb.html.twig', [
                     'form' => $form,
                     'search' => $search,
-                    'results' => null
+                    'results' => null,
+                    'id' => $id
                 ]);
             }
 
+            //If the response was not nul, decodes the json to an array of movie objects
             $responseobj = json_decode($responsestring, true);
 
+            //Drills down into the response array to the array of movie objects
             $results = $responseobj['Search'];
 
             //return $this->redirectToRoute('app_default_updatemoviefromomdb', array('id' => $id));
+            //Renders the page with search results
             return $this->render('/default/search_omdb.html.twig', [
                 'form' => $form,
                 'search' => $search,
-                'results' => $results
+                'results' => $results,
+                'id' => $id
             ]);
         }
 
+        //Renders the default page
         return $this->render('/default/search_omdb.html.twig', [
             'form' => $form,
             'search' => $search,
-            'results' => $results
+            'results' => $results,
+            'id' => $id
         ]);
+    }
+
+    #[Route('/movie/omdb/update/{id}/{imdbid}', name: 'app_default_updatemoviefromomdbsearch')]
+    public function updateMovieFromOmdbSearch(EntityManagerInterface $entityManager, int $id, string $imdbid, OmdbUpdateService $omdbUpdate) : Response {
+        $movie = $entityManager->getRepository(Movie::class)->find($id);
+        if ($omdbUpdate->updateMovieFromOmdb($movie, $imdbid) != null){
+            return $this->redirectToRoute('view-movie', array('id' => $id));
+        } else {
+            return $this->redirectToRoute('app_default_searchformovieomdb', array('id' => $id));
+        }
+    }
+
+    #[Route('/movie/omdb/create/{imdbid}', name: 'app_default_createmoviefromomdbsearch')]
+    public function createMovieFromOmdbSearch(EntityManagerInterface $entityManager, string $imdbid, OmdbService $omdb, MovieService $movieService) : Response {
+        $response = $omdb->findById($imdbid);
+        if ($response == null) {
+            return $this->redirectToRoute('app_default_searchformovieomdb');
+        }
+        $omdbdata = json_decode($response, true);
+
+        $movie = $movieService->createMovie($omdbdata);
+
+        return $this->redirectToRoute('view-movie', array('id' => $movie->getId()));
     }
 
 }

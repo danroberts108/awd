@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Movie;
 use App\Entity\User;
 use App\Form\ApiMovieSearchType;
+use App\Form\ApiMovieType;
 use App\Form\ApiSearchType;
 use App\Form\MovieType;
 use App\Form\OmdbType;
@@ -139,6 +140,21 @@ class APIController extends AbstractFOSRestController {
     }
 
     #[Rest\Post('/api/v1/movies/createbyid', name:'app_api_apiaddbyomdbid')]
+    #[OA\Response(
+        response: 200,
+        description: 'Creates a movie from an IMDB',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(property: 'location', type: 'string')
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Parameter(
+        name: 'imdbid',
+        description: 'Movie IMDB ID',
+        schema: new OA\Schema(type: 'string')
+    )]
     public function apiAddByOmdbId(OmdbService $omdb, Request $request, MovieService $movieService) {
         $form = $this->createForm(OmdbType::class);
         $data = json_decode($request->getContent(), true);
@@ -197,6 +213,20 @@ class APIController extends AbstractFOSRestController {
 
         $view = $this->view('Invalid Format', Response::HTTP_NOT_FOUND);
         return $this->handleView($view);
+    }
+
+    #[Rest\Post('/api/v1/movies/edit/id/{id}', name: 'app_api_apieditbyid')]
+    public function apiEditById(int $id, MovieService $movieService, Request $request) {
+        $form = $this->createForm(ApiMovieType::class);
+        $data = json_decode($request->getContent(), true);
+        $form->submit($data);
+
+        if ($form->isValid() && $form->isSubmitted()) {
+
+        }
+
+
+
     }
 
 }

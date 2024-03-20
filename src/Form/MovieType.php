@@ -33,7 +33,7 @@ class MovieType extends AbstractType
                 ]
             ])->add('director')
             ->add('actors')
-            ->add('runningtime', FloatType::class)
+            ->add('runningtime')
         ;
     }
 

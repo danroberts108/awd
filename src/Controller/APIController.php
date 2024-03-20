@@ -159,7 +159,7 @@ class APIController extends AbstractFOSRestController {
         schema: new OA\Schema(type: 'string')
     )]
     #[Security(name: 'Bearer')]
-    public function apiAddByOmdbId(OmdbService $omdb, Request $request, MovieService $movieService) {
+    public function apiAddByOmdbId(OmdbService $omdb, Request $request, MovieService $movieService, LoggerInterface $logger) {
         $form = $this->createForm(OmdbType::class);
         $data = json_decode($request->getContent(), true);
         $form->submit($data);
@@ -173,8 +173,8 @@ class APIController extends AbstractFOSRestController {
             }
             $omdbdata = json_decode($response, true);
 
-            if (!$omdbdata['Response']) {
-                $error = json_encode(array('error' => 'Invalid IMDB ID'));
+            if ($omdbdata['Response'] == "False") {
+                $error = array('error' => 'Invalid IMDB ID');
                 $view = $this->view($error, Response::HTTP_NOT_FOUND);
                 return $this->handleView($view);
             }
@@ -185,7 +185,7 @@ class APIController extends AbstractFOSRestController {
             return $this->handleView($view);
         }
 
-        $error = json_encode(array('error' => 'Movie not found'));
+        $error = array('error' => 'Movie not found');
 
         $view = $this->view($error, Response::HTTP_NOT_FOUND);
         return $this->handleView($view);

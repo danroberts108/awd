@@ -167,10 +167,17 @@ class APIController extends AbstractFOSRestController {
         if ($form->isValid() && $form->isSubmitted()) {
             $response = $omdb->findById($data['imdbid']);
             if ($response == null) {
-                $view = $this->view('Invalid IMDB ID', Response::HTTP_NOT_FOUND);
+                $error = json_encode(array('error' => 'Invalid IMDB ID'));
+                $view = $this->view($error, Response::HTTP_NOT_FOUND);
                 return $this->handleView($view);
             }
             $omdbdata = json_decode($response, true);
+
+            if (!$omdbdata['Response']) {
+                $error = json_encode(array('error' => 'Invalid IMDB ID'));
+                $view = $this->view($error, Response::HTTP_NOT_FOUND);
+                return $this->handleView($view);
+            }
 
             $movie = $movieService->createMovie($omdbdata);
 
@@ -178,7 +185,9 @@ class APIController extends AbstractFOSRestController {
             return $this->handleView($view);
         }
 
-        $view = $this->view('Invalid format', Response::HTTP_NOT_FOUND);
+        $error = json_encode(array('error' => 'Movie not found'));
+
+        $view = $this->view($error, Response::HTTP_NOT_FOUND);
         return $this->handleView($view);
     }
 

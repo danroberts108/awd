@@ -80,7 +80,7 @@ class APIController extends AbstractFOSRestController {
             return $this->handleView($this->view($movies));
         }
 
-        $view = $this->view('Invalid Data', Response::HTTP_NOT_FOUND);
+        $view = $this->view(array('error' => 'Invalid Data'), Response::HTTP_NOT_FOUND);
         return $this->handleView($view);
 
     }
@@ -102,6 +102,12 @@ class APIController extends AbstractFOSRestController {
     #[Security(name: 'Bearer')]
     public function apiGetMovieByImdbId(string $imdbid, EntityManagerInterface $entityManager) {
         $movie = $entityManager->getRepository(Movie::class)->findOneBy(array('omdbid' => $imdbid));
+
+        if ($movie == null) {
+            $view = $this->view(array('error' => 'Movie ID could not be found'));
+            return $this->handleView($view);
+        }
+
         return $this->handleView($this->view($movie));
     }
 
@@ -139,6 +145,12 @@ class APIController extends AbstractFOSRestController {
     #[Security(name: 'Bearer')]
     public function apiGetMovieImageById(int $id, EntityManagerInterface $entityManager) {
         $movie = $entityManager->getRepository(Movie::class)->find($id);
+
+        if ($movie == null) {
+            $view = $this->view(array('error' => 'Movie ID could not be found'));
+            return $this->handleView($view);
+        }
+
         return $this->handleView($this->view($movie->getImagePath()));
     }
 
@@ -167,7 +179,7 @@ class APIController extends AbstractFOSRestController {
         if ($form->isValid() && $form->isSubmitted()) {
             $response = $omdb->findById($data['imdbid']);
             if ($response == null) {
-                $error = json_encode(array('error' => 'Invalid IMDB ID'));
+                $error = array('error' => 'Invalid IMDB ID');
                 $view = $this->view($error, Response::HTTP_NOT_FOUND);
                 return $this->handleView($view);
             }
@@ -247,26 +259,27 @@ class APIController extends AbstractFOSRestController {
             }
 
             if ($response == null) {
-                $view = $this->view('No results for search term.', Response::HTTP_NOT_FOUND);
+                $view = $this->view(array('error' => 'No results for search term.'), Response::HTTP_NOT_FOUND);
                 return $this->handleView($view);
             }
             $response = stripcslashes($response);
             $omdbdata = json_decode($response, true);
             $results = (array) json_decode($omdbdata['Search'], true);
             if (sizeof($results) > 1) {
-                $view = $this->view('Too many results. Try to narrow down your search term or add a year of release.', Response::HTTP_NOT_FOUND);
+                $error = array('error' => 'Too many results. Try to narrow down your search term or add a year of release.');
+                $view = $this->view($error, Response::HTTP_NOT_FOUND);
                 return $this->handleView($view);
             }
             $movie = $movieService->createMovie($omdbdata);
 
             $responsearray[] = ['location' => $this->generateUrl('app_api_getmoviebyid', array('id' => $movie->getId())), 'title' => $movie->getName()];
-            $responsejson = json_encode($responsearray);
 
-            $view = $this->view($responsejson, Response::HTTP_CREATED);
+            $view = $this->view($responsearray, Response::HTTP_CREATED);
             $this->handleView($view);
         }
 
-        $view = $this->view('Invalid Format', Response::HTTP_NOT_FOUND);
+        $error = array('error' => 'Invalid Format');
+        $view = $this->view($error, Response::HTTP_NOT_FOUND);
         return $this->handleView($view);
     }
 

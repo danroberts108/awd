@@ -99,6 +99,7 @@ class APIController extends AbstractFOSRestController {
         description: 'The IMDB ID',
         schema: new OA\Schema(type: 'string')
     )]
+    #[Security(name: 'Bearer')]
     public function apiGetMovieByImdbId(string $imdbid, EntityManagerInterface $entityManager) {
         $movie = $entityManager->getRepository(Movie::class)->findOneBy(array('omdbid' => $imdbid));
         return $this->handleView($this->view($movie));
@@ -113,6 +114,7 @@ class APIController extends AbstractFOSRestController {
         response: 404,
         description: 'Could not find the specified movie'
     )]
+    #[Security(name: 'Bearer')]
     public function apiGetMovieById(int $id, EntityManagerInterface $entityManager) {
         $movie = $entityManager->getRepository(Movie::class)->find($id);
         return $this->handleView($this->view($movie));
@@ -134,6 +136,7 @@ class APIController extends AbstractFOSRestController {
         description: 'Movie ID',
         schema: new OA\Schema(type: 'int')
     )]
+    #[Security(name: 'Bearer')]
     public function apiGetMovieImageById(int $id, EntityManagerInterface $entityManager) {
         $movie = $entityManager->getRepository(Movie::class)->find($id);
         return $this->handleView($this->view($movie->getImagePath()));
@@ -155,6 +158,7 @@ class APIController extends AbstractFOSRestController {
         description: 'Movie IMDB ID',
         schema: new OA\Schema(type: 'string')
     )]
+    #[Security(name: 'Bearer')]
     public function apiAddByOmdbId(OmdbService $omdb, Request $request, MovieService $movieService) {
         $form = $this->createForm(OmdbType::class);
         $data = json_decode($request->getContent(), true);
@@ -179,6 +183,48 @@ class APIController extends AbstractFOSRestController {
     }
 
     #[Rest\Post('/api/v1/movies/createbysearch', name: 'app_api_addbyomdbsearch')]
+    #[Security(name: 'Bearer')]
+    #[OA\Response(
+        response: 201,
+        description: 'Movie created from search',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(property: 'location', type: 'string')
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: 404,
+        description: 'Could not create a movie from search',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(property: 'error', type: 'string')
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: 403,
+        description: 'Not Authorized',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(property: 'error', type: 'string')
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Parameter(
+        name: 'title',
+        description: 'Movie title to search for',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'year',
+        description: 'Movie year',
+        required: false,
+        schema: new OA\Schema(type: 'int')
+    )]
     public function addByOmdbSearch(OmdbService $omdb, Request $request, MovieService $movieService, LoggerInterface $logger) {
         $form = $this->createForm(ApiMovieSearchType::class);
         $data = json_decode($request->getContent(), true);
@@ -216,6 +262,7 @@ class APIController extends AbstractFOSRestController {
     }
 
     #[Rest\Post('/api/v1/movies/edit/id/{id}', name: 'app_api_apieditbyid')]
+    #[Security(name: 'Bearer')]
     public function apiEditById(int $id, MovieService $movieService, Request $request) {
         $form = $this->createForm(ApiMovieType::class);
         $data = json_decode($request->getContent(), true);

@@ -45,7 +45,7 @@ class MovieRepository extends ServiceEntityRepository
 //    /**
 //     * @return Movie[] Returns an array of Movie objects
 //     */
-//    public function findByExampleField($value): array
+//    public_html function findByExampleField($value): array
 //    {
 //        return $this->createQueryBuilder('m')
 //            ->andWhere('m.exampleField = :val')
@@ -57,7 +57,7 @@ class MovieRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Movie
+//    public_html function findOneBySomeField($value): ?Movie
 //    {
 //        return $this->createQueryBuilder('m')
 //            ->andWhere('m.exampleField = :val')

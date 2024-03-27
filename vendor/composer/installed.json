@@ -2,17 +2,17 @@
     "packages": [
         {
             "name": "amphp/amp",
-            "version": "v2.6.2",
-            "version_normalized": "2.6.2.0",
+            "version": "v2.6.4",
+            "version_normalized": "2.6.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amphp/amp.git",
-                "reference": "9d5100cebffa729aaffecd3ad25dc5aeea4f13bb"
+                "reference": "ded3d9be08f526089eb7ee8d9f16a9768f9dec2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amphp/amp/zipball/9d5100cebffa729aaffecd3ad25dc5aeea4f13bb",
-                "reference": "9d5100cebffa729aaffecd3ad25dc5aeea4f13bb",
+                "url": "https://api.github.com/repos/amphp/amp/zipball/ded3d9be08f526089eb7ee8d9f16a9768f9dec2d",
+                "reference": "ded3d9be08f526089eb7ee8d9f16a9768f9dec2d",
                 "shasum": ""
             },
             "require": {
@@ -24,10 +24,10 @@
                 "ext-json": "*",
                 "jetbrains/phpstorm-stubs": "^2019.3",
                 "phpunit/phpunit": "^7 | ^8 | ^9",
-                "psalm/phar": "^3.11@dev",
-                "react/promise": "^2"
+                "react/promise": "^2",
+                "vimeo/psalm": "^3.12"
             },
-            "time": "2022-02-20T17:52:18+00:00",
+            "time": "2024-03-21T18:52:26+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -82,7 +82,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/amphp",
                 "issues": "https://github.com/amphp/amp/issues",
-                "source": "https://github.com/amphp/amp/tree/v2.6.2"
+                "source": "https://github.com/amphp/amp/tree/v2.6.4"
             },
             "funding": [
                 {
@@ -174,17 +174,17 @@
         },
         {
             "name": "amphp/cache",
-            "version": "v1.5.0",
-            "version_normalized": "1.5.0.0",
+            "version": "v1.5.1",
+            "version_normalized": "1.5.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amphp/cache.git",
-                "reference": "2b6b5dbb70e54cc914df9952ba7c012bc4cbcd28"
+                "reference": "fe78cfae2fb8c92735629b8cd1893029c73c9b63"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amphp/cache/zipball/2b6b5dbb70e54cc914df9952ba7c012bc4cbcd28",
-                "reference": "2b6b5dbb70e54cc914df9952ba7c012bc4cbcd28",
+                "url": "https://api.github.com/repos/amphp/cache/zipball/fe78cfae2fb8c92735629b8cd1893029c73c9b63",
+                "reference": "fe78cfae2fb8c92735629b8cd1893029c73c9b63",
                 "shasum": ""
             },
             "require": {
@@ -203,7 +203,7 @@
                 "phpunit/phpunit": "^6 | ^7 | ^8 | ^9",
                 "vimeo/psalm": "^4"
             },
-            "time": "2021-06-29T17:12:43+00:00",
+            "time": "2024-03-21T19:35:02+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -230,7 +230,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/amphp",
                 "issues": "https://github.com/amphp/cache/issues",
-                "source": "https://github.com/amphp/cache/tree/v1.5.0"
+                "source": "https://github.com/amphp/cache/tree/v1.5.1"
             },
             "funding": [
                 {
@@ -332,17 +332,17 @@
         },
         {
             "name": "amphp/hpack",
-            "version": "v3.2.0",
-            "version_normalized": "3.2.0.0",
+            "version": "v3.2.1",
+            "version_normalized": "3.2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amphp/hpack.git",
-                "reference": "95895d29ae577a3a5995b46d16def04e11e39947"
+                "reference": "4f293064b15682a2b178b1367ddf0b8b5feb0239"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amphp/hpack/zipball/95895d29ae577a3a5995b46d16def04e11e39947",
-                "reference": "95895d29ae577a3a5995b46d16def04e11e39947",
+                "url": "https://api.github.com/repos/amphp/hpack/zipball/4f293064b15682a2b178b1367ddf0b8b5feb0239",
+                "reference": "4f293064b15682a2b178b1367ddf0b8b5feb0239",
                 "shasum": ""
             },
             "require": {
@@ -354,7 +354,7 @@
                 "nikic/php-fuzzer": "^0.0.10",
                 "phpunit/phpunit": "^7 | ^8 | ^9"
             },
-            "time": "2023-09-05T19:59:20+00:00",
+            "time": "2024-03-21T19:00:16+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -397,7 +397,7 @@
             ],
             "support": {
                 "issues": "https://github.com/amphp/hpack/issues",
-                "source": "https://github.com/amphp/hpack/tree/v3.2.0"
+                "source": "https://github.com/amphp/hpack/tree/v3.2.1"
             },
             "funding": [
                 {
@@ -409,17 +409,17 @@
         },
         {
             "name": "amphp/http",
-            "version": "v1.7.1",
-            "version_normalized": "1.7.1.0",
+            "version": "v1.7.2",
+            "version_normalized": "1.7.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amphp/http.git",
-                "reference": "0d729b09fbace00dd1fd35ae8d4d45eb25f39d96"
+                "reference": "68c61d2f81be3495b692367df2246d9548748db0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amphp/http/zipball/0d729b09fbace00dd1fd35ae8d4d45eb25f39d96",
-                "reference": "0d729b09fbace00dd1fd35ae8d4d45eb25f39d96",
+                "url": "https://api.github.com/repos/amphp/http/zipball/68c61d2f81be3495b692367df2246d9548748db0",
+                "reference": "68c61d2f81be3495b692367df2246d9548748db0",
                 "shasum": ""
             },
             "require": {
@@ -427,10 +427,10 @@
                 "php": ">=7.1"
             },
             "require-dev": {
-                "amphp/php-cs-fixer-config": "^2-dev",
+                "amphp/php-cs-fixer-config": "2.x-dev#3c24119d0377eed2093d5c0f0541478cb75ea72d",
                 "phpunit/phpunit": "^9 || ^8 || ^7"
             },
-            "time": "2023-02-08T00:29:51+00:00",
+            "time": "2024-03-21T19:15:28+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -459,7 +459,7 @@
             "description": "Basic HTTP primitives which can be shared by servers and clients.",
             "support": {
                 "issues": "https://github.com/amphp/http/issues",
-                "source": "https://github.com/amphp/http/tree/v1.7.1"
+                "source": "https://github.com/amphp/http/tree/v1.7.2"
             },
             "funding": [
                 {
@@ -560,17 +560,17 @@
         },
         {
             "name": "amphp/parser",
-            "version": "v1.1.0",
-            "version_normalized": "1.1.0.0",
+            "version": "v1.1.1",
+            "version_normalized": "1.1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amphp/parser.git",
-                "reference": "ff1de4144726c5dad5fab97f66692ebe8de3e151"
+                "reference": "3cf1f8b32a0171d4b1bed93d25617637a77cded7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amphp/parser/zipball/ff1de4144726c5dad5fab97f66692ebe8de3e151",
-                "reference": "ff1de4144726c5dad5fab97f66692ebe8de3e151",
+                "url": "https://api.github.com/repos/amphp/parser/zipball/3cf1f8b32a0171d4b1bed93d25617637a77cded7",
+                "reference": "3cf1f8b32a0171d4b1bed93d25617637a77cded7",
                 "shasum": ""
             },
             "require": {
@@ -581,7 +581,7 @@
                 "phpunit/phpunit": "^9",
                 "psalm/phar": "^5.4"
             },
-            "time": "2022-12-30T18:08:47+00:00",
+            "time": "2024-03-21T19:16:53+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -613,7 +613,7 @@
             ],
             "support": {
                 "issues": "https://github.com/amphp/parser/issues",
-                "source": "https://github.com/amphp/parser/tree/v1.1.0"
+                "source": "https://github.com/amphp/parser/tree/v1.1.1"
             },
             "funding": [
                 {
@@ -625,30 +625,30 @@
         },
         {
             "name": "amphp/process",
-            "version": "v1.1.5",
-            "version_normalized": "1.1.5.0",
+            "version": "v1.1.6",
+            "version_normalized": "1.1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amphp/process.git",
-                "reference": "04b4517bbfe436ab822b853d511165dafbfe115a"
+                "reference": "2cd38052ddb200dcd73d34d8e06654dadb101e7c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amphp/process/zipball/04b4517bbfe436ab822b853d511165dafbfe115a",
-                "reference": "04b4517bbfe436ab822b853d511165dafbfe115a",
+                "url": "https://api.github.com/repos/amphp/process/zipball/2cd38052ddb200dcd73d34d8e06654dadb101e7c",
+                "reference": "2cd38052ddb200dcd73d34d8e06654dadb101e7c",
                 "shasum": ""
             },
             "require": {
                 "amphp/amp": "^2",
                 "amphp/byte-stream": "^1.4",
-                "php": ">=7"
+                "php": ">=7.1"
             },
             "require-dev": {
                 "amphp/php-cs-fixer-config": "dev-master",
                 "amphp/phpunit-util": "^1",
                 "phpunit/phpunit": "^6"
             },
-            "time": "2024-02-24T21:06:11+00:00",
+            "time": "2024-03-21T19:24:36+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -681,7 +681,7 @@
             "homepage": "https://github.com/amphp/process",
             "support": {
                 "issues": "https://github.com/amphp/process/issues",
-                "source": "https://github.com/amphp/process/tree/v1.1.5"
+                "source": "https://github.com/amphp/process/tree/v1.1.6"
             },
             "funding": [
                 {
@@ -754,17 +754,17 @@
         },
         {
             "name": "amphp/socket",
-            "version": "v1.2.0",
-            "version_normalized": "1.2.0.0",
+            "version": "v1.2.1",
+            "version_normalized": "1.2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amphp/socket.git",
-                "reference": "a8af9f5d0a66c5fe9567da45a51509e592788fe6"
+                "reference": "b00528bd75548b7ae06a502358bb3ff8b106f5ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amphp/socket/zipball/a8af9f5d0a66c5fe9567da45a51509e592788fe6",
-                "reference": "a8af9f5d0a66c5fe9567da45a51509e592788fe6",
+                "url": "https://api.github.com/repos/amphp/socket/zipball/b00528bd75548b7ae06a502358bb3ff8b106f5ab",
+                "reference": "b00528bd75548b7ae06a502358bb3ff8b106f5ab",
                 "shasum": ""
             },
             "require": {
@@ -782,7 +782,7 @@
                 "phpunit/phpunit": "^6 || ^7 || ^8",
                 "vimeo/psalm": "^3.9@dev"
             },
-            "time": "2021-07-09T18:18:48+00:00",
+            "time": "2024-03-21T18:12:22+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -830,7 +830,7 @@
             ],
             "support": {
                 "issues": "https://github.com/amphp/socket/issues",
-                "source": "https://github.com/amphp/socket/tree/v1.2.0"
+                "source": "https://github.com/amphp/socket/tree/v1.2.1"
             },
             "funding": [
                 {
@@ -1633,17 +1633,17 @@
         },
         {
             "name": "doctrine/doctrine-bundle",
-            "version": "2.11.3",
-            "version_normalized": "2.11.3.0",
+            "version": "2.12.0",
+            "version_normalized": "2.12.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineBundle.git",
-                "reference": "492725310ae9a1b5b20d6ae09fb5ae6404616e68"
+                "reference": "5418e811a14724068e95e0ba43353b903ada530f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/492725310ae9a1b5b20d6ae09fb5ae6404616e68",
-                "reference": "492725310ae9a1b5b20d6ae09fb5ae6404616e68",
+                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/5418e811a14724068e95e0ba43353b903ada530f",
+                "reference": "5418e811a14724068e95e0ba43353b903ada530f",
                 "shasum": ""
             },
             "require": {
@@ -1681,6 +1681,7 @@
                 "symfony/property-info": "^5.4 || ^6.0 || ^7.0",
                 "symfony/proxy-manager-bridge": "^5.4 || ^6.0 || ^7.0",
                 "symfony/security-bundle": "^5.4 || ^6.0 || ^7.0",
+                "symfony/stopwatch": "^5.4 || ^6.0 || ^7.0",
                 "symfony/string": "^5.4 || ^6.0 || ^7.0",
                 "symfony/twig-bridge": "^5.4 || ^6.0 || ^7.0",
                 "symfony/validator": "^5.4 || ^6.0 || ^7.0",
@@ -1695,12 +1696,12 @@
                 "ext-pdo": "*",
                 "symfony/web-profiler-bundle": "To use the data collector."
             },
-            "time": "2024-02-10T20:56:20+00:00",
+            "time": "2024-03-19T07:20:37+00:00",
             "type": "symfony-bundle",
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "Doctrine\\Bundle\\DoctrineBundle\\": ""
+                    "Doctrine\\Bundle\\DoctrineBundle\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1735,7 +1736,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/DoctrineBundle/issues",
-                "source": "https://github.com/doctrine/DoctrineBundle/tree/2.11.3"
+                "source": "https://github.com/doctrine/DoctrineBundle/tree/2.12.0"
             },
             "funding": [
                 {
@@ -2295,17 +2296,17 @@
         },
         {
             "name": "doctrine/orm",
-            "version": "2.19.2",
-            "version_normalized": "2.19.2.0",
+            "version": "2.19.3",
+            "version_normalized": "2.19.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/orm.git",
-                "reference": "40a0964f06e142e173b783c45688e5f5efaed6aa"
+                "reference": "1a5a4c674a416b4fdf76833c627c5e7f58bbb890"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/orm/zipball/40a0964f06e142e173b783c45688e5f5efaed6aa",
-                "reference": "40a0964f06e142e173b783c45688e5f5efaed6aa",
+                "url": "https://api.github.com/repos/doctrine/orm/zipball/1a5a4c674a416b4fdf76833c627c5e7f58bbb890",
+                "reference": "1a5a4c674a416b4fdf76833c627c5e7f58bbb890",
                 "shasum": ""
             },
             "require": {
@@ -2348,7 +2349,7 @@
                 "symfony/cache": "Provides cache support for Setup Tool with doctrine/cache 2.0",
                 "symfony/yaml": "If you want to use YAML Metadata Mapping Driver"
             },
-            "time": "2024-03-18T19:12:56+00:00",
+            "time": "2024-03-21T11:01:42+00:00",
             "bin": [
                 "bin/doctrine"
             ],
@@ -2393,7 +2394,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/orm/issues",
-                "source": "https://github.com/doctrine/orm/tree/2.19.2"
+                "source": "https://github.com/doctrine/orm/tree/2.19.3"
             },
             "install-path": "../doctrine/orm"
         },
@@ -4359,17 +4360,17 @@
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "v4.24.0",
-            "version_normalized": "4.24.0.0",
+            "version": "v4.24.1",
+            "version_normalized": "4.24.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "9fb5170b5f7a88d1aaade05e3eb399e697ac0941"
+                "reference": "196ef001c9d6a2df26df82b4e5a78fad7f4debba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/9fb5170b5f7a88d1aaade05e3eb399e697ac0941",
-                "reference": "9fb5170b5f7a88d1aaade05e3eb399e697ac0941",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/196ef001c9d6a2df26df82b4e5a78fad7f4debba",
+                "reference": "196ef001c9d6a2df26df82b4e5a78fad7f4debba",
                 "shasum": ""
             },
             "require": {
@@ -4391,6 +4392,9 @@
                 "symfony/property-info": "^5.4.10|^6.0|^7.0",
                 "symfony/routing": "^5.4|^6.0|^7.0",
                 "zircote/swagger-php": "^4.6.1"
+            },
+            "conflict": {
+                "zircote/swagger-php": "4.8.7"
             },
             "require-dev": {
                 "api-platform/core": "^2.7.0|^3",
@@ -4432,7 +4436,7 @@
                 "symfony/validator": "For describing the validation constraints in your models.",
                 "willdurand/hateoas-bundle": "For extracting HATEOAS metadata."
             },
-            "time": "2024-03-14T15:14:05+00:00",
+            "time": "2024-03-25T13:06:46+00:00",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -4464,7 +4468,7 @@
             ],
             "support": {
                 "issues": "https://github.com/nelmio/NelmioApiDocBundle/issues",
-                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.24.0"
+                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.24.1"
             },
             "install-path": "../nelmio/api-doc-bundle"
         },
@@ -4531,17 +4535,17 @@
         },
         {
             "name": "pagerfanta/core",
-            "version": "v4.3.2",
-            "version_normalized": "4.3.2.0",
+            "version": "v4.4.0",
+            "version_normalized": "4.4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Pagerfanta/core.git",
-                "reference": "2fe70a38067d74a514bee1b90d301d115dce0b87"
+                "reference": "93246f475f4f2d90d5f186dd9d01d96dc98eaa31"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Pagerfanta/core/zipball/2fe70a38067d74a514bee1b90d301d115dce0b87",
-                "reference": "2fe70a38067d74a514bee1b90d301d115dce0b87",
+                "url": "https://api.github.com/repos/Pagerfanta/core/zipball/93246f475f4f2d90d5f186dd9d01d96dc98eaa31",
+                "reference": "93246f475f4f2d90d5f186dd9d01d96dc98eaa31",
                 "shasum": ""
             },
             "require": {
@@ -4551,7 +4555,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^10.5"
             },
-            "time": "2024-03-06T23:53:35+00:00",
+            "time": "2024-03-24T20:29:46+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -4571,14 +4575,14 @@
                 "pagerfanta"
             ],
             "support": {
-                "source": "https://github.com/Pagerfanta/core/tree/v4.3.2"
+                "source": "https://github.com/Pagerfanta/core/tree/v4.4.0"
             },
             "install-path": "../pagerfanta/core"
         },
         {
             "name": "pagerfanta/doctrine-orm-adapter",
-            "version": "v4.3.2",
-            "version_normalized": "4.3.2.0",
+            "version": "v4.4.0",
+            "version_normalized": "4.4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Pagerfanta/doctrine-orm-adapter.git",
@@ -4621,14 +4625,14 @@
                 "pagerfanta"
             ],
             "support": {
-                "source": "https://github.com/Pagerfanta/doctrine-orm-adapter/tree/v4.3.2"
+                "source": "https://github.com/Pagerfanta/doctrine-orm-adapter/tree/v4.4.0"
             },
             "install-path": "../pagerfanta/doctrine-orm-adapter"
         },
         {
             "name": "pagerfanta/twig",
-            "version": "v4.3.2",
-            "version_normalized": "4.3.2.0",
+            "version": "v4.4.0",
+            "version_normalized": "4.4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Pagerfanta/twig.git",
@@ -4668,7 +4672,7 @@
                 "pagerfanta"
             ],
             "support": {
-                "source": "https://github.com/Pagerfanta/twig/tree/v4.3.2"
+                "source": "https://github.com/Pagerfanta/twig/tree/v4.4.0"
             },
             "install-path": "../pagerfanta/twig"
         },
@@ -5117,17 +5121,17 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "1.26.0",
-            "version_normalized": "1.26.0.0",
+            "version": "1.27.0",
+            "version_normalized": "1.27.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "231e3186624c03d7e7c890ec662b81e6b0405227"
+                "reference": "86e4d5a4b036f8f0be1464522f4c6b584c452757"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/231e3186624c03d7e7c890ec662b81e6b0405227",
-                "reference": "231e3186624c03d7e7c890ec662b81e6b0405227",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/86e4d5a4b036f8f0be1464522f4c6b584c452757",
+                "reference": "86e4d5a4b036f8f0be1464522f4c6b584c452757",
                 "shasum": ""
             },
             "require": {
@@ -5144,7 +5148,7 @@
                 "phpunit/phpunit": "^9.5",
                 "symfony/process": "^5.2"
             },
-            "time": "2024-02-23T16:05:55+00:00",
+            "time": "2024-03-21T13:14:53+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -5161,7 +5165,7 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.26.0"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.27.0"
             },
             "install-path": "../phpstan/phpdoc-parser"
         },
@@ -5501,17 +5505,17 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.6.17",
-            "version_normalized": "9.6.17.0",
+            "version": "9.6.18",
+            "version_normalized": "9.6.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "1a156980d78a6666721b7e8e8502fe210b587fcd"
+                "reference": "32c2c2d6580b1d8ab3c10b1e9e4dc263cc69bb04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/1a156980d78a6666721b7e8e8502fe210b587fcd",
-                "reference": "1a156980d78a6666721b7e8e8502fe210b587fcd",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/32c2c2d6580b1d8ab3c10b1e9e4dc263cc69bb04",
+                "reference": "32c2c2d6580b1d8ab3c10b1e9e4dc263cc69bb04",
                 "shasum": ""
             },
             "require": {
@@ -5547,7 +5551,7 @@
                 "ext-soap": "To be able to generate mocks based on WSDL files",
                 "ext-xdebug": "PHP extension that provides line coverage as well as branch and path coverage"
             },
-            "time": "2024-02-23T13:14:51+00:00",
+            "time": "2024-03-21T12:07:32+00:00",
             "bin": [
                 "phpunit"
             ],
@@ -5587,7 +5591,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.17"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.18"
             },
             "funding": [
                 {
@@ -9745,17 +9749,17 @@
         },
         {
             "name": "symfony/maker-bundle",
-            "version": "v1.56.0",
-            "version_normalized": "1.56.0.0",
+            "version": "v1.57.0",
+            "version_normalized": "1.57.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/maker-bundle.git",
-                "reference": "bbb7949ae048363df7c8439abeddef8befd155ce"
+                "reference": "2c90181911241648356b828b86b04fe3571aca0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/bbb7949ae048363df7c8439abeddef8befd155ce",
-                "reference": "bbb7949ae048363df7c8439abeddef8befd155ce",
+                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/2c90181911241648356b828b86b04fe3571aca0b",
+                "reference": "2c90181911241648356b828b86b04fe3571aca0b",
                 "shasum": ""
             },
             "require": {
@@ -9786,7 +9790,7 @@
                 "symfony/yaml": "^6.4|^7.0",
                 "twig/twig": "^3.0|^4.x-dev"
             },
-            "time": "2024-03-04T13:36:45+00:00",
+            "time": "2024-03-22T12:00:21+00:00",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -9820,7 +9824,7 @@
             ],
             "support": {
                 "issues": "https://github.com/symfony/maker-bundle/issues",
-                "source": "https://github.com/symfony/maker-bundle/tree/v1.56.0"
+                "source": "https://github.com/symfony/maker-bundle/tree/v1.57.0"
             },
             "funding": [
                 {

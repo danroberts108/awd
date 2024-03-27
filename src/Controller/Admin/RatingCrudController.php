@@ -16,7 +16,7 @@ class RatingCrudController extends AbstractCrudController
     }
 
     /*
-    public function configureFields(string $pageName): iterable
+    public_html function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id'),

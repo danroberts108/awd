@@ -754,7 +754,7 @@ class ComposerStaticInit3d7aaf1866df64911154060e3a32f321
         ),
         'Doctrine\\Bundle\\DoctrineBundle\\' => 
         array (
-            0 => __DIR__ . '/..' . '/doctrine/doctrine-bundle',
+            0 => __DIR__ . '/..' . '/doctrine/doctrine-bundle/src',
         ),
         'DeepCopy\\' => 
         array (

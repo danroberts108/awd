@@ -25,6 +25,7 @@ use Symfony\Bundle\MakerBundle\FileManager;
 use Symfony\Bundle\MakerBundle\Generator;
 use Symfony\Bundle\MakerBundle\InputAwareMakerInterface;
 use Symfony\Bundle\MakerBundle\InputConfiguration;
+use Symfony\Bundle\MakerBundle\Maker\Common\UidTrait;
 use Symfony\Bundle\MakerBundle\Str;
 use Symfony\Bundle\MakerBundle\Util\ClassDetails;
 use Symfony\Bundle\MakerBundle\Util\ClassSource\Model\ClassProperty;
@@ -47,6 +48,8 @@ use Symfony\UX\Turbo\Attribute\Broadcast;
  */
 final class MakeEntity extends AbstractMaker implements InputAwareMakerInterface
 {
+    use UidTrait;
+
     private Generator $generator;
     private EntityClassGenerator $entityClassGenerator;
 
@@ -97,12 +100,18 @@ final class MakeEntity extends AbstractMaker implements InputAwareMakerInterface
             ->setHelp(file_get_contents(__DIR__.'/../Resources/help/MakeEntity.txt'))
         ;
 
+        $this->addWithUuidOption($command);
+
         $inputConfig->setArgumentAsNonInteractive('name');
     }
 
     public function interact(InputInterface $input, ConsoleStyle $io, Command $command): void
     {
         if ($input->getArgument('name')) {
+            if (!$this->verifyEntityName($input->getArgument('name'))) {
+                throw new \InvalidArgumentException('An entity can only have ASCII letters');
+            }
+
             return;
         }
 
@@ -118,9 +127,16 @@ final class MakeEntity extends AbstractMaker implements InputAwareMakerInterface
             return;
         }
 
+        $this->checkIsUsingUid($input);
+
         $argument = $command->getDefinition()->getArgument('name');
         $question = $this->createEntityClassQuestion($argument->getDescription());
         $entityClassName = $io->askQuestion($question);
+
+        while (!$this->verifyEntityName($entityClassName)) {
+            $io->error('An entity can only have ASCII letters');
+            $entityClassName = $io->askQuestion($question);
+        }
 
         $input->setArgument('name', $entityClassName);
 
@@ -147,7 +163,7 @@ final class MakeEntity extends AbstractMaker implements InputAwareMakerInterface
 
             // Mercure is needed
             if ($isBroadcast && !class_exists(MercureExtension::class)) {
-                throw new RuntimeCommandException('Please run "composer require symfony/mercure". It is needed to broadcast entities.');
+                throw new RuntimeCommandException('Please run "composer require symfony/mercure-bundle". It is needed to broadcast entities.');
             }
 
             $input->setOption('broadcast', $isBroadcast);
@@ -175,11 +191,10 @@ final class MakeEntity extends AbstractMaker implements InputAwareMakerInterface
         if (!$classExists) {
             $broadcast = $input->getOption('broadcast');
             $entityPath = $this->entityClassGenerator->generateEntityClass(
-                $entityClassDetails,
-                $input->getOption('api-resource'),
-                false,
-                true,
-                $broadcast
+                entityClassDetails: $entityClassDetails,
+                apiResource: $input->getOption('api-resource'),
+                broadcast: $broadcast,
+                useUuidIdentifier: $this->getIdType(),
             );
 
             if ($broadcast) {
@@ -803,6 +818,11 @@ final class MakeEntity extends AbstractMaker implements InputAwareMakerInterface
         });
 
         return $io->askQuestion($question);
+    }
+
+    private function verifyEntityName(string $entityName): bool
+    {
+        return preg_match('/^[a-zA-Z\\\\]+$/', $entityName);
     }
 
     private function createClassManipulator(string $path, ConsoleStyle $io, bool $overwrite): ClassSourceManipulator

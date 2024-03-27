@@ -282,6 +282,8 @@ class DefaultController extends AbstractController {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            $review = $form->getData();
+
             $entityManager->persist($review);
             $entityManager->flush();
 
@@ -387,7 +389,7 @@ class DefaultController extends AbstractController {
     }
 
     #[Route('/movie/omdb/search/{id}', name: 'app_default_searchformovieomdb')]
-    public function searchForMovieOmdb(Request $request, OmdbService $omdb, OmdbUpdateService $omdbUpdate, EntityManagerInterface $entityManager, MovieService $movieService, int $id = 0) : Response {
+    public function searchForMovieOmdb(LoggerInterface $logger, Request $request, OmdbService $omdb, OmdbUpdateService $omdbUpdate, EntityManagerInterface $entityManager, MovieService $movieService, int $id = 0) : Response {
         $movie = $entityManager->getRepository(Movie::class)->find($id);
         $form = $this->createForm(SearchType::class);
         $form->handleRequest($request);
@@ -413,6 +415,7 @@ class DefaultController extends AbstractController {
 
             //Gets the response string from the omdb search call
             $responsestring = $omdb->searchByTerm($search);
+            $logger->critical($responsestring);
 
             //Checks if the response is null meaning there were no results
             if ($responsestring == null) {
@@ -424,8 +427,18 @@ class DefaultController extends AbstractController {
                 ]);
             }
 
-            //If the response was not nul, decodes the json to an array of movie objects
+            //If the response was not null, decodes the json to an array of movie objects or errors
             $responseobj = json_decode($responsestring, true);
+
+            //Checks if response is false
+            if ($responseobj['Response'] == "False") {
+                return $this->render('/default/search_omdb.html.twig', [
+                    'form' => $form,
+                    'search' => $search,
+                    'results' => null,
+                    'id' => $id
+                ]);
+            }
 
             //Drills down into the response array to the array of movie objects
             $results = $responseobj['Search'];

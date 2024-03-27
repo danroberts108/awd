@@ -127,12 +127,12 @@ class TokenAnalyser implements AnalyserInterface
                 $token = $this->nextToken($tokens, $parseContext);
 
                 if (is_string($token) && ($token === '(' || $token === '{')) {
-                    // php7 anonymous classes (i.e. new class() { public function foo() {} };)
+                    // php7 anonymous classes (i.e. new class() { public_html function foo() {} };)
                     continue;
                 }
 
                 if (is_array($token) && ($token[1] === 'extends' || $token[1] === 'implements')) {
-                    // php7 anonymous classes with extends (i.e. new class() extends { public function foo() {} };)
+                    // php7 anonymous classes with extends (i.e. new class() extends { public_html function foo() {} };)
                     continue;
                 }
 

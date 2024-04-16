@@ -66,9 +66,11 @@ class DefaultController extends AbstractController {
 
         foreach ($iterator as $movie) {
             if ($movie->getAvgRating() == null) {
-                $stars[] = "";
+                $stars[] = "<i>No ratings for this movie yet.</i>";
+            } else {
+                $stars[] = $ratingTextResponse->getRatingDisplay($movie->getAvgRating());
             }
-            $stars[] = $ratingTextResponse->getRatingDisplay($movie->getAvgRating());
+
             if ($movie->getImagePath() == "" && $movie->getOmdbid() != "0") {
                 $iterator[$movie] = $omdbUpdate->updateImage($movie);
             }

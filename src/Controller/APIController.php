@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Movie;
+use App\Entity\Review;
 use App\Entity\User;
 use App\Form\ApiMovieSearchType;
 use App\Form\ApiMovieType;
@@ -43,19 +44,33 @@ class APIController extends AbstractFOSRestController {
         description: 'Not Authorized',
         content: new OA\JsonContent(
             properties: [
-                new OA\Property(property: 'error', type: 'string')
+                new OA\Property(property: 'response', type: 'string'),
+                new OA\Property(property: 'description', type: 'string'),
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: 404,
+        description: 'Not Found',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(property: 'response', type: 'string'),
+                new OA\Property(property: 'description', type: 'string'),
             ],
             type: 'object'
         )
     )]
     #[Security(name: 'Bearer')]
-    public function apimovies(EntityManagerInterface $entityManager, Request $request, LoggerInterface $logger) {
-
-        $data = json_decode($request->getContent());
-
-        $logger->info('Called with key prefix: ' . $request->getContent());
-
+    public function apimovies(EntityManagerInterface $entityManager) {
         $movies = $entityManager->getRepository(Movie::class)->findAll();
+
+        if ($movies == null) {
+            $view = $this->view(array('response' => 'error', 'description' => 'No movies could be found.'), Response::HTTP_NOT_FOUND);
+            return $this->handleView($view);
+        }
+
+
 
         return $this->handleView($this->view($movies));
     }
@@ -348,14 +363,36 @@ class APIController extends AbstractFOSRestController {
         return $this->handleView($view);
     }
 
+    //TODO: Add by movie object json
+
     #[Rest\Put('/api/v1/movies/put/', name: 'app_api_apiputbyid')]
     #[Security(name: 'Bearer')]
     #[OA\Response(
         response: 200,
-        description: 'Movie updated with submitted information',
+        description: 'Movie updated with submitted information.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(property: 'location', type: 'string')
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: 404,
+        description: 'Could not find movie to update.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(property: 'error', type: 'string')
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: 400,
+        description: 'Either no data was submitted, or the data submitted was malformed or in the wrong format.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(property: 'error', type: 'string')
             ],
             type: 'object'
         )
@@ -396,26 +433,89 @@ class APIController extends AbstractFOSRestController {
         return $this->handleView($view);
     }
 
-    #[Rest\Delete('/api/v1/movies/delete/', name: 'app_api_apideletebyid')]
+    #[Rest\Delete('/api/v1/movies/delete/{id}', name: 'app_api_apideletebyid')]
     #[Security(name: 'Bearer')]
-    public function apiDeleteById(MovieService $movieService, Request $request, EntityManagerInterface $entityManager, \Symfony\Bundle\SecurityBundle\Security $security) {
-        //TODO : get id from json object
-        $form = $this->createForm(MovieIdType::class);
-        $data = json_decode($request, true);
-        $form->submit($data);
+    #[OA\Response(
+        response: 403,
+        description: 'Not Authorized.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(property: 'response', type: 'string'),
+                new OA\Property(property: 'description', type: 'string')
+            ]
+        )
+    )]
+    #[OA\Response(
+        response: 404,
+        description: 'Could not find movie to delete.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(property: 'response', type: 'error'),
+                new OA\Property(property: 'description', type: 'string')
+            ]
+        )
+    )]
+    #[OA\Response(
+        response: 200,
+        description: 'Movie deleted.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(property: 'response', type: 'string'),
+                new OA\Property(property: 'description', type: 'string')
+            ]
+        )
+    )]
+    public function apiDeleteById(MovieService $movieService, EntityManagerInterface $entityManager, \Symfony\Bundle\SecurityBundle\Security $security, int $id) {
+        $movie = $entityManager->getRepository(Movie::class)->find($id);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $movie = $entityManager->getRepository(Movie::class)->find($form->get('id'));
-            if ($this->isGranted('ROLE_MOD')) {
-                $entityManager->remove($movie);
-                $entityManager->flush();
-                $view = $this->view(Response::HTTP_OK);
-                return $this->handleView($view);
-            } else {
-                $view = $this->view(array('error' => 'Not authorized'), Response::HTTP_FORBIDDEN);
-                return $this->handleView($view);
-            }
+        if ($movie == null) {
+            $view = $this->view(array('error' => 'Movie not found'), Response::HTTP_NOT_FOUND);
+            return $this->handleView($view);
         }
+
+        if ($this->isGranted('ROLE_MOD')) {
+            $entityManager->remove($movie);
+            $entityManager->flush();
+            $view = $this->view(array('response' => 'success'), Response::HTTP_OK);
+            return $this->handleView($view);
+        } else {
+            $view = $this->view(array('response' => 'failed', 'description' => 'Not authorized'), Response::HTTP_FORBIDDEN);
+            return $this->handleView($view);
+        }
+
+
+    }
+
+
+    #[Rest\Get('/api/v1/movies/{id}/getreviews', name: 'app_api_getreviewsbymovie')]
+    #[Security(name: 'Bearer')]
+    public function getReviewsByMovie(EntityManagerInterface $entityManager, int $id) {
+        $movie = $entityManager->getRepository(Movie::class)->find($id);
+
+        if($movie == null) {
+            $view = $this->view(array('error' => 'Movie not found'), Response::HTTP_NOT_FOUND);
+            return $this->handleView($view);
+        }
+
+        $reviews = $movie->getReviews();
+
+        $view = $this->view($reviews, Response::HTTP_OK);
+        return $this->handleView($view);
+    }
+
+
+    #[Rest\Get('/api/v1/reviews/{id}', name: 'app_api_getreviewsbyid')]
+    #[Security(name: 'Bearer')]
+    public function getReviewById(EntityManagerInterface $entityManager, int $id) {
+        $review = $entityManager->getRepository(Review::class)->find($id);
+
+        if($review == null) {
+            $view = $this->view(array('error' => 'Review not found'), Response::HTTP_NOT_FOUND);
+            return $this->handleView($view);
+        }
+
+        $view = $this->view($review, Response::HTTP_OK);
+        return $this->handleView($view);
     }
 
 }

@@ -35,7 +35,7 @@ use Pagerfanta\Doctrine\ORM\QueryAdapter;
 
 class APIController extends AbstractFOSRestController {
 
-    #[Rest\Get('/api/v1/movies/getmovies/{page}', name:'app_api_apimovies')]
+    #[Rest\Get('/api/v1/movies/{page}', name:'app_api_apimovies')]
     #[Serializer\MaxDepth(1)]
     #[OA\Response(
         response: 200,
@@ -124,7 +124,7 @@ class APIController extends AbstractFOSRestController {
         return $this->handleView($view);
     }
 
-    #[Rest\Get('/api/v1/movies/getbyid/{id}', name: 'app_api_apigetmoviebyid')]
+    #[Rest\Get('/api/v1/movies/{id}', name: 'app_api_apigetmoviebyid')]
     #[OA\Response(
         response: 200,
         description: 'Responds with the movie searched from ID',

@@ -38,7 +38,7 @@ class MovieRepository extends ServiceEntityRepository
         return $queryBuilder->orderBy('movie.name', 'ASC');
     }
 
-    public function addMovieQueryBuilder(QueryBuilder $queryBuilder = null) {
+    public function addMovieQueryBuilder(QueryBuilder $queryBuilder = null) : QueryBuilder {
         return $queryBuilder ?? $this->createQueryBuilder('movie');
     }
 

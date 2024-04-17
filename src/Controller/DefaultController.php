@@ -285,6 +285,8 @@ class DefaultController extends AbstractController {
             $entityManager->persist($review);
             $entityManager->flush();
 
+            //TODO: Actually update part in database
+
             return $this->redirectToRoute('view-review', ['id' => $review->getId()]);
         }
 
@@ -307,11 +309,11 @@ class DefaultController extends AbstractController {
         $form->handleRequest($request);
 
         if (!$review) {
-            $this->createNotFoundException('No review for id '.$id);
+            throw $this->createNotFoundException('No review for id '.$id);
         }
 
         if ($review->getAuthor() !== $security->getUser() && !$security->isGranted('ROLE_MOD')) {
-            $this->createAccessDeniedException('Not your review.');
+            throw $this->createAccessDeniedException('Not your review.');
         }
 
         if ($form->isSubmitted() && $form->isValid()) {

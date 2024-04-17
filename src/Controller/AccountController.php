@@ -56,7 +56,6 @@ class AccountController extends AbstractController
     }
 
     public function enableApiAccess(EntityManagerInterface $entityManager) : Response {
-        // TODO: Add API Role
 
         $user = $entityManager->getRepository(User::class)->find($this->getUser());
 
@@ -72,7 +71,6 @@ class AccountController extends AbstractController
     }
 
     public function disableApiAccess(EntityManagerInterface $entityManager) : Response {
-        // TODO: Remove API Role
 
         $user = $entityManager->getRepository(User::class)->find($this->getUser());
 

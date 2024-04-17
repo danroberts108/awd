@@ -39,13 +39,16 @@ class ApiLoginController extends AbstractController
     #[OA\Parameter(
         name: 'username',
         description: 'Username/Email',
-        schema: new OA\Schema(type: 'string')
+        required: true,
+        schema: new OA\Schema(type: 'string'),
     )]
     #[OA\Parameter(
         name: 'password',
         description: 'Password',
+        required: true,
         schema: new OA\Schema(type: 'string')
     )]
+    #[OA\Tag(name: "Security")]
     public function index(#[CurrentUser] ?User $user): JsonResponse
     {
         if (null === $user) {
@@ -61,4 +64,9 @@ class ApiLoginController extends AbstractController
             'token' => $token,
         ]);
     }
+
+
+    //TODO: API Logout
+
+
 }

@@ -51,7 +51,7 @@ final class ApiDocGenerator
     /**
      * @var ?string
      */
-    private $openApiVersion = null;
+    private $openApiVersion;
 
     /** @var Generator */
     private $generator;
@@ -60,7 +60,7 @@ final class ApiDocGenerator
      * @param DescriberInterface[]|iterable      $describers
      * @param ModelDescriberInterface[]|iterable $modelDescribers
      */
-    public function __construct($describers, $modelDescribers, CacheItemPoolInterface $cacheItemPool = null, string $cacheItemId = null, Generator $generator = null)
+    public function __construct($describers, $modelDescribers, ?CacheItemPoolInterface $cacheItemPool = null, ?string $cacheItemId = null, ?Generator $generator = null)
     {
         $this->describers = $describers;
         $this->modelDescribers = $modelDescribers;
@@ -69,17 +69,23 @@ final class ApiDocGenerator
         $this->generator = $generator ?? new Generator($this->logger);
     }
 
-    public function setAlternativeNames(array $alternativeNames)
+    /**
+     * @param string[] $alternativeNames
+     */
+    public function setAlternativeNames(array $alternativeNames): void
     {
         $this->alternativeNames = $alternativeNames;
     }
 
-    public function setMediaTypes(array $mediaTypes)
+    /**
+     * @param string[] $mediaTypes
+     */
+    public function setMediaTypes(array $mediaTypes): void
     {
         $this->mediaTypes = $mediaTypes;
     }
 
-    public function setOpenApiVersion(?string $openApiVersion)
+    public function setOpenApiVersion(?string $openApiVersion): void
     {
         $this->openApiVersion = $openApiVersion;
     }
@@ -90,14 +96,14 @@ final class ApiDocGenerator
             return $this->openApi;
         }
 
-        if ($this->cacheItemPool) {
+        if (null !== $this->cacheItemPool) {
             $item = $this->cacheItemPool->getItem($this->cacheItemId);
             if ($item->isHit()) {
                 return $this->openApi = $item->get();
             }
         }
 
-        if ($this->openApiVersion) {
+        if (null !== $this->openApiVersion) {
             $this->generator->setVersion($this->openApiVersion);
         }
 

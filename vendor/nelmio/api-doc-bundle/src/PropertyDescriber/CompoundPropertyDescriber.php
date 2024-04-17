@@ -22,7 +22,10 @@ class CompoundPropertyDescriber implements PropertyDescriberInterface, ModelRegi
     use ModelRegistryAwareTrait;
     use PropertyDescriberAwareTrait;
 
-    public function describe(array $types, OA\Schema $property, array $groups = null, ?OA\Schema $schema = null, array $context = [])
+    /**
+     * @param array<string, mixed> $context Context options for describing the property
+     */
+    public function describe(array $types, OA\Schema $property, ?array $groups = null, ?OA\Schema $schema = null, array $context = [])
     {
         $property->oneOf = Generator::UNDEFINED !== $property->oneOf ? $property->oneOf : [];
 

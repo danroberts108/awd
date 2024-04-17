@@ -20,10 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class DumpCommand extends Command
 {
-    /**
-     * @var RenderOpenApi
-     */
-    private $renderOpenApi;
+    private RenderOpenApi $renderOpenApi;
 
     /**
      * @var mixed[]
@@ -77,7 +74,7 @@ class DumpCommand extends Command
             ];
         }
 
-        if ($input->getOption('server-url')) {
+        if (null !== $input->getOption('server-url')) {
             $options['server_url'] = $input->getOption('server-url');
         }
 

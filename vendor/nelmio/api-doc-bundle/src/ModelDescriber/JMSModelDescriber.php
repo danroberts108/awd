@@ -15,6 +15,7 @@ use Doctrine\Common\Annotations\Reader;
 use JMS\Serializer\Context;
 use JMS\Serializer\ContextFactory\SerializationContextFactoryInterface;
 use JMS\Serializer\Exclusion\GroupsExclusionStrategy;
+use JMS\Serializer\Metadata\ClassMetadata;
 use JMS\Serializer\Naming\PropertyNamingStrategyInterface;
 use JMS\Serializer\SerializationContext;
 use Metadata\MetadataFactoryInterface;
@@ -33,34 +34,41 @@ use Symfony\Component\PropertyInfo\Type;
 class JMSModelDescriber implements ModelDescriberInterface, ModelRegistryAwareInterface
 {
     use ModelRegistryAwareTrait;
+    use ApplyOpenApiDiscriminatorTrait;
 
-    private $factory;
+    private MetadataFactoryInterface $factory;
 
-    private $contextFactory;
+    private ?SerializationContextFactoryInterface $contextFactory;
 
-    private $namingStrategy;
+    private ?PropertyNamingStrategyInterface $namingStrategy;
 
-    /**
-     * @var Reader|null
-     */
-    private $doctrineReader;
-
-    private $contexts = [];
-
-    private $metadataStacks = [];
-
-    private $mediaTypes;
+    private ?Reader $doctrineReader;
 
     /**
-     * @var array
+     * @var array<string, Context>
      */
-    private $propertyTypeUseGroupsCache = [];
+    private array $contexts = [];
 
     /**
-     * @var bool
+     * @var array<string, \SplStack>
      */
-    private $useValidationGroups;
+    private array $metadataStacks = [];
 
+    /**
+     * @var string[]
+     */
+    private array $mediaTypes;
+
+    /**
+     * @var array<string, bool|null>
+     */
+    private array $propertyTypeUseGroupsCache = [];
+
+    private bool $useValidationGroups;
+
+    /**
+     * @param string[] $mediaTypes
+     */
     public function __construct(
         MetadataFactoryInterface $factory,
         ?Reader $reader,
@@ -78,14 +86,29 @@ class JMSModelDescriber implements ModelDescriberInterface, ModelRegistryAwareIn
     }
 
     /**
-     * {@inheritdoc}
+     * @return void
      */
     public function describe(Model $model, OA\Schema $schema)
     {
         $className = $model->getType()->getClassName();
         $metadata = $this->factory->getMetadataForClass($className);
-        if (null === $metadata) {
+        if (!$metadata instanceof ClassMetadata) {
             throw new \InvalidArgumentException(sprintf('No metadata found for class %s.', $className));
+        }
+
+        if (null !== $metadata->discriminatorFieldName
+            && $className === $metadata->discriminatorBaseClass
+            && [] !== $metadata->discriminatorMap
+            && Generator::UNDEFINED === $schema->discriminator) {
+            $this->applyOpenApiDiscriminator(
+                $model,
+                $schema,
+                $this->modelRegistry,
+                $metadata->discriminatorFieldName,
+                $metadata->discriminatorMap
+            );
+
+            return;
         }
 
         $annotationsReader = new AnnotationsReader(
@@ -186,7 +209,7 @@ class JMSModelDescriber implements ModelDescriberInterface, ModelRegistryAwareIn
     /**
      * @internal
      */
-    public function getSerializationContext(Model $model): SerializationContext
+    public function getSerializationContext(Model $model): Context
     {
         if (isset($this->contexts[$model->getHash()])) {
             $context = $this->contexts[$model->getHash()];
@@ -200,7 +223,9 @@ class JMSModelDescriber implements ModelDescriberInterface, ModelRegistryAwareIn
                 $stack->unshift($metadataCopy);
             }
         } else {
-            $context = $this->contextFactory ? $this->contextFactory->createSerializationContext() : SerializationContext::create();
+            $context = null !== $this->contextFactory
+                ? $this->contextFactory->createSerializationContext()
+                : SerializationContext::create();
 
             if (null !== $model->getGroups()) {
                 $context->addExclusionStrategy(new GroupsExclusionStrategy($model->getGroups()));
@@ -210,7 +235,12 @@ class JMSModelDescriber implements ModelDescriberInterface, ModelRegistryAwareIn
         return $context;
     }
 
-    private function computeGroups(Context $context, array $type = null)
+    /**
+     * @param mixed[]|null $type
+     *
+     * @return string[]|null
+     */
+    private function computeGroups(Context $context, ?array $type = null): ?array
     {
         if (null === $type || true !== $this->propertyTypeUsesGroups($type)) {
             return null;
@@ -229,15 +259,12 @@ class JMSModelDescriber implements ModelDescriberInterface, ModelRegistryAwareIn
         return $groups;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function supports(Model $model): bool
     {
         $className = $model->getType()->getClassName();
 
         try {
-            if ($this->factory->getMetadataForClass($className)) {
+            if (null !== $this->factory->getMetadataForClass($className)) {
                 return true;
             }
         } catch (\ReflectionException $e) {
@@ -248,15 +275,17 @@ class JMSModelDescriber implements ModelDescriberInterface, ModelRegistryAwareIn
 
     /**
      * @internal
+     *
+     * @param mixed[] $type
      */
-    public function describeItem(array $type, OA\Schema $property, Context $context)
+    public function describeItem(array $type, OA\Schema $property, Context $context): void
     {
         $nestedTypeInfo = $this->getNestedTypeInArray($type);
         if (null !== $nestedTypeInfo) {
             [$nestedType, $isHash] = $nestedTypeInfo;
             if ($isHash) {
                 $property->type = 'object';
-                $property->additionalProperties = Util::createChild($property, OA\Property::class);
+                $property->additionalProperties = Util::createChild($property, OA\AdditionalProperties::class);
 
                 // this is a free form object (as nested array)
                 if ('array' === $nestedType['name'] && !isset($nestedType['params'][0])) {
@@ -306,7 +335,7 @@ class JMSModelDescriber implements ModelDescriberInterface, ModelRegistryAwareIn
 
             $customFields = (array) $property->jsonSerialize();
             unset($customFields['property']);
-            if (empty($customFields)) { // no custom fields
+            if ([] === $customFields) { // no custom fields
                 $property->ref = $modelRef;
             } else {
                 $weakContext = Util::createWeakContext($property->_context);
@@ -318,7 +347,12 @@ class JMSModelDescriber implements ModelDescriberInterface, ModelRegistryAwareIn
         }
     }
 
-    private function getNestedTypeInArray(array $type)
+    /**
+     * @param mixed[] $type
+     *
+     * @return array{0: mixed, 1: bool}|null
+     */
+    private function getNestedTypeInArray(array $type): ?array
     {
         if ('array' !== $type['name'] && 'ArrayCollection' !== $type['name']) {
             return null;
@@ -336,9 +370,9 @@ class JMSModelDescriber implements ModelDescriberInterface, ModelRegistryAwareIn
     }
 
     /**
-     * @return bool|null
+     * @param mixed[] $type
      */
-    private function propertyTypeUsesGroups(array $type)
+    private function propertyTypeUsesGroups(array $type): ?bool
     {
         if (array_key_exists($type['name'], $this->propertyTypeUseGroupsCache)) {
             return $this->propertyTypeUseGroupsCache[$type['name']];
@@ -348,7 +382,7 @@ class JMSModelDescriber implements ModelDescriberInterface, ModelRegistryAwareIn
             $metadata = $this->factory->getMetadataForClass($type['name']);
 
             foreach ($metadata->propertyMetadata as $item) {
-                if (null !== $item->groups && $item->groups != [GroupsExclusionStrategy::DEFAULT_GROUP]) {
+                if (isset($item->groups) && $item->groups != [GroupsExclusionStrategy::DEFAULT_GROUP]) {
                     $this->propertyTypeUseGroupsCache[$type['name']] = true;
 
                     return true;

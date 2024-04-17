@@ -11,7 +11,6 @@
 
 namespace Nelmio\ApiDocBundle\Controller;
 
-use InvalidArgumentException;
 use Nelmio\ApiDocBundle\Render\RenderOpenApi;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,17 +18,14 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 final class YamlDocumentationController
 {
-    /**
-     * @var RenderOpenApi
-     */
-    private $renderOpenApi;
+    private RenderOpenApi $renderOpenApi;
 
     public function __construct(RenderOpenApi $renderOpenApi)
     {
         $this->renderOpenApi = $renderOpenApi;
     }
 
-    public function __invoke(Request $request, $area = 'default')
+    public function __invoke(Request $request, string $area = 'default'): Response
     {
         try {
             $response = new Response(
@@ -39,7 +35,7 @@ final class YamlDocumentationController
             );
 
             return $response->setCharset('UTF-8');
-        } catch (InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException $e) {
             throw new BadRequestHttpException(sprintf('Area "%s" is not supported as it isn\'t defined in config.', $area));
         }
     }

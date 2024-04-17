@@ -22,7 +22,10 @@ class ArrayPropertyDescriber implements PropertyDescriberInterface, ModelRegistr
     use ModelRegistryAwareTrait;
     use PropertyDescriberAwareTrait;
 
-    public function describe(array $types, OA\Schema $property, array $groups = null, ?OA\Schema $schema = null, array $context = [])
+    /**
+     * @param array<string, mixed> $context Context options for describing the property
+     */
+    public function describe(array $types, OA\Schema $property, ?array $groups = null, ?OA\Schema $schema = null, array $context = [])
     {
         $property->type = 'array';
         /** @var OA\Items $property */
@@ -31,7 +34,7 @@ class ArrayPropertyDescriber implements PropertyDescriberInterface, ModelRegistr
         foreach ($types[0]->getCollectionValueTypes() as $type) {
             // Handle list pseudo type
             // https://symfony.com/doc/current/components/property_info.html#type-getcollectionkeytypes-type-getcollectionvaluetypes
-            if ($this->supports([$type]) && empty($type->getCollectionValueTypes())) {
+            if ($this->supports([$type]) && [] === $type->getCollectionValueTypes()) {
                 continue;
             }
 
@@ -45,7 +48,7 @@ class ArrayPropertyDescriber implements PropertyDescriberInterface, ModelRegistr
             return false;
         }
 
-        if (empty($types[0]->getCollectionKeyTypes())) {
+        if ([] === $types[0]->getCollectionKeyTypes()) {
             return true;
         }
 

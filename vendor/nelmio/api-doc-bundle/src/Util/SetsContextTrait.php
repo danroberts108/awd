@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the NelmioApiDocBundle package.
+ *
+ * (c) Nelmio
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Nelmio\ApiDocBundle\Util;
 
 use Nelmio\ApiDocBundle\OpenApiPhp\Util;
@@ -16,6 +25,9 @@ trait SetsContextTrait
         \OpenApi\Generator::$context = $context;
     }
 
+    /**
+     * @param \ReflectionClass|\ReflectionProperty|\ReflectionMethod $reflection
+     */
     private function setContextFromReflection(Context $parentContext, $reflection): void
     {
         // In order to have nicer errors

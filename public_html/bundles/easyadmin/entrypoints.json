@@ -2,8 +2,8 @@
   "entrypoints": {
     "app": {
       "css": [
-        "/app.c8a6d1ff.css",
-        "/app.c8a6d1ff.rtl.css"
+        "/app.c07843af.css",
+        "/app.c07843af.rtl.css"
       ],
       "js": [
         "/app.5a01f8c5.js"
@@ -40,7 +40,7 @@
     },
     "field-collection": {
       "js": [
-        "/field-collection.8ea41328.js"
+        "/field-collection.32367ca8.js"
       ]
     },
     "field-file-upload": {

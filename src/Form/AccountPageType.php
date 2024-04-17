@@ -18,7 +18,8 @@ class AccountPageType extends AbstractType
             ->add('api', CheckboxType::class, [
                 'mapped' => false,
                 'label' => 'Enable API Access',
-                'row_attr' => ['class' => 'form-switch']
+                'row_attr' => ['class' => 'form-switch'],
+                'required' => false
             ])
             ->add('fname', TextType::class, [
                 'constraints' => [

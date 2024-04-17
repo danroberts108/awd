@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the NelmioApiDocBundle package.
+ *
+ * (c) Nelmio
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Nelmio\ApiDocBundle\RouteDescriber\RouteArgumentDescriber;
 
 use Nelmio\ApiDocBundle\OpenApiPhp\Util;
@@ -17,7 +26,6 @@ final class SymfonyMapQueryParameterDescriber implements RouteArgumentDescriberI
 
     public function describe(ArgumentMetadata $argumentMetadata, OA\Operation $operation): void
     {
-        /** @var MapQueryParameter $attribute */
         if (!$attribute = $argumentMetadata->getAttributes(MapQueryParameter::class, ArgumentMetadata::IS_INSTANCEOF)[0] ?? null) {
             return;
         }
@@ -64,6 +72,10 @@ final class SymfonyMapQueryParameterDescriber implements RouteArgumentDescriberI
     }
 
     /**
+     * @param mixed[] $options
+     *
+     * @return array<string, mixed>
+     *
      * @see https://www.php.net/manual/en/filter.filters.validate.php
      */
     private function describeValidateFilter(?int $filter, int $flags, array $options): array
@@ -90,11 +102,11 @@ final class SymfonyMapQueryParameterDescriber implements RouteArgumentDescriberI
 
         if (FILTER_VALIDATE_INT === $filter) {
             $props = [];
-            if ($options['min_range'] ?? false) {
+            if (array_key_exists('min_range', $options)) {
                 $props['minimum'] = $options['min_range'];
             }
 
-            if ($options['max_range'] ?? false) {
+            if (array_key_exists('max_range', $options)) {
                 $props['maximum'] = $options['max_range'];
             }
 

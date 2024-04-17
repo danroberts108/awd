@@ -92,6 +92,11 @@
                 <tag name="maker.command" />
             </service>
 
+            <service id="maker.maker.make_schedule" class="Symfony\Bundle\MakerBundle\Maker\MakeSchedule">
+                <argument type="service" id="maker.file_manager" />
+                <tag name="maker.command" />
+            </service>
+
             <service id="maker.maker.make_serializer_encoder" class="Symfony\Bundle\MakerBundle\Maker\MakeSerializerEncoder">
                 <tag name="maker.command" />
             </service>
@@ -150,6 +155,12 @@
                 <argument type="service" id="maker.file_manager" />
                 <argument type="service" id="maker.security_config_updater" />
                 <argument type="service" id="maker.security_controller_builder" />
+                <tag name="maker.command" />
+            </service>
+
+            <service id="maker.maker.make_webhook" class="Symfony\Bundle\MakerBundle\Maker\MakeWebhook">
+                <argument type="service" id="maker.file_manager" />
+                <argument type="service" id="maker.generator" />
                 <tag name="maker.command" />
             </service>
         </services>

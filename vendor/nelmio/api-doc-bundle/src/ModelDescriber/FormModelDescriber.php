@@ -39,20 +39,23 @@ final class FormModelDescriber implements ModelDescriberInterface, ModelRegistry
     use ModelRegistryAwareTrait;
     use SetsContextTrait;
 
-    private $formFactory;
+    private ?FormFactoryInterface $formFactory;
+    private ?Reader $doctrineReader;
 
     /**
-     * @var Reader|null
+     * @var string[]
      */
-    private $doctrineReader;
-    private $mediaTypes;
-    private $useValidationGroups;
-    private $isFormCsrfExtensionEnabled;
+    private array $mediaTypes;
+    private bool $useValidationGroups;
+    private bool $isFormCsrfExtensionEnabled;
 
+    /**
+     * @param string[]|null $mediaTypes
+     */
     public function __construct(
-        FormFactoryInterface $formFactory = null,
-        Reader $reader = null,
-        array $mediaTypes = null,
+        ?FormFactoryInterface $formFactory = null,
+        ?Reader $reader = null,
+        ?array $mediaTypes = null,
         bool $useValidationGroups = false,
         bool $isFormCsrfExtensionEnabled = false
     ) {
@@ -69,7 +72,7 @@ final class FormModelDescriber implements ModelDescriberInterface, ModelRegistry
         $this->isFormCsrfExtensionEnabled = $isFormCsrfExtensionEnabled;
     }
 
-    public function describe(Model $model, OA\Schema $schema)
+    public function describe(Model $model, OA\Schema $schema): void
     {
         if (method_exists(AbstractType::class, 'setDefaultOptions')) {
             throw new \LogicException('symfony/form < 3.0 is not supported, please upgrade to an higher version to use a form as a model.');
@@ -107,7 +110,7 @@ final class FormModelDescriber implements ModelDescriberInterface, ModelRegistry
         return is_a($model->getType()->getClassName(), FormTypeInterface::class, true);
     }
 
-    private function parseForm(OA\Schema $schema, FormInterface $form)
+    private function parseForm(OA\Schema $schema, FormInterface $form): void
     {
         foreach ($form as $name => $child) {
             $config = $child->getConfig();
@@ -140,7 +143,7 @@ final class FormModelDescriber implements ModelDescriberInterface, ModelRegistry
             $this->findFormType($config, $property);
         }
 
-        if ($this->isFormCsrfExtensionEnabled && $form->getConfig()->getOption('csrf_protection', false)) {
+        if ($this->isFormCsrfExtensionEnabled && true === $form->getConfig()->getOption('csrf_protection')) {
             $tokenFieldName = $form->getConfig()->getOption('csrf_field_name');
 
             $property = Util::getProperty($schema, $tokenFieldName);
@@ -157,14 +160,12 @@ final class FormModelDescriber implements ModelDescriberInterface, ModelRegistry
 
     /**
      * Finds and sets the schema type on $property based on $config info.
-     *
-     * Returns true if a native OpenAPi type was found, false otherwise
      */
-    private function findFormType(FormConfigInterface $config, OA\Schema $property)
+    private function findFormType(FormConfigInterface $config, OA\Schema $property): void
     {
         $type = $config->getType();
 
-        if (!$builtinFormType = $this->getBuiltinFormType($type)) {
+        if (null === $builtinFormType = $this->getBuiltinFormType($type)) {
             // if form type is not builtin in Form component.
             $model = new Model(
                 new Type(Type::BUILTIN_TYPE_OBJECT, false, get_class($type->getInnerType())),
@@ -174,7 +175,7 @@ final class FormModelDescriber implements ModelDescriberInterface, ModelRegistry
 
             $ref = $this->modelRegistry->register($model);
             // We need to use allOf for description and title to be displayed
-            if ($config->hasOption('documentation') && !empty($config->getOption('documentation'))) {
+            if ($config->hasOption('documentation') && [] !== $config->getOption('documentation')) {
                 $property->oneOf = [new OA\Schema(['ref' => $ref])];
             } else {
                 $property->ref = $ref;
@@ -219,12 +220,12 @@ final class FormModelDescriber implements ModelDescriberInterface, ModelRegistry
             }
 
             if ('choice' === $blockPrefix) {
-                if ($config->getOption('multiple')) {
+                if (true === $config->getOption('multiple')) {
                     $property->type = 'array';
                 } else {
                     $property->type = 'string';
                 }
-                if (($choices = $config->getOption('choices')) && is_array($choices) && count($choices)) {
+                if ([] !== $choices = $config->getOption('choices')) {
                     $enums = array_values($choices);
                     if ($this->isNumbersArray($enums)) {
                         $type = 'number';
@@ -234,7 +235,7 @@ final class FormModelDescriber implements ModelDescriberInterface, ModelRegistry
                         $type = 'string';
                     }
 
-                    if ($config->getOption('multiple')) {
+                    if (true === $config->getOption('multiple')) {
                         $property->items = Util::createChild($property, OA\Items::class, ['type' => $type, 'enum' => $enums]);
                     } else {
                         $property->type = $type;
@@ -290,7 +291,7 @@ final class FormModelDescriber implements ModelDescriberInterface, ModelRegistry
             if ('entity' === $blockPrefix || 'document' === $blockPrefix) {
                 $entityClass = $config->getOption('class');
 
-                if ($config->getOption('multiple')) {
+                if (true === $config->getOption('multiple')) {
                     $property->format = sprintf('[%s id]', $entityClass);
                     $property->type = 'array';
                     $property->items = Util::createChild($property, OA\Items::class, ['type' => 'string']);
@@ -305,6 +306,8 @@ final class FormModelDescriber implements ModelDescriberInterface, ModelRegistry
     }
 
     /**
+     * @param mixed[] $array
+     *
      * @return bool true if $array contains only numbers, false otherwise
      */
     private function isNumbersArray(array $array): bool
@@ -319,6 +322,8 @@ final class FormModelDescriber implements ModelDescriberInterface, ModelRegistry
     }
 
     /**
+     * @param mixed[] $array
+     *
      * @return bool true if $array contains only booleans, false otherwise
      */
     private function isBooleansArray(array $array): bool
@@ -332,10 +337,7 @@ final class FormModelDescriber implements ModelDescriberInterface, ModelRegistry
         return true;
     }
 
-    /**
-     * @return ResolvedFormTypeInterface|null
-     */
-    private function getBuiltinFormType(ResolvedFormTypeInterface $type)
+    private function getBuiltinFormType(ResolvedFormTypeInterface $type): ?ResolvedFormTypeInterface
     {
         do {
             $class = get_class($type->getInnerType());

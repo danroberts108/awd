@@ -31,26 +31,25 @@ final class OpenApiPhpDescriber
 {
     use SetsContextTrait;
 
-    private $routeCollection;
-    private $controllerReflector;
+    private RouteCollection $routeCollection;
+    private ControllerReflector $controllerReflector;
 
-    /**
-     * @var Reader|null
-     */
-    private $annotationReader;
-    private $logger;
-    private $overwrite;
+    private ?Reader $annotationReader;
+    private LoggerInterface $logger;
 
     public function __construct(RouteCollection $routeCollection, ControllerReflector $controllerReflector, ?Reader $annotationReader, LoggerInterface $logger, bool $overwrite = false)
     {
+        if ($overwrite || func_num_args() > 4) {
+            trigger_deprecation('nelmio/api-doc-bundle', '4.25.2', 'The "$overwrite" argument of "%s" is unused and therefore deprecated.', __METHOD__);
+        }
+
         $this->routeCollection = $routeCollection;
         $this->controllerReflector = $controllerReflector;
         $this->annotationReader = $annotationReader;
         $this->logger = $logger;
-        $this->overwrite = $overwrite;
     }
 
-    public function describe(OA\OpenApi $api)
+    public function describe(OA\OpenApi $api): void
     {
         $classAnnotations = [];
 
@@ -144,10 +143,10 @@ final class OpenApiPhpDescriber
                 }
 
                 if (
-                    !$annotation instanceof OA\Response &&
-                    !$annotation instanceof OA\RequestBody &&
-                    !$annotation instanceof OA\Parameter &&
-                    !$annotation instanceof OA\ExternalDocumentation
+                    !$annotation instanceof OA\Response
+                    && !$annotation instanceof OA\RequestBody
+                    && !$annotation instanceof OA\Parameter
+                    && !$annotation instanceof OA\ExternalDocumentation
                 ) {
                     throw new \LogicException(sprintf('Using the annotation "%s" as a root annotation in "%s::%s()" is not allowed.', get_class($annotation), $method->getDeclaringClass()->name, $method->name));
                 }
@@ -155,7 +154,7 @@ final class OpenApiPhpDescriber
                 $implicitAnnotations[] = $annotation;
             }
 
-            if (empty($implicitAnnotations) && empty(get_object_vars($mergeProperties))) {
+            if ([] === $implicitAnnotations && [] === get_object_vars($mergeProperties)) {
                 continue;
             }
 
@@ -187,7 +186,7 @@ final class OpenApiPhpDescriber
             }
             $path = $this->normalizePath($route->getPath());
             $supportedHttpMethods = $this->getSupportedHttpMethods($route);
-            if (empty($supportedHttpMethods)) {
+            if ([] === $supportedHttpMethods) {
                 $this->logger->warning('None of the HTTP methods specified for path {path} are supported by swagger-ui, skipping this path', [
                     'path' => $path,
                 ]);
@@ -198,12 +197,20 @@ final class OpenApiPhpDescriber
         }
     }
 
+    /**
+     * @return string[]
+     */
     private function getSupportedHttpMethods(Route $route): array
     {
         $allMethods = Util::OPERATIONS;
         $methods = array_map('strtolower', $route->getMethods());
 
-        return array_intersect($methods ?: $allMethods, $allMethods);
+        // an empty array means that any method is allowed
+        if ([] === $methods) {
+            return $allMethods;
+        }
+
+        return array_intersect($methods, $allMethods);
     }
 
     private function normalizePath(string $path): string
@@ -216,7 +223,7 @@ final class OpenApiPhpDescriber
     }
 
     /**
-     * @param \ReflectionClass|\ReflectionMethod $reflection
+     * @param \ReflectionClass<object>|\ReflectionMethod $reflection
      *
      * @return OA\AbstractAnnotation[]
      */

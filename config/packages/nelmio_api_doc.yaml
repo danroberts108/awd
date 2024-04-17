@@ -13,6 +13,13 @@ nelmio_api_doc:
                     type: http
                     scheme: bearer
                     bearerFormat: JWT
+        tags:
+            - name: "Standard"
+              description: "Standard Functionality"
+            - name: "Extended"
+              description: "Extended Functionality"
+            - name: "Security"
+              description: "Security Functions"
         security:
             - Bearer: []
     areas: # to filter documented areas

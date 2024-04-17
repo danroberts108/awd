@@ -18,18 +18,18 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 final class JWTUserFactory implements UserProviderFactoryInterface
 {
-    public function create(ContainerBuilder $container, $id, $config): void
+    public function create(ContainerBuilder $container, $id, $config)
     {
         $container->setDefinition($id, new ChildDefinition('lexik_jwt_authentication.security.jwt_user_provider'))
             ->replaceArgument(0, $config['class']);
     }
 
-    public function getKey(): string
+    public function getKey()
     {
         return 'lexik_jwt';
     }
 
-    public function addConfiguration(NodeDefinition $node): void
+    public function addConfiguration(NodeDefinition $node)
     {
         $node
             ->children()

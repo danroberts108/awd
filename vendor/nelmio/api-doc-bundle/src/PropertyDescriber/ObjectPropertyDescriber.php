@@ -22,18 +22,18 @@ class ObjectPropertyDescriber implements PropertyDescriberInterface, ModelRegist
 {
     use ModelRegistryAwareTrait;
 
-    public function describe(array $types, OA\Schema $property, array $groups = null, ?OA\Schema $schema = null, array $context = [])
+    /**
+     * @param array<string, mixed> $context Context options for describing the property
+     */
+    public function describe(array $types, OA\Schema $property, ?array $groups = null, ?OA\Schema $schema = null, array $context = [])
     {
         $type = new Type(
             $types[0]->getBuiltinType(),
             false,
             $types[0]->getClassName(),
             $types[0]->isCollection(),
-            // BC layer for symfony < 5.3
-            method_exists($types[0], 'getCollectionKeyTypes') ? $types[0]->getCollectionKeyTypes() : $types[0]->getCollectionKeyType(),
-            method_exists($types[0], 'getCollectionValueTypes') ?
-                ($types[0]->getCollectionValueTypes()[0] ?? null) :
-                $types[0]->getCollectionValueType()
+            $types[0]->getCollectionKeyTypes(),
+            $types[0]->getCollectionValueTypes()[0] ?? null,
         ); // ignore nullable field
 
         if ($types[0]->isNullable()) {

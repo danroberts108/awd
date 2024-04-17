@@ -26,8 +26,8 @@ class BazingaHateoasModelDescriber implements ModelDescriberInterface, ModelRegi
 {
     use ModelRegistryAwareTrait;
 
-    private $factory;
-    private $JMSModelDescriber;
+    private MetadataFactoryInterface $factory;
+    private JMSModelDescriber $JMSModelDescriber;
 
     public function __construct(MetadataFactoryInterface $factory, JMSModelDescriber $JMSModelDescriber)
     {
@@ -41,27 +41,20 @@ class BazingaHateoasModelDescriber implements ModelDescriberInterface, ModelRegi
         $this->JMSModelDescriber->setModelRegistry($modelRegistry);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function describe(Model $model, OA\Schema $schema): void
     {
         $this->JMSModelDescriber->describe($model, $schema);
 
-        /**
-         * @var ClassMetadata
-         */
         $metadata = $this->getHateoasMetadata($model);
-        if (null === $metadata) {
+        if (!$metadata instanceof ClassMetadata) {
             return;
         }
 
         $schema->type = 'object';
         $context = $this->JMSModelDescriber->getSerializationContext($model);
 
-        /** @var Relation $relation */
         foreach ($metadata->getRelations() as $relation) {
-            if (!$relation->getEmbedded() && !$relation->getHref()) {
+            if (null === $relation->getEmbedded() && null === $relation->getHref()) {
                 continue;
             }
             $item = new RelationPropertyMetadata($relation->getExclusion(), $relation);
@@ -73,16 +66,16 @@ class BazingaHateoasModelDescriber implements ModelDescriberInterface, ModelRegi
             $context->pushPropertyMetadata($item);
 
             $embedded = $relation->getEmbedded();
-            $relationSchema = Util::getProperty($schema, $relation->getEmbedded() ? '_embedded' : '_links');
+            $relationSchema = Util::getProperty($schema, null !== $relation->getEmbedded() ? '_embedded' : '_links');
             $relationSchema->readOnly = true;
 
             $property = Util::getProperty($relationSchema, $relation->getName());
-            if ($embedded && method_exists($embedded, 'getType') && $embedded->getType()) {
+            if (null !== $embedded && method_exists($embedded, 'getType') && null !== $embedded->getType()) {
                 $this->JMSModelDescriber->describeItem($embedded->getType(), $property, $context);
             } else {
                 $property->type = 'object';
             }
-            if ($relation->getHref()) {
+            if (null !== $relation->getHref()) {
                 $hrefProp = Util::getProperty($property, 'href');
                 $hrefProp->type = 'string';
                 $this->setAttributeProperties($relation, $property);
@@ -92,26 +85,20 @@ class BazingaHateoasModelDescriber implements ModelDescriberInterface, ModelRegi
         }
     }
 
-    private function getHateoasMetadata(Model $model)
+    private function getHateoasMetadata(Model $model): ?object
     {
-        $className = $model->getType()->getClassName();
-
         try {
-            if ($metadata = $this->factory->getMetadataForClass($className)) {
-                return $metadata;
-            }
+            return $this->factory->getMetadataForClass($model->getType()->getClassName());
         } catch (\ReflectionException $e) {
         }
 
         return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function supports(Model $model): bool
     {
-        return $this->JMSModelDescriber->supports($model) || null !== $this->getHateoasMetadata($model);
+        return $this->JMSModelDescriber->supports($model)
+            || $this->getHateoasMetadata($model) instanceof ClassMetadata;
     }
 
     private function setAttributeProperties(Relation $relation, OA\Property $subProperty): void
@@ -125,7 +112,6 @@ class BazingaHateoasModelDescriber implements ModelDescriberInterface, ModelRegi
 
                     break;
                 case 'double':
-                case 'float':
                     $subSubProp->type = 'number';
                     $subSubProp->default = $value;
 

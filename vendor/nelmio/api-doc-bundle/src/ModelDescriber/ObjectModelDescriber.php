@@ -23,6 +23,7 @@ use OpenApi\Generator;
 use Symfony\Component\PropertyInfo\PropertyInfoExtractorInterface;
 use Symfony\Component\PropertyInfo\Type;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactoryInterface;
+use Symfony\Component\Serializer\NameConverter\AdvancedNameConverterInterface;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
 class ObjectModelDescriber implements ModelDescriberInterface, ModelRegistryAwareInterface
@@ -40,22 +41,24 @@ class ObjectModelDescriber implements ModelDescriberInterface, ModelRegistryAwar
     private $propertyDescriber;
     /** @var string[] */
     private $mediaTypes;
-    /** @var NameConverterInterface|null */
+    /** @var (NameConverterInterface&AdvancedNameConverterInterface)|null */
     private $nameConverter;
     /** @var bool */
     private $useValidationGroups;
 
     /**
-     * @param PropertyDescriberInterface|PropertyDescriberInterface[] $propertyDescribers
+     * @param PropertyDescriberInterface|PropertyDescriberInterface[]      $propertyDescribers
+     * @param (NameConverterInterface&AdvancedNameConverterInterface)|null $nameConverter
+     * @param string[]                                                     $mediaTypes
      */
     public function __construct(
         PropertyInfoExtractorInterface $propertyInfo,
         ?Reader $reader,
         $propertyDescribers,
         array $mediaTypes,
-        NameConverterInterface $nameConverter = null,
+        ?NameConverterInterface $nameConverter = null,
         bool $useValidationGroups = false,
-        ClassMetadataFactoryInterface $classMetadataFactory = null
+        ?ClassMetadataFactoryInterface $classMetadataFactory = null
     ) {
         if (is_iterable($propertyDescribers)) {
             trigger_deprecation('nelmio/api-doc-bundle', '4.17', 'Passing an array of PropertyDescriberInterface to %s() is deprecated. Pass a single PropertyDescriberInterface instead.', __METHOD__);
@@ -130,6 +133,19 @@ class ObjectModelDescriber implements ModelDescriberInterface, ModelRegistryAwar
             return null !== $value;
         });
 
+        // Fix for https://github.com/nelmio/NelmioApiDocBundle/issues/2222
+        // Promoted properties with a value initialized by the constructor are not considered to have a default value
+        // and are therefore not returned by ReflectionClass::getDefaultProperties(); see https://bugs.php.net/bug.php?id=81386
+        $reflClassConstructor = $reflClass->getConstructor();
+        $reflClassConstructorParameters = null !== $reflClassConstructor ? $reflClassConstructor->getParameters() : [];
+        foreach ($reflClassConstructorParameters as $parameter) {
+            if (!$parameter->isDefaultValueAvailable()) {
+                continue;
+            }
+
+            $defaultValues[$parameter->name] = $parameter->getDefaultValue();
+        }
+
         foreach ($propertyInfoProperties as $propertyName) {
             $serializedName = null !== $this->nameConverter ? $this->nameConverter->normalize($propertyName, $class, null, $model->getSerializationContext()) : $propertyName;
 
@@ -141,6 +157,13 @@ class ObjectModelDescriber implements ModelDescriberInterface, ModelRegistryAwar
             }
 
             $property = Util::getProperty($schema, $serializedName);
+
+            // Fix for https://github.com/nelmio/NelmioApiDocBundle/issues/2222
+            // Property default value has to be set before SymfonyConstraintAnnotationReader::processPropertyAnnotations()
+            // is called to prevent wrongly detected required properties
+            if (Generator::UNDEFINED === $property->default && array_key_exists($propertyName, $defaultValues)) {
+                $property->default = $defaultValues[$propertyName];
+            }
 
             // Interpret additional options
             $groups = $model->getGroups();
@@ -154,10 +177,6 @@ class ObjectModelDescriber implements ModelDescriberInterface, ModelRegistryAwar
             // If type manually defined
             if (Generator::UNDEFINED !== $property->type || Generator::UNDEFINED !== $property->ref) {
                 continue;
-            }
-
-            if (Generator::UNDEFINED === $property->default && array_key_exists($propertyName, $defaultValues)) {
-                $property->default = $defaultValues[$propertyName];
             }
 
             $types = $this->propertyInfo->getTypes($class, $propertyName);
@@ -200,7 +219,7 @@ class ObjectModelDescriber implements ModelDescriberInterface, ModelRegistryAwar
     /**
      * @param Type[] $types
      */
-    private function describeProperty(array $types, Model $model, OA\Schema $property, string $propertyName, OA\Schema $schema)
+    private function describeProperty(array $types, Model $model, OA\Schema $property, string $propertyName, OA\Schema $schema): void
     {
         $propertyDescribers = is_iterable($this->propertyDescriber) ? $this->propertyDescriber : [$this->propertyDescriber];
 

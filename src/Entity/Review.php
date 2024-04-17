@@ -30,9 +30,11 @@ class Review
 
     #[ORM\ManyToOne(inversedBy: 'ratings')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Serializer\Exclude()]
     private ?Movie $movie = null;
 
     #[ORM\OneToMany(mappedBy: 'review', targetEntity: Rating::class, cascade: ['remove'])]
+    #[Serializer\Exclude()]
     private Collection $reviewRatings;
 
     #[ORM\OneToMany(mappedBy: 'review', targetEntity: Report::class, cascade: ['remove'])]

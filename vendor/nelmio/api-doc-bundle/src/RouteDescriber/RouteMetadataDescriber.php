@@ -11,7 +11,6 @@
 
 namespace Nelmio\ApiDocBundle\RouteDescriber;
 
-use LogicException;
 use Nelmio\ApiDocBundle\OpenApiPhp\Util;
 use OpenApi\Annotations as OA;
 use OpenApi\Generator;
@@ -26,7 +25,7 @@ final class RouteMetadataDescriber implements RouteDescriberInterface
 
     private const ALPHANUM_EXPANDED_REGEX = '/^[-a-zA-Z0-9_]*$/';
 
-    public function describe(OA\OpenApi $api, Route $route, \ReflectionMethod $reflectionMethod)
+    public function describe(OA\OpenApi $api, Route $route, \ReflectionMethod $reflectionMethod): void
     {
         foreach ($this->getOperations($api, $route) as $operation) {
             $requirements = $route->getRequirements();
@@ -44,7 +43,7 @@ final class RouteMetadataDescriber implements RouteDescriberInterface
                 $parameter = $existingParams[$paramId] ?? null;
                 if (null !== $parameter) {
                     if (!$parameter->required || Generator::UNDEFINED === $parameter->required) {
-                        throw new LogicException(\sprintf('Global parameter "%s" is used as part of route "%s" and must be set as "required"', $pathVariable, $route->getPath()));
+                        throw new \LogicException(\sprintf('Global parameter "%s" is used as part of route "%s" and must be set as "required"', $pathVariable, $route->getPath()));
                     }
 
                     continue;
@@ -63,7 +62,7 @@ final class RouteMetadataDescriber implements RouteDescriberInterface
                 if (isset($requirements[$pathVariable])) {
                     $req = $requirements[$pathVariable];
                     $enumValues = $this->getPossibleEnumValues($req);
-                    if ($enumValues && Generator::UNDEFINED === $parameter->schema->pattern) {
+                    if ([] !== $enumValues && Generator::UNDEFINED === $parameter->schema->pattern) {
                         $parameter->schema->enum = $enumValues;
                     }
                     // add the pattern anyway

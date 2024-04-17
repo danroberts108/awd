@@ -21,18 +21,20 @@ use Symfony\Component\Routing\RouteCollection;
 
 final class FilteredRouteCollectionBuilder
 {
-    /** @var Reader|null */
-    private $annotationReader;
+    private ?Reader $annotationReader;
 
-    /** @var ControllerReflector */
-    private $controllerReflector;
+    private ControllerReflector $controllerReflector;
 
-    /** @var string */
-    private $area;
+    private string $area;
 
-    /** @var array */
-    private $options;
+    /**
+     * @var array<string, mixed>
+     */
+    private array $options;
 
+    /**
+     * @param array<mixed> $options
+     */
     public function __construct(
         ?Reader $annotationReader,
         ControllerReflector $controllerReflector,
@@ -171,7 +173,7 @@ final class FilteredRouteCollectionBuilder
             ? $this->annotationReader->getMethodAnnotations($method)
             : [];
 
-        if (method_exists(\ReflectionMethod::class, 'getAttributes')) {
+        if (\PHP_VERSION_ID >= 80100) {
             $annotations = array_merge($annotations, array_map(function (\ReflectionAttribute $attribute) {
                 return $attribute->newInstance();
             }, $method->getAttributes(AbstractAnnotation::class, \ReflectionAttribute::IS_INSTANCEOF)));

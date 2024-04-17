@@ -52,6 +52,7 @@ class SymfonyConstraintAnnotationReader
      * Update the given property and schema with defined Symfony constraints.
      *
      * @param \ReflectionProperty|\ReflectionMethod $reflection
+     * @param string[]|null                         $validationGroups
      */
     public function updateProperty($reflection, OA\Property $property, ?array $validationGroups = null): void
     {
@@ -64,12 +65,15 @@ class SymfonyConstraintAnnotationReader
         }
     }
 
-    private function processPropertyAnnotations($reflection, OA\Property $property, $annotations)
+    /**
+     * @param \ReflectionProperty|\ReflectionMethod $reflection
+     * @param Constraint[]                          $annotations
+     */
+    private function processPropertyAnnotations($reflection, OA\Property $property, array $annotations): void
     {
         foreach ($annotations as $annotation) {
             if ($annotation instanceof Assert\NotBlank || $annotation instanceof Assert\NotNull) {
-                // To support symfony/validator < 4.3
-                if ($annotation instanceof Assert\NotBlank && \property_exists($annotation, 'allowNull') && $annotation->allowNull) {
+                if ($annotation instanceof Assert\NotBlank && $annotation->allowNull) {
                     // The field is optional
                     return;
                 }
@@ -84,25 +88,29 @@ class SymfonyConstraintAnnotationReader
                     return;
                 }
 
+                if (!Generator::isDefault($property->default)) {
+                    return;
+                }
+
                 $existingRequiredFields = Generator::UNDEFINED !== $this->schema->required ? $this->schema->required : [];
                 $existingRequiredFields[] = $propertyName;
 
                 $this->schema->required = array_values(array_unique($existingRequiredFields));
             } elseif ($annotation instanceof Assert\Length) {
                 if (isset($annotation->min)) {
-                    $property->minLength = (int) $annotation->min;
+                    $property->minLength = $annotation->min;
                 }
                 if (isset($annotation->max)) {
-                    $property->maxLength = (int) $annotation->max;
+                    $property->maxLength = $annotation->max;
                 }
             } elseif ($annotation instanceof Assert\Regex) {
                 $this->appendPattern($property, $annotation->getHtmlPattern());
             } elseif ($annotation instanceof Assert\Count) {
                 if (isset($annotation->min)) {
-                    $property->minItems = (int) $annotation->min;
+                    $property->minItems = $annotation->min;
                 }
                 if (isset($annotation->max)) {
-                    $property->maxItems = (int) $annotation->max;
+                    $property->maxItems = $annotation->max;
                 }
             } elseif ($annotation instanceof Assert\Choice) {
                 $this->applyEnumFromChoiceConstraint($property, $annotation, $reflection);
@@ -135,7 +143,7 @@ class SymfonyConstraintAnnotationReader
         }
     }
 
-    public function setSchema($schema): void
+    public function setSchema(OA\Schema $schema): void
     {
         $this->schema = $schema;
     }
@@ -143,7 +151,7 @@ class SymfonyConstraintAnnotationReader
     /**
      * Append the pattern from the constraint to the existing pattern.
      */
-    private function appendPattern(OA\Schema $property, $newPattern): void
+    private function appendPattern(OA\Schema $property, ?string $newPattern): void
     {
         if (null === $newPattern) {
             return;
@@ -160,7 +168,7 @@ class SymfonyConstraintAnnotationReader
      */
     private function applyEnumFromChoiceConstraint(OA\Schema $property, Assert\Choice $choice, $reflection): void
     {
-        if ($choice->callback) {
+        if (null !== $choice->callback) {
             $enumValues = call_user_func(is_array($choice->callback) ? $choice->callback : [$reflection->class, $choice->callback]);
         } else {
             $enumValues = $choice->choices;
@@ -176,6 +184,9 @@ class SymfonyConstraintAnnotationReader
 
     /**
      * @param \ReflectionProperty|\ReflectionMethod $reflection
+     * @param string[]|null                         $validationGroups
+     *
+     * @return iterable<Constraint>
      */
     private function getAnnotations(Context $parentContext, $reflection, ?array $validationGroups): iterable
     {
@@ -197,10 +208,12 @@ class SymfonyConstraintAnnotationReader
 
     /**
      * @param \ReflectionProperty|\ReflectionMethod $reflection
+     *
+     * @return \Traversable<Constraint>
      */
     private function locateAnnotations($reflection): \Traversable
     {
-        if (\PHP_VERSION_ID >= 80000 && class_exists(Constraint::class)) {
+        if (\PHP_VERSION_ID >= 80000) {
             foreach ($reflection->getAttributes(Constraint::class, \ReflectionAttribute::IS_INSTANCEOF) as $attribute) {
                 yield $attribute->newInstance();
             }
@@ -222,12 +235,18 @@ class SymfonyConstraintAnnotationReader
      * and constraints without any `groups` passed to them would be in that same
      * default group. So even with a null $validationGroups passed here there still
      * has to be a check on the default group.
+     *
+     * @param string[]|null $validationGroups
      */
     private function isConstraintInGroup(Constraint $annotation, ?array $validationGroups): bool
     {
-        return count(array_intersect(
-            $validationGroups ?: [Constraint::DEFAULT_GROUP],
+        if (null === $validationGroups) {
+            $validationGroups = [Constraint::DEFAULT_GROUP];
+        }
+
+        return [] !== array_intersect(
+            $validationGroups,
             (array) $annotation->groups
-        )) > 0;
+        );
     }
 }

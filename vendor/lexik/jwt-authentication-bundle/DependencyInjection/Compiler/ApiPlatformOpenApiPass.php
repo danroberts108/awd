@@ -7,7 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class ApiPlatformOpenApiPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container): void
+    public function process(ContainerBuilder $container)
     {
         if (!$container->hasDefinition('lexik_jwt_authentication.api_platform.openapi.factory') || !$container->hasParameter('security.firewalls')) {
             return;

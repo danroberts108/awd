@@ -21,10 +21,13 @@ use OpenApi\Generator;
  */
 class AnnotationsReader
 {
-    private $phpDocReader;
-    private $openApiAnnotationsReader;
-    private $symfonyConstraintAnnotationReader;
+    private PropertyPhpDocReader $phpDocReader;
+    private OpenApiAnnotationsReader $openApiAnnotationsReader;
+    private SymfonyConstraintAnnotationReader $symfonyConstraintAnnotationReader;
 
+    /**
+     * @param string[] $mediaTypes
+     */
     public function __construct(
         ?Reader $annotationsReader,
         ModelRegistry $modelRegistry,
@@ -49,12 +52,19 @@ class AnnotationsReader
         );
     }
 
+    /**
+     * @param \ReflectionProperty|\ReflectionMethod $reflection
+     */
     public function getPropertyName($reflection, string $default): string
     {
         return $this->openApiAnnotationsReader->getPropertyName($reflection, $default);
     }
 
-    public function updateProperty($reflection, OA\Property $property, array $serializationGroups = null): void
+    /**
+     * @param \ReflectionProperty|\ReflectionMethod $reflection
+     * @param string[]|null                         $serializationGroups
+     */
+    public function updateProperty($reflection, OA\Property $property, ?array $serializationGroups = null): void
     {
         $this->openApiAnnotationsReader->updateProperty($reflection, $property, $serializationGroups);
         $this->phpDocReader->updateProperty($reflection, $property);

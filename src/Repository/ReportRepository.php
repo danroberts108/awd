@@ -24,7 +24,7 @@ class ReportRepository extends ServiceEntityRepository
 //    /**
 //     * @return Report[] Returns an array of Report objects
 //     */
-//    public function findByExampleField($value): array
+//    public_html function findByExampleField($value): array
 //    {
 //        return $this->createQueryBuilder('r')
 //            ->andWhere('r.exampleField = :val')
@@ -36,7 +36,7 @@ class ReportRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Report
+//    public_html function findOneBySomeField($value): ?Report
 //    {
 //        return $this->createQueryBuilder('r')
 //            ->andWhere('r.exampleField = :val')

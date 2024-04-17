@@ -24,7 +24,7 @@ class RatingRepository extends ServiceEntityRepository
 //    /**
 //     * @return Rating[] Returns an array of Rating objects
 //     */
-//    public function findByExampleField($value): array
+//    public_html function findByExampleField($value): array
 //    {
 //        return $this->createQueryBuilder('r')
 //            ->andWhere('r.exampleField = :val')
@@ -36,7 +36,7 @@ class RatingRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Rating
+//    public_html function findOneBySomeField($value): ?Rating
 //    {
 //        return $this->createQueryBuilder('r')
 //            ->andWhere('r.exampleField = :val')

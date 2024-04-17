@@ -3,6 +3,8 @@
 namespace App\Service;
 
 
+use Psr\Log\LoggerInterface;
+
 class RatingTextResponse
 {
     public function __construct() {

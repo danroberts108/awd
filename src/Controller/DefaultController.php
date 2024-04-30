@@ -5,13 +5,11 @@ use App\Entity\Movie;
 use App\Entity\Report;
 use App\Entity\Review;
 use App\Entity\Rating;
-use App\Form\AssignImdbType;
 use App\Form\ConfirmType;
 use App\Form\MovieType;
 use App\Form\ReportType;
 use App\Form\ReviewType;
 use App\Form\SearchType;
-use App\Form\SubmitOmdbType;
 use App\Repository\MovieRepository;
 use App\Service\FileUploader;
 use App\Service\MovieService;
@@ -25,17 +23,13 @@ use Pagerfanta\Pagerfanta;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 class DefaultController extends AbstractController {
     #[Route('/', name: 'index')]
     public function index() : Response {
-        //return $this->render('default/index.html.twig');
         return $this->redirectToRoute('movies');
     }
 

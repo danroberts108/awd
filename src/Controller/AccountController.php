@@ -55,36 +55,4 @@ class AccountController extends AbstractController
         ]);
     }
 
-    public function enableApiAccess(EntityManagerInterface $entityManager) : Response {
-
-        $user = $entityManager->getRepository(User::class)->find($this->getUser());
-
-        $roles = $user->getRoles();
-
-        $roles[] = 'ROLE_API';
-
-        $user->setRoles($roles);
-        $entityManager->persist($user);
-        $entityManager->flush();
-
-        return $this->render();
-    }
-
-    public function disableApiAccess(EntityManagerInterface $entityManager) : Response {
-
-        $user = $entityManager->getRepository(User::class)->find($this->getUser());
-
-        $roles = $user->getRoles();
-
-        $pos = array_search('ROLE_API', $roles);
-
-        unset($roles[$pos]);
-
-        $user->setRoles($roles);
-        $entityManager->persist($user);
-        $entityManager->flush();
-
-        return $this->render();
-    }
-
 }

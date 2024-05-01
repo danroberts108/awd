@@ -249,35 +249,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
-    public function getApikey(): ?string
-    {
-        return $this->apikey;
-    }
-
-    public function setApikey(?string $apikey): static
-    {
-        $this->apikey = $apikey;
-
-        return $this;
-    }
-
-    public function getKeyprefix(): ?string
-    {
-        return $this->keyprefix;
-    }
-
-    public function setKeyprefix(?string $keyprefix): static
-    {
-        $this->keyprefix = $keyprefix;
-
-        return $this;
-    }
-
-    public function clearApiKey(): static {
-        $this->setApikey("");
-        $this->setKeyprefix("");
-
-        return $this;
-    }
+    
 }
